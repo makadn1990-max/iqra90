@@ -248,6 +248,63 @@ mark{background:var(--gold-soft);border-radius:4px;padding:0 2px}
 .modal{background:var(--paper);border-radius:20px 20px 0 0;width:100%;max-width:680px;max-height:85vh;overflow-y:auto;padding:20px 18px 30px}
 .modal-close{float:right;font-size:1.4rem;color:#7a8680;padding:2px 10px}
 
+/* ---------- Motion design (courbes type Apple : spring douce) ---------- */
+:root{--ease-spring:cubic-bezier(.34,1.4,.4,1);--ease-out:cubic-bezier(.22,1,.36,1)}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:translateY(30px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+@keyframes pulseOk{0%{transform:scale(1)}45%{transform:scale(1.05)}100%{transform:scale(1)}}
+main.anim{animation:viewIn .38s var(--ease-out)}
+main.anim .card{animation:cardIn .45s var(--ease-out) backwards}
+main.anim .card:nth-child(2){animation-delay:.05s}
+main.anim .card:nth-child(3){animation-delay:.1s}
+main.anim .card:nth-child(4){animation-delay:.15s}
+.btn{transition:transform .25s var(--ease-spring), background .2s, box-shadow .2s, filter .2s}
+.btn:active{transform:scale(.96)}
+.btn:hover{filter:brightness(1.06)}
+.qcm-opt{transition:transform .25s var(--ease-spring), border-color .2s, background .2s}
+.qcm-opt:active{transform:scale(.95)}
+.qcm-opt.good{animation:pulseOk .4s var(--ease-out)}
+.qcm-opt.bad{animation:shake .4s ease}
+.letter-tile{transition:transform .25s var(--ease-spring), box-shadow .25s}
+.letter-tile:active{transform:scale(.93)}
+.list-item{transition:background .2s}
+.list-item:active{background:var(--paper2)}
+.modal-bg{animation:viewIn .01s; background:rgba(23,36,31,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.modal{animation:popIn .42s var(--ease-spring)}
+.gloss-pop{transition:opacity .25s, transform .3s var(--ease-spring);transform:translateX(-50%) translateY(8px)}
+.gloss-pop.show{transform:translateX(-50%) translateY(0)}
+header{background:rgba(14,91,71,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+nav{background:rgba(252,248,238,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+nav button{transition:transform .3s var(--ease-spring), color .2s}
+nav button.active{transform:translateY(-2px)}
+.progressbar>div,.day-ribbon .bar>div,.letter-tile .m>div{transition:width .7s var(--ease-out)}
+
+/* ---------- Flashcard : vrai retournement 3D ---------- */
+.flash{perspective:1100px;background:transparent;border:none;box-shadow:none;padding:0;min-height:0}
+.flash-inner{position:relative;width:100%;min-height:290px;transform-style:preserve-3d;transition:transform .6s var(--ease-spring)}
+.flash.flipped .flash-inner{transform:rotateY(180deg)}
+.flash-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#FCF8EE;border:1px solid var(--rule);border-radius:18px;box-shadow:var(--shadow);padding:18px;text-align:center}
+.flash-face.back{transform:rotateY(180deg)}
+
+/* ---------- Boutons audio : centrage exact ---------- */
+.spk,.ayah-play{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;direction:ltr;line-height:1;vertical-align:middle;transition:transform .25s var(--ease-spring)}
+.spk:active,.ayah-play:active{transform:scale(.88)}
+.ayah-play{width:1.9em;height:1.9em;font-size:.55em;position:relative;top:-.1em}
+
+/* ---------- CTA & notation collants (finir un exercice sans scroller) ---------- */
+.cta,.grade-row{position:sticky;bottom:calc(78px + env(safe-area-inset-bottom));z-index:20}
+.grade-row{background:rgba(247,241,227,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:16px;padding:8px;margin-top:14px}
+
+/* ---------- Mise en page iPad ---------- */
+@media(min-width:700px){
+  .intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+  .intro-grid .card{margin-bottom:0}
+  .write-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;align-items:start}
+  .trace-wrap{height:320px}
+  .qcm-opts{grid-template-columns:repeat(4,1fr)}
+}
 @media(min-width:560px){
   .big-ar{font-size:5.4rem}
   nav button{font-size:.7rem}
@@ -449,7 +506,7 @@ const SURAHS = [
  {w:[["لَمْ","ne pas"],["يَلِدْ","Il a engendré"],["وَلَمْ","ni n'a"],["يُولَدْ","été engendré"]],tr:"Il n'a pas engendré et n'a pas été engendré."},
  {w:[["وَلَمْ","et ne pas"],["يَكُنْ","il est"],["لَهُ","à Lui"],["كُفُوًا","d'égal"],["أَحَدٌ","aucun"]],tr:"Et nul n'est égal à Lui."}]},
 
-{num:108,name:"Al-Kawthar",arName:"الكوثر",fr:"L'Abondance",d1:39,d2:40,basmala:true,vv:[
+{num:108,name:"Al-Kawthar",arName:"الكوثر",fr:"L'Abondance",d1:39,d2:40,basmala:true,early:true,vv:[
  {w:[["إِنَّا","certes Nous"],["أَعْطَيْنَاكَ","Nous t'avons donné"],["الْكَوْثَرَ","l'Abondance"]],tr:"Nous t'avons certes accordé l'Abondance."},
  {w:[["فَصَلِّ","prie donc"],["لِرَبِّكَ","pour ton Seigneur"],["وَانْحَرْ","et sacrifie"]],tr:"Accomplis donc la prière pour ton Seigneur et sacrifie."},
  {w:[["إِنَّ","certes"],["شَانِئَكَ","celui qui te hait"],["هُوَ","c'est lui"],["الْأَبْتَرُ","le privé de tout bien"]],tr:"Celui qui te hait, c'est lui qui sera sans postérité."}]},
@@ -559,7 +616,7 @@ const SURAHS = [
  {w:[["فَأُمُّهُ","son refuge sera"],["هَاوِيَةٌ","l'Abîme"]],tr:"Son refuge sera l'Abîme."},
  {w:[["وَمَا","et qu'est-ce qui"],["أَدْرَاكَ","te fera connaître"],["مَا","ce que c'est"],["هِيَهْ","cela"]],tr:"Et qui te dira ce que c'est ?"},
  {w:[["نَارٌ","un feu"],["حَامِيَةٌ","ardent"]],tr:"Un feu ardent."}]}
-,{num:2,name:"Âyat al-Koursî",arName:"آية الكرسي",fr:"Le Verset du Trône",d1:10,d2:30,basmala:false,kursi:true,vv:[
+,{num:2,name:"Âyat al-Koursî",arName:"آية الكرسي",fr:"Le Verset du Trône",d1:1,d2:30,basmala:false,kursi:true,vv:[
  {w:[["اللَّهُ","Allah"],["لَا","nul"],["إِلَٰهَ","dieu"],["إِلَّا","sauf"],["هُوَ","Lui"],["الْحَيُّ","le Vivant"],["الْقَيُّومُ","Celui qui subsiste par Lui-même"]],tr:"Allah ! Nulle divinité à part Lui, le Vivant, Celui qui subsiste par Lui-même."},
  {w:[["لَا","ne pas"],["تَأْخُذُهُ","Le saisit"],["سِنَةٌ","somnolence"],["وَلَا","ni"],["نَوْمٌ","sommeil"]],tr:"Ni somnolence ni sommeil ne Le saisissent."},
  {w:[["لَهُ","à Lui appartient"],["مَا","ce qui est"],["فِي","dans"],["السَّمَاوَاتِ","les cieux"],["وَمَا","et ce qui est"],["فِي","sur"],["الْأَرْضِ","la terre"]],tr:"À Lui appartient tout ce qui est dans les cieux et sur la terre."},
@@ -784,6 +841,7 @@ function go(v, arg){
   currentView=v;
   document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active", b.dataset.v===v));
   window.scrollTo(0,0);
+  view.classList.remove("anim"); void view.offsetWidth; view.classList.add("anim");
   ({home:renderHome, alphabet:renderAlphabet, surahs:renderSurahs, vocab:renderVocab, tajwid:renderTajwid, session:renderSession, surahDetail:renderSurahDetail})[v](arg);
   updateHeader();
 }
@@ -924,11 +982,12 @@ function openModal(html){
 function renderSurahs(){
   const order = SURAHS.map((s,i)=>({s,i})).sort((a,b)=>a.s.d1-b.s.d1);
   const items = order.map(({s,i})=>{
-    const locked = S.day < s.d1;
+    const locked = S.day < s.d1 && !s.early;
     const stage = S.surahStage[i]||0;
     const pill = locked? '<span class="pill grey">j. '+s.d1+'</span>'
       : stage>=4? '<span class="pill green">mémorisée ✓</span>'
       : stage>0? '<span class="pill gold">étape '+stage+'/4</span>'
+      : (s.early && S.day<s.d1)? '<span class="pill gold">accès anticipé ✨</span>'
       : '<span class="pill gold">en cours</span>';
     return `<div class="list-item" ${locked?'style="opacity:.45"':'onclick="go(\'surahDetail\','+i+')"'} role="button">
       <div><b>${esc(s.name)}</b> <span class="muted small">· ${esc(s.fr)} · ${s.kursi? "Al-Baqara 2:255 · 9 segments" : "n°"+s.num+" · "+s.vv.length+" v."}</span><div style="margin-top:4px">${pill}</div></div>
@@ -1273,8 +1332,8 @@ function renderSession(){
         <button class="btn ghost small-btn" style="margin-top:10px" onclick="speak('${l.g+HARAKAT.fatha}. ${l.g+HARAKAT.kasra}. ${l.g+HARAKAT.damma}')">🔊 Écouter ${esc(l.tr)}a · ${esc(l.tr)}i · ${esc(l.tr)}ou</button>
       </div>`;
     }).join("");
-    view.innerHTML = head + `<div class="card" style="padding:12px 18px"><b>Deux nouvelles lettres.</b> <span class="muted small">Prononce chaque forme à voix haute, 3 fois.</span></div>` + cards +
-      `<button class="btn" onclick="nextStep()">J'ai bien observé ▸</button>`;
+    view.innerHTML = head + `<div class="card" style="padding:12px 18px"><b>Deux nouvelles lettres.</b> <span class="muted small">Prononce chaque forme à voix haute, 3 fois.</span></div><div class="intro-grid">` + cards +
+      `</div><button class="btn cta" onclick="nextStep()">J'ai bien observé ▸</button>`;
     return;
   }
 
@@ -1298,12 +1357,16 @@ function renderSession(){
     view.innerHTML = head + `
       <div class="card">
         <div class="eyebrow">Écriture ${sess.writeI+1}/${st.ids.length} — ${esc(l.n)}</div>
-        <h2>Trace la lettre <span class="ar" style="font-size:1.9rem">${l.g}</span> au doigt</h2>
-        <p class="small" style="margin-top:6px">✍️ ${esc(l.ecr)}</p>
-        ${traceHTML("sess", i)}
-        <p class="muted small" style="margin-top:8px">Repasse sur le modèle 3-4 fois par forme, puis masque le modèle et écris de mémoire. Change de forme avec les onglets (isolée → initiale → médiane → finale).</p>
+        <div class="write-grid">
+          <div>${traceHTML("sess", i)}</div>
+          <div>
+            <h2>Trace la lettre <span class="ar" style="font-size:1.9rem">${l.g}</span></h2>
+            <p class="small" style="margin-top:6px">✍️ ${esc(l.ecr)}</p>
+            <p class="muted small" style="margin-top:8px">Repasse sur le modèle 3-4 fois par forme, puis masque-le et écris de mémoire. Onglets : isolée → initiale → médiane → finale.</p>
+          </div>
+        </div>
       </div>
-      <button class="btn" onclick="sess.writeI++;renderSession()">${sess.writeI+1<st.ids.length? "Lettre suivante ▸":"Écriture terminée ▸"}</button>`;
+      <button class="btn cta" onclick="sess.writeI++;renderSession()">${sess.writeI+1<st.ids.length? "Lettre suivante ▸":"Écriture terminée ▸"}</button>`;
     initTrace("sess", i);
     return;
   }
@@ -1316,12 +1379,14 @@ function renderSession(){
     view.innerHTML = head + `
       <div class="card" style="padding:10px 18px"><span class="muted small">Flashcard ${sess.flashI+1}/${st.ids.length} — quelle est cette lettre ? Touche pour retourner.</span></div>
       <div class="flash" id="flash" onclick="flipFlash()">
-        <div id="flash-front"><div class="big-ar">${l.g}</div><div class="hint">toucher pour voir la réponse</div></div>
-        <div id="flash-back" style="display:none">
-          <h2>${esc(l.n)} <span class="muted">(${esc(l.tr)})</span></h2>
-          <p class="small" style="margin-top:6px">${l.son}</p>
-          <div class="mid-ar" style="text-align:center;margin-top:8px">${f.iso} · ${f.ini} · ${f.med} · ${f.fin}</div>
-          <button class="btn ghost small-btn" style="margin-top:10px" onclick="event.stopPropagation();speak('${l.g+HARAKAT.fatha}. ${l.g+HARAKAT.kasra}. ${l.g+HARAKAT.damma}')">🔊 Écouter</button>
+        <div class="flash-inner">
+          <div class="flash-face"><div><div class="big-ar">${l.g}</div><div class="hint">toucher pour retourner</div></div></div>
+          <div class="flash-face back"><div>
+            <h2>${esc(l.n)} <span class="muted">(${esc(l.tr)})</span></h2>
+            <p class="small" style="margin-top:6px">${l.son}</p>
+            <div class="mid-ar" style="text-align:center;margin-top:8px">${f.iso} · ${f.ini} · ${f.med} · ${f.fin}</div>
+            <button class="btn ghost small-btn" style="margin-top:10px" onclick="event.stopPropagation();speak('${l.g+HARAKAT.fatha}. ${l.g+HARAKAT.kasra}. ${l.g+HARAKAT.damma}')">🔊 Écouter</button>
+          </div></div>
         </div>
       </div>
       <div class="grade-row" id="flash-grades" style="visibility:hidden">
@@ -1404,7 +1469,7 @@ function renderSession(){
       <div class="card"><div class="eyebrow">Vocabulaire — ${news.length} nouveaux mots</div>
       ${news.map((w,j)=>`<div class="list-item"><div><b class="small">${esc(w[1])}</b> <span class="muted small">· ${translit(w[0])}</span><div class="muted small">${esc(THEMES[w[3]]||w[3])} · ${esc(w[2])}</div></div><div style="display:flex;align-items:center;gap:10px"><button class="spk" onclick="speak('${esc(w[0]).replace(/'/g,"\\'")}')">🔊</button><span class="ar">${esc(w[0])}</span></div></div>`).join("")}
       </div>
-      <button class="btn" onclick="markVocabSeen(${end});nextStep()">Vus ▸</button>`;
+      <button class="btn cta" onclick="markVocabSeen(${end});nextStep()">Vus ▸</button>`;
     return;
   }
 
@@ -1433,7 +1498,7 @@ function renderSession(){
     view.innerHTML = head + `
       <div class="card" style="padding:12px 18px"><b>Lecture étendue (weekend)</b> <span class="muted small">— relis ${esc(s.name)} en entier, en appliquant la dernière règle de Tajwid vue.</span></div>
       <div id="mushaf-holder"></div>
-      <button class="btn" onclick="nextStep()">Lecture faite ▸</button>`;
+      <button class="btn cta" onclick="nextStep()">Lecture faite ▸</button>`;
     setMemInline(st.idx, 0);
     return;
   }
@@ -1481,8 +1546,7 @@ function setMemInline(idx, mode){
   $("#mushaf-holder").innerHTML = html;
 }
 function flipFlash(){
-  $("#flash-front").style.display="none";
-  $("#flash-back").style.display="block";
+  $("#flash").classList.add("flipped");
   $("#flash-grades").style.visibility="visible";
 }
 function gradeFlash(i, g){ srsGrade("L:"+i, g); sess.flashI++; renderSession(); }
