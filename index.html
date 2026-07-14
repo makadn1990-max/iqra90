@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iqra' 90 — Apprendre à lire le Coran en 90 jours</title>
+<style>
+:root{
+  --paper:#F7F1E3;
+  --paper2:#EFE6D2;
+  --ink:#17241F;
+  --green:#0E5B47;
+  --green-dark:#093D30;
+  --gold:#B98A2E;
+  --gold-soft:#E8D6A8;
+  --rule:#E0D4BA;
+  --brick:#A8442E;
+  --ok:#2E7D5B;
+  --radius:14px;
+  --shadow:0 2px 10px rgba(23,36,31,.08);
+  --ar-font:"Noto Naskh Arabic","Amiri","Scheherazade New","Traditional Arabic","Geeza Pro","Arabic Typesetting",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  min-height:100vh;
+  padding-bottom:76px;
+}
+.ar{font-family:var(--ar-font);direction:rtl;unicode-bidi:isolate;line-height:2}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+
+/* ---------- Header ---------- */
+header{
+  background:var(--green);
+  color:#F6F0E0;
+  padding:14px 16px 12px;
+  position:sticky;top:0;z-index:40;
+  box-shadow:0 2px 8px rgba(9,61,48,.25);
+}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;max-width:680px;margin:0 auto}
+.hdr-title{font-size:1.05rem;font-weight:700;letter-spacing:.02em;display:flex;align-items:center;gap:8px}
+.hdr-title .ar{font-size:1.35rem;line-height:1;color:var(--gold-soft)}
+.hdr-meta{display:flex;gap:8px;align-items:center;font-size:.8rem}
+.badge{
+  background:rgba(246,240,224,.14);
+  border:1px solid rgba(246,240,224,.28);
+  border-radius:999px;padding:3px 10px;font-weight:600;white-space:nowrap;
+}
+.badge.gold{background:var(--gold);border-color:var(--gold);color:#241A05}
+.day-ribbon{
+  max-width:680px;margin:10px auto 0;display:flex;align-items:center;gap:10px;
+}
+.day-ribbon .bar{flex:1;height:6px;background:rgba(246,240,224,.18);border-radius:99px;overflow:hidden}
+.day-ribbon .bar>div{height:100%;background:var(--gold);border-radius:99px;transition:width .4s}
+.day-ribbon .lbl{font-size:.75rem;opacity:.9;white-space:nowrap}
+
+/* ---------- Layout ---------- */
+main{max-width:680px;margin:0 auto;padding:18px 14px 30px}
+.card{
+  background:#FCF8EE;
+  border:1px solid var(--rule);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:18px;
+  margin-bottom:14px;
+}
+.eyebrow{
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--green);font-weight:700;margin-bottom:6px;
+}
+h2{font-size:1.15rem;margin-bottom:8px}
+h3{font-size:1rem;margin:14px 0 6px}
+p{line-height:1.55;font-size:.94rem}
+.muted{color:#5d6a63;font-size:.85rem}
+.small{font-size:.8rem}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--green);color:#F6F0E0;font-weight:700;font-size:.95rem;
+  border-radius:12px;padding:13px 20px;width:100%;
+  transition:transform .08s, background .15s;
+}
+.btn:active{transform:scale(.98)}
+.btn.secondary{background:transparent;color:var(--green);border:2px solid var(--green)}
+.btn.gold{background:var(--gold);color:#241A05}
+.btn.ghost{background:var(--paper2);color:var(--ink);font-weight:600}
+.btn.small-btn{width:auto;padding:8px 14px;font-size:.85rem}
+.btn-row{display:flex;gap:10px;margin-top:12px}
+.btn-row .btn{flex:1}
+
+/* ---------- Bottom nav ---------- */
+nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:50;
+  background:#FCF8EE;border-top:1px solid var(--rule);
+  display:flex;justify-content:space-around;
+  padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+nav button{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-size:.62rem;font-weight:600;color:#7a8680;padding:4px 8px;border-radius:10px;
+  min-width:52px;
+}
+nav button .ic{font-size:1.15rem;line-height:1}
+nav button.active{color:var(--green)}
+nav button.active .ic{transform:scale(1.1)}
+
+/* ---------- Lettres / arabe ---------- */
+.big-ar{font-family:var(--ar-font);font-size:4.6rem;line-height:1.4;text-align:center;direction:rtl}
+.mid-ar{font-family:var(--ar-font);font-size:2.1rem;line-height:1.9;direction:rtl;text-align:right}
+.forms-row{display:flex;justify-content:space-around;gap:6px;margin-top:10px;direction:rtl}
+.form-cell{text-align:center;flex:1;background:var(--paper2);border-radius:10px;padding:8px 4px}
+.form-cell .f{font-family:var(--ar-font);font-size:1.9rem;line-height:1.6}
+.form-cell .t{font-size:.62rem;color:#5d6a63;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.harakat-row{display:flex;justify-content:space-around;gap:6px;margin-top:10px;direction:rtl}
+.harakat-cell{text-align:center;flex:1;border:1px dashed var(--gold);border-radius:10px;padding:6px 2px}
+.harakat-cell .f{font-family:var(--ar-font);font-size:2rem;line-height:1.7;color:var(--green-dark)}
+.harakat-cell .t{font-size:.68rem;color:#5d6a63}
+
+.letter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;direction:rtl}
+.letter-tile{
+  background:#FCF8EE;border:1px solid var(--rule);border-radius:12px;
+  padding:8px 4px 6px;text-align:center;position:relative;
+}
+.letter-tile .g{font-family:var(--ar-font);font-size:2rem;line-height:1.5}
+.letter-tile .n{font-size:.62rem;color:#5d6a63;direction:ltr}
+.letter-tile .m{height:4px;border-radius:99px;background:var(--paper2);margin-top:5px;overflow:hidden}
+.letter-tile .m>div{height:100%;background:var(--ok)}
+.letter-tile.locked{opacity:.35}
+
+/* ---------- Flashcard ---------- */
+.flash{
+  min-height:270px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#FCF8EE;border:1px solid var(--rule);border-radius:18px;box-shadow:var(--shadow);
+  padding:22px;text-align:center;cursor:pointer;user-select:none;
+}
+.flash .hint{font-size:.75rem;color:#8b968f;margin-top:14px}
+
+/* ---------- QCM ---------- */
+.qcm-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.qcm-opt{
+  background:#FCF8EE;border:2px solid var(--rule);border-radius:14px;
+  padding:14px 6px;text-align:center;font-family:var(--ar-font);font-size:2.4rem;line-height:1.5;
+  transition:border-color .15s, background .15s;direction:rtl;
+}
+.qcm-opt.fr{font-family:inherit;font-size:.95rem;font-weight:600;line-height:1.4;padding:16px 8px}
+.qcm-opt.good{border-color:var(--ok);background:#E7F2EA}
+.qcm-opt.bad{border-color:var(--brick);background:#F6E4DE}
+
+/* ---------- Lecture / mushaf ---------- */
+.mushaf{
+  background:linear-gradient(#FCF8EE,#F8F1DE);
+  border:1px solid var(--gold-soft);
+  border-radius:16px;
+  box-shadow:inset 0 0 0 4px #FCF8EE, inset 0 0 0 5px var(--gold-soft), var(--shadow);
+  padding:22px 18px;
+}
+.mushaf .ar{font-size:1.75rem;line-height:2.4;text-align:center;word-spacing:.15em}
+.ayah-play{font-size:.5em;vertical-align:middle;margin:0 .15em;background:var(--paper2);border:1px solid var(--rule);border-radius:50%;width:2.2em;height:2.2em;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.spk{background:var(--paper2);border:1px solid var(--rule);border-radius:50%;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;font-size:1rem;flex:none;cursor:pointer}
+.vnum{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:1.5em;height:1.5em;border:1.5px solid var(--gold);border-radius:50%;
+  font-size:.55em;color:var(--green-dark);margin:0 .25em;vertical-align:middle;font-family:inherit;
+}
+.w{padding:0 2px;border-radius:6px;cursor:pointer}
+.w.masked{background:var(--gold-soft);color:transparent;border-radius:8px;text-shadow:none}
+.w.masked:active{background:var(--gold)}
+.w.revealed{background:#F1E4C2;color:var(--brick)}
+.gloss-pop{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:90px;z-index:60;
+  background:var(--green-dark);color:#F6F0E0;border-radius:12px;padding:10px 16px;
+  font-size:.9rem;box-shadow:0 4px 18px rgba(0,0,0,.3);max-width:90%;text-align:center;
+  pointer-events:none;opacity:0;transition:opacity .2s;
+}
+.gloss-pop.show{opacity:1}
+.gloss-pop .ar{font-size:1.3rem;display:block}
+
+.ww-grid{display:flex;flex-wrap:wrap;gap:8px;direction:rtl;margin-top:8px}
+.ww-cell{background:var(--paper2);border-radius:10px;padding:6px 10px;text-align:center;flex-grow:1}
+.ww-cell .a{font-family:var(--ar-font);font-size:1.45rem;line-height:1.7}
+.ww-cell .g{font-size:.68rem;color:#5d6a63;direction:ltr}
+
+/* ---------- Listes ---------- */
+.list-item{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:12px 4px;border-bottom:1px solid var(--rule);
+}
+.list-item:last-child{border-bottom:none}
+.list-item .ar{font-size:1.5rem;line-height:1.6}
+.pill{font-size:.66rem;font-weight:700;border-radius:99px;padding:3px 9px;white-space:nowrap}
+.pill.green{background:#E7F2EA;color:var(--green-dark)}
+.pill.gold{background:var(--gold-soft);color:#5b430f}
+.pill.grey{background:var(--paper2);color:#7a8680}
+.pill.brick{background:#F6E4DE;color:var(--brick)}
+
+.theme-chip{display:inline-block;font-size:.7rem;font-weight:600;background:var(--paper2);border-radius:99px;padding:4px 11px;margin:0 6px 6px 0;border:1px solid var(--rule)}
+.theme-chip.active{background:var(--green);color:#F6F0E0;border-color:var(--green)}
+
+/* ---------- Progression / stats ---------- */
+.stats-row{display:flex;gap:10px;margin-bottom:14px}
+.stat{
+  flex:1;background:#FCF8EE;border:1px solid var(--rule);border-radius:var(--radius);
+  padding:12px 8px;text-align:center;box-shadow:var(--shadow);
+}
+.stat .v{font-size:1.5rem;font-weight:800;color:var(--green)}
+.stat .l{font-size:.66rem;color:#5d6a63;text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.progressbar{height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;margin-top:6px}
+.progressbar>div{height:100%;background:var(--green);border-radius:99px;transition:width .4s}
+
+/* ---------- Session ---------- */
+.step-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.step-dots{display:flex;gap:5px}
+.step-dots span{width:8px;height:8px;border-radius:50%;background:var(--rule)}
+.step-dots span.done{background:var(--gold)}
+.step-dots span.cur{background:var(--green);transform:scale(1.3)}
+.grade-row{display:flex;gap:8px;margin-top:16px}
+.grade-row .btn{flex:1;font-size:.85rem;padding:11px 6px}
+.grade-again{background:#F6E4DE!important;color:var(--brick)!important}
+.grade-good{background:var(--paper2)!important;color:var(--ink)!important}
+.grade-easy{background:#E7F2EA!important;color:var(--green-dark)!important}
+
+.done-splash{text-align:center;padding:30px 10px}
+.done-splash .big{font-size:3rem;margin-bottom:8px}
+
+/* ---------- Tajwid ---------- */
+.taj-ex{background:var(--paper2);border-radius:12px;padding:12px;margin-top:8px}
+.taj-ex .ar{font-size:1.7rem;text-align:center;line-height:2.1}
+.taj-ex .note{font-size:.8rem;color:#5d6a63;text-align:center;margin-top:4px}
+mark{background:var(--gold-soft);border-radius:4px;padding:0 2px}
+
+/* ---------- Écriture / traçage ---------- */
+.trace-wrap{position:relative;width:100%;height:250px;border:1.5px dashed var(--gold);border-radius:14px;background:#FFFDF6;overflow:hidden;touch-action:none;margin-top:10px}
+.trace-wrap canvas{touch-action:none}
+.trace-wrap canvas{position:absolute;inset:0;width:100%;height:100%}
+.trace-tools{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.trace-tools .btn{flex:1;min-width:90px}
+.form-tabs{display:flex;gap:6px;margin-top:10px;direction:rtl}
+.form-tabs button{flex:1;background:var(--paper2);border-radius:10px;padding:7px 2px;font-family:var(--ar-font);font-size:1.35rem;line-height:1.4;border:2px solid transparent}
+.form-tabs button.on{border-color:var(--green);background:#E7F2EA}
+.dir-hint{font-size:.75rem;color:var(--gold);font-weight:700;text-align:center;margin-top:6px;letter-spacing:.05em}
+
+/* ---------- Modal ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(23,36,31,.5);z-index:70;display:flex;align-items:flex-end;justify-content:center}
+.modal{background:var(--paper);border-radius:20px 20px 0 0;width:100%;max-width:680px;max-height:85vh;overflow-y:auto;padding:20px 18px 30px}
+.modal-close{float:right;font-size:1.4rem;color:#7a8680;padding:2px 10px}
+
+@media(min-width:560px){
+  .big-ar{font-size:5.4rem}
+  nav button{font-size:.7rem}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-row">
+    <div class="hdr-title"><span class="ar">اقْرَأْ</span> Iqra' 90</div>
+    <div class="hdr-meta">
+      <span class="badge" id="hdr-phase">Phase 1</span>
+      <span class="badge gold" id="hdr-streak">🔥 0</span>
+    </div>
+  </div>
+  <div class="day-ribbon">
+    <span class="lbl" id="hdr-day">Jour 1 / 90</span>
+    <div class="bar"><div id="hdr-bar" style="width:1%"></div></div>
+  </div>
+</header>
+<main id="view"></main>
+<div class="gloss-pop" id="gloss"></div>
+<nav id="nav">
+  <button data-v="home"><span class="ic">🏠</span>Accueil</button>
+  <button data-v="alphabet"><span class="ic">ا</span>Alphabet</button>
+  <button data-v="surahs"><span class="ic">📖</span>Sourates</button>
+  <button data-v="vocab"><span class="ic">💬</span>Vocab</button>
+  <button data-v="tajwid"><span class="ic">🎵</span>Tajwid</button>
+</nav>
+<script>
+"use strict";
+/* ============================================================
+   IQRA' 90 — Apprendre à lire le Coran en 90 jours
+   Phase 1 (j. 1-30) : alphabet, harakat, syllabes, premiers mots
+   Phase 2 (j. 31-90) : sourates, mot-à-mot, Tajwid, vocabulaire
+   Persistance : window.storage (Claude) ou localStorage (navigateur)
+   ============================================================ */
+
+/* ================= DONNÉES : ALPHABET ================= */
+/* Ordre "Qaida modernisée" : lettres fréquentes et formes simples d'abord,
+   pour débloquer très tôt les premiers mots du Coran. */
+const HARAKAT = { fatha:"\u064E", kasra:"\u0650", damma:"\u064F", sukun:"\u0652",
+  shadda:"\u0651", tanwF:"\u064B", tanwK:"\u064D", tanwD:"\u064C" };
+
+const LETTERS = [
+ {g:"ا",n:"Alif",tr:"â",son:"Voyelle longue « â ». Seule, elle porte la hamza (أ = a). Ne s'attache jamais à la lettre suivante.",tn:"Comme le « â » long de « bâb » (porte).",ecr:"Un simple trait vertical, tracé de haut en bas. La plus facile pour commencer."},
+ {g:"ل",n:"Lâm",tr:"l",son:"« L » comme en français.",tn:"Comme dans « lila » (nuit).",ecr:"Trait vertical qui descend, puis courbe vers la gauche comme un hameçon qui remonte à peine."},
+ {g:"م",n:"Mîm",tr:"m",son:"« M » comme en français.",tn:"Comme dans « mchit ».",ecr:"Une petite boucle ronde fermée sur la ligne, puis une queue verticale qui plonge sous la ligne."},
+ {g:"ن",n:"Noûn",tr:"n",son:"« N » comme en français. Un point au-dessus.",tn:"Comme dans « nhar » (jour).",ecr:"Un bol profond et arrondi, tracé de droite à gauche ; le point au-dessus s'ajoute en dernier."},
+ {g:"ب",n:"Bâ'",tr:"b",son:"« B » comme en français. Un point en dessous.",tn:"Comme dans « bab » (porte).",ecr:"Un bol long et peu profond posé sur la ligne, de droite à gauche ; le point en dessous, à la fin."},
+ {g:"ي",n:"Yâ'",tr:"y / î",son:"« Y » consonne, ou voyelle longue « î » après kasra. Deux points en dessous.",tn:"Comme dans « yed » (main).",ecr:"Attachée : petit bol comme ب. Isolée : elle plonge sous la ligne et revient en forme de S ; deux points dessous à la fin."},
+ {g:"ر",n:"Râ'",tr:"r",son:"« R » roulé du bout de la langue. Ne s'attache pas à la suivante.",tn:"Le « r » roulé tunisien, comme dans « raqad ».",ecr:"Un seul geste : petit trait qui glisse en courbe sous la ligne, vers la gauche."},
+ {g:"ه",n:"Hâ'",tr:"h",son:"« H » très doux, un simple souffle expiré.",tn:"Comme le « h » de « houwa » (lui).",ecr:"Isolée : un rond fermé, tracé dans le sens antihoraire. Ses formes attachées changent beaucoup — observe-les avant de tracer."},
+ {g:"و",n:"Wâw",tr:"w / oû",son:"« W », ou voyelle longue « oû » après damma. Ne s'attache pas à la suivante.",tn:"Comme dans « waqt » (temps).",ecr:"Une petite boucle comme le م, puis une queue courbe qui plonge sous la ligne comme un ر."},
+ {g:"ت",n:"Tâ'",tr:"t",son:"« T » léger, comme en français. Deux points au-dessus.",tn:"Comme dans « tawa » (maintenant).",ecr:"Le même bol que ب ; deux points au-dessus, ajoutés en dernier."},
+ {g:"ك",n:"Kâf",tr:"k",son:"« K » comme en français.",tn:"Comme dans « kelma » (mot).",ecr:"Comme un ل avec une base horizontale sur la ligne ; termine par la petite marque intérieure (comme une mini-hamza)."},
+ {g:"د",n:"Dâl",tr:"d",son:"« D » léger. Ne s'attache pas à la suivante.",tn:"Comme dans « dar » (maison).",ecr:"Un angle : trait oblique qui descend vers la ligne, puis repart horizontalement à gauche. Ne passe jamais sous la ligne."},
+ {g:"س",n:"Sîn",tr:"s",son:"« S » sifflant, léger.",tn:"Comme dans « sana » (année).",ecr:"Trois petites dents égales de droite à gauche, puis un grand bol final qui plonge sous la ligne."},
+ {g:"ع",n:"'Ayn",tr:"ʿ",son:"Son guttural profond, contraction du fond de la gorge. N'existe pas en français.",tn:"Tu le connais bien : comme dans « ʿaslema » !",ecr:"Isolée : une petite tête ouverte (comme un c inversé), puis un grand croissant sous la ligne. Attachée en début : juste la tête."},
+ {g:"ف",n:"Fâ'",tr:"f",son:"« F » comme en français. Un point au-dessus.",tn:"Comme dans « fama » (il y a).",ecr:"Une petite boucle fermée sur la ligne, puis un bol allongé ; le point au-dessus en dernier."},
+ {g:"ق",n:"Qâf",tr:"q",son:"« Q » profond, prononcé du fond de la gorge (pas un « g »).",tn:"Le vrai « q » de « qal » en arabe littéraire — attention, pas le « g » de « gal » du dialecte.",ecr:"Comme ف, mais la queue plonge profondément sous la ligne comme un ن ; deux points au-dessus."},
+ {g:"ح",n:"Ḥâ'",tr:"ḥ",son:"« H » fortement soufflé depuis la gorge, sans vibration. Différent du ه doux.",tn:"Comme dans « ḥout » (poisson).",ecr:"Un toit incliné de droite à gauche, puis un grand croissant qui plonge sous la ligne. Aucun point."},
+ {g:"ج",n:"Jîm",tr:"j",son:"« J » comme dans « jour ». Un point en dessous.",tn:"Comme dans « jbal » (montagne).",ecr:"Exactement le geste de ح, puis un point au centre, en dessous du toit."},
+ {g:"خ",n:"Khâ'",tr:"kh",son:"« KH » raclé, comme la jota espagnole. Un point au-dessus.",tn:"Comme dans « khobz » (pain).",ecr:"Exactement le geste de ح, puis un point au-dessus."},
+ {g:"ش",n:"Chîn",tr:"ch",son:"« CH » comme dans « chat ». Trois points au-dessus.",tn:"Comme dans « chnowa » (quoi).",ecr:"Comme س (trois dents + bol) ; les trois points au-dessus, en triangle, à la fin."},
+ {g:"ص",n:"Ṣâd",tr:"ṣ",son:"« S » emphatique : la bouche s'arrondit, le son est grave et plein.",tn:"Comme dans « ṣbaḥ » (matin) — plus lourd que le س.",ecr:"Une boucle ovale allongée (comme un œil couché), puis le bol final de س sous la ligne."},
+ {g:"ض",n:"Ḍâd",tr:"ḍ",son:"« D » emphatique, grave. La lettre emblématique de l'arabe.",tn:"Comme dans « ḍaw » (lumière).",ecr:"Comme ص, avec un point au-dessus en dernier."},
+ {g:"ط",n:"Ṭâ'",tr:"ṭ",son:"« T » emphatique, grave et plein.",tn:"Comme dans « ṭfol » (enfant).",ecr:"L'ovale de ص posé sur la ligne, surmonté d'un trait vertical planté dessus (tracé en dernier)."},
+ {g:"ظ",n:"Ẓâ'",tr:"ẓ",son:"« DH » emphatique : comme ذ mais grave.",tn:"Proche du « dh » lourd de « ḍhher » selon les régions.",ecr:"Comme ط, avec un point au-dessus."},
+ {g:"ذ",n:"Dhâl",tr:"dh",son:"« DH » : langue entre les dents, comme le « th » anglais de « this ». Ne s'attache pas à la suivante.",tn:"Comme dans « dheb » (or) — le tunisien a gardé ce son !",ecr:"Comme د (angle sans passer sous la ligne), avec un point au-dessus."},
+ {g:"ث",n:"Thâ'",tr:"th",son:"« TH » : langue entre les dents, comme « think » en anglais. Trois points au-dessus.",tn:"Comme dans « thlêtha » (trois).",ecr:"Le même bol que ب ; trois points au-dessus en triangle."},
+ {g:"ز",n:"Zây",tr:"z",son:"« Z » comme en français. Ne s'attache pas à la suivante.",tn:"Comme dans « zit » (huile).",ecr:"Comme ر (courbe sous la ligne), avec un point au-dessus."},
+ {g:"غ",n:"Ghayn",tr:"gh",son:"« GH » : comme un « r » parisien grasseyé, au fond de la gorge.",tn:"Comme dans « ghali » (cher).",ecr:"Comme ع (tête + croissant), avec un point au-dessus."}
+];
+const NO_CONNECT = new Set(["ا","د","ذ","ر","ز","و"]);
+function letterForms(g){
+  const T="\u0640"; // tatwil
+  return { iso:g, ini:NO_CONNECT.has(g)? g : g+T, med:NO_CONNECT.has(g)? T+g : T+g+T, fin:T+g };
+}
+
+/* ================= PHASE 1 : PLANNING ================= */
+/* Jours 1-14 : 2 lettres/jour. Jours 15-30 : consolidation. */
+const P1_TOPICS = {
+ 15:{t:"Hamza, tâ' marboûta et alif maqsoûra",body:"Trois signes à connaître : <b>ء</b> (hamza, coup de glotte : « a » sec comme dans « qur'ân »), <b>ة</b> (tâ' marboûta, en fin de mot : se lit « a » à l'arrêt, « t » en liaison — ex. صَلَاة), et <b>ى</b> (alif maqsoûra, un « â » long écrit comme un yâ' sans points — ex. عَلَى)."},
+ 16:{t:"Le soukoun : syllabes fermées",body:"Le petit rond <b>ْ</b> au-dessus d'une lettre = pas de voyelle. La lettre « ferme » la syllabe : بَبْ = bab, مِنْ = min, قُلْ = qoul. Lis chaque syllabe d'un bloc, sans ajouter de voyelle."},
+ 17:{t:"La chadda : lettre doublée",body:"Le signe <b>ّ</b> double la lettre : on la prononce deux fois, une fermée + une ouverte. رَبّ = rabb, إِنَّ = in-na. La chadda porte aussi la voyelle : بَّ = b-ba."},
+ 18:{t:"Le tanwîn : an, in, oun",body:"Les voyelles doublées en fin de mot ajoutent un son « n » : <b>ً</b> = an (كِتَابًا kitâban), <b>ٍ</b> = in (كِتَابٍ kitâbin), <b>ٌ</b> = oun (كِتَابٌ kitâboun)."},
+ 19:{t:"Les voyelles longues : â, î, oû",body:"Trois lettres allongent la voyelle qui précède : fatha + <b>ا</b> = « â » (بَا bâ), kasra + <b>ي</b> = « î » (بِي bî), damma + <b>و</b> = « oû » (بُو boû). Tiens le son deux temps."},
+ 20:{t:"« Al- » : lâm solaire et lunaire",body:"L'article الـ se lit « al » devant les lettres lunaires (الْقَمَر al-qamar) mais le lâm disparaît devant les lettres solaires : la lettre suivante est doublée (الشَّمْس ach-chams, الرَّحْمَن ar-raḥmân). Repère : si la lettre après الـ porte une chadda, le lâm est muet."},
+ 21:{t:"La basmala",body:"Tu sais maintenant lire la formule qui ouvre presque chaque sourate : <span class='ar' style='font-size:1.6rem'>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span><br>Bismi-llâhi ar-raḥmâni ar-raḥîm — « Au nom d'Allah, le Tout-Miséricordieux, le Très-Miséricordieux »."},
+ 22:{t:"Mots du Coran — série 1",body:"Lecture appliquée : des mots très fréquents du Coran, avec toutes leurs voyelles. Lis lentement, syllabe par syllabe, puis d'un seul trait."},
+ 23:{t:"Mots du Coran — série 2",body:"On continue avec des mots un peu plus longs. Repère d'abord les lettres, puis les harakat, puis lis."},
+ 24:{t:"Mots du Coran — série 3",body:"Dernière série de mots isolés. Après ça, on passe aux groupes de mots."},
+ 25:{t:"Groupes de mots — sourate Al-Ikhlâs (1/2)",body:"Premiers versets réels ! Lis mot par mot, sans te presser. La précision d'abord, la vitesse viendra."},
+ 26:{t:"Groupes de mots — sourate Al-Ikhlâs (2/2)",body:"Suite et fin d'Al-Ikhlâs. Relis aussi les versets d'hier."},
+ 27:{t:"Groupes de mots — sourate Al-Kawthar",body:"Trois versets courts. Attention aux chaddas et aux voyelles longues."},
+ 28:{t:"Lecture guidée — Al-Fâtiha (1/2)",body:"La sourate d'ouverture, celle de chaque prière. Aujourd'hui les versets 1 à 4, lettre par lettre s'il le faut."},
+ 29:{t:"Lecture guidée — Al-Fâtiha (2/2)",body:"Versets 5 à 7. Le verset 7 est long : découpe-le en trois souffles."},
+ 30:{t:"Bilan de la phase 1",body:"Grande révision : toutes les lettres, un QCM complet, et une lecture de la Fâtiha en entier. Demain, tu entres en phase 2 : sourates, sens des mots et Tajwid. بارك الله فيك !"}
+};
+
+/* Mots fréquents de la phase 1 — unlock = jour de déblocage */
+const P1_WORDS = [
+ {a:"لَا",f:"non / ne pas",unlock:1},
+ {a:"مِنْ",f:"de, depuis",unlock:2},
+ {a:"مَا",f:"ce que / ne pas",unlock:2},
+ {a:"اللَّه",f:"Allah (appris comme mot-image dès maintenant)",unlock:3},
+ {a:"رَبّ",f:"Seigneur",unlock:4},
+ {a:"نَار",f:"feu",unlock:4},
+ {a:"يَوْم",f:"jour",unlock:5},
+ {a:"نُور",f:"lumière",unlock:5},
+ {a:"مَوْت",f:"mort",unlock:5},
+ {a:"كِتَاب",f:"livre",unlock:6},
+ {a:"مَلِك",f:"roi, souverain",unlock:6},
+ {a:"دِين",f:"religion, jugement",unlock:6},
+ {a:"عَبْد",f:"serviteur",unlock:7},
+ {a:"سَلَام",f:"paix",unlock:7},
+ {a:"رَسُول",f:"messager",unlock:7},
+ {a:"سَمَاء",f:"ciel",unlock:7},
+ {a:"قُلْ",f:"dis !",unlock:8},
+ {a:"قَلْب",f:"cœur",unlock:8},
+ {a:"حَمْد",f:"louange",unlock:9},
+ {a:"رَحْمَٰن",f:"Tout-Miséricordieux",unlock:9},
+ {a:"رَحِيم",f:"Très-Miséricordieux",unlock:9},
+ {a:"أَحَد",f:"un, unique",unlock:9},
+ {a:"جَنَّة",f:"paradis, jardin",unlock:15},
+ {a:"صَلَاة",f:"prière",unlock:15},
+ {a:"اَلْحَمْدُ",f:"la louange",unlock:20},
+ {a:"اَلرَّحْمَٰنُ",f:"le Tout-Miséricordieux",unlock:20},
+ {a:"بِسْمِ اللَّهِ",f:"au nom d'Allah",unlock:21}
+];
+
+/* Séries de lecture des jours 22-27 (mots avec harakat complets) */
+const P1_READING = {
+ 22:["قَمَر","شَمْس","أَرْض","بَحْر","جَبَل","نَجْم"],
+ 23:["مُؤْمِن","كَافِر","صَابِر","شَاكِر","غَافِر","خَالِق"],
+ 24:["اَلْعَالَمِين","اَلْمُسْلِمُون","يَعْلَمُون","تَعْبُدُون","اَلصَّالِحَات","اَلْمُتَّقِين"],
+ 25:["قُلْ هُوَ اللَّهُ أَحَدٌ","اَللَّهُ الصَّمَدُ"],
+ 26:["لَمْ يَلِدْ وَلَمْ يُولَدْ","وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ"],
+ 27:["إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ","فَصَلِّ لِرَبِّكَ وَانْحَرْ","إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ"]
+};
+
+/* ================= TAJWID (Phase 2) ================= */
+const TAJWID = [
+ {day:33,t:"Noûn sâkinah & tanwîn : vue d'ensemble + Iẓhâr",
+  body:"Quand un <b>ن</b> porte un soukoun (نْ) ou qu'un mot finit par tanwîn (ً ٍ ٌ), la lettre qui suit décide de la prononciation. 4 cas possibles : iẓhâr, idghâm, iqlâb, ikhfâ'. <b>Iẓhâr</b> (prononciation claire) : devant les 6 lettres de la gorge <b>ء ه ع ح غ خ</b>, le « n » se prononce nettement, sans nasillement.",
+  ex:[{ar:"مِنْ <mark>خَ</mark>وْفٍ",note:"Quraych 106:4 — « n » clair devant خ"},{ar:"أَنْ<mark>عَ</mark>مْتَ",note:"Al-Fâtiha 1:7 — « n » clair devant ع"}]},
+ {day:38,t:"Idghâm : fusion du noûn",
+  body:"Devant les lettres de <b>يرملون</b> (ي ر م ل و ن), le noûn sâkin ou le tanwîn fusionne avec la lettre suivante. Avec <b>ي ن م و</b> : fusion <i>avec</i> nasillement (ghounna, 2 temps). Avec <b>ل ر</b> : fusion <i>sans</i> nasillement.",
+  ex:[{ar:"خَيْرٌ <mark>مِّ</mark>نْ أَلْفِ شَهْرٍ",note:"Al-Qadr 97:3 — tanwîn + م : « khayroum-min »"},{ar:"مِنْ <mark>رَّ</mark>بِّكَ",note:"fusion sans ghounna : « mir-rabbik »"}]},
+ {day:43,t:"Iqlâb : le noûn devient mîm",
+  body:"Devant la lettre <b>ب</b>, le noûn sâkin ou le tanwîn se transforme en <b>م</b> léger, avec nasillement. Dans le mushaf, un petit م est souvent écrit au-dessus du noûn.",
+  ex:[{ar:"مِنْ <mark>بَ</mark>عْدِ",note:"Al-Bayyina 98:4 — se lit « mim-baʿdi »"},{ar:"سَمِيعٌ <mark>بَ</mark>صِيرٌ",note:"tanwîn + ب : « samîʿoum-baṣîr »"}]},
+ {day:48,t:"Ikhfâ' : le noûn dissimulé",
+  body:"Devant les 15 lettres restantes (ت ث ج د ذ ز س ش ص ض ط ظ ف ق ك), le « n » est <b>dissimulé</b> : ni clair ni fusionné, un son nasal léger de 2 temps, la langue prête pour la lettre suivante.",
+  ex:[{ar:"مِنْ <mark>شَ</mark>رِّ مَا خَلَقَ",note:"Al-Falaq 113:2 — « min~sharri » nasillé"},{ar:"أَنْ<mark>تُ</mark>مْ",note:"Al-Kâfiroûn 109:3 — ikhfâ' devant ت"}]},
+ {day:53,t:"Mîm sâkinah : 3 règles",
+  body:"Pour un <b>مْ</b> : 1) devant <b>ب</b> → <b>ikhfâ' chafawî</b> (dissimulation des lèvres, avec ghounna) ; 2) devant <b>م</b> → <b>idghâm chafawî</b> (fusion, mîm doublé nasillé) ; 3) devant toute autre lettre → <b>iẓhâr chafawî</b> (prononciation claire).",
+  ex:[{ar:"تَرْمِيهِمْ <mark>بِ</mark>حِجَارَةٍ",note:"Al-Fîl 105:4 — ikhfâ' chafawî"},{ar:"لَهُمْ <mark>فِ</mark>يهَا",note:"iẓhâr : « m » clair devant ف"}]},
+ {day:58,t:"Madd naturel (ṭabîʿî)",
+  body:"L'allongement de base : <b>ا و ي</b> de prolongation = tenir la voyelle exactement <b>2 temps</b>. Ni plus, ni moins. C'est le squelette rythmique de toute lecture.",
+  ex:[{ar:"قَ<mark>ا</mark>لَ — يَقُ<mark>و</mark>لُ — قِ<mark>ي</mark>لَ",note:"â — oû — î : 2 temps chacun"}]},
+ {day:64,t:"Madd muttaṣil et munfaṣil",
+  body:"Quand une hamza suit la lettre de madd : <b>muttaṣil</b> (dans le même mot) → allonger 4-5 temps, obligatoire. <b>Munfaṣil</b> (hamza au début du mot suivant) → 4-5 temps aussi (2 permis dans certaines lectures).",
+  ex:[{ar:"إِذَا جَ<mark>اءَ</mark>",note:"An-Naṣr 110:1 — muttaṣil : « jâââ'a »"},{ar:"إِنَّ<mark>ا أَ</mark>عْطَيْنَاكَ",note:"Al-Kawthar 108:1 — munfaṣil"}]},
+ {day:70,t:"Madd lâzim et madd ʿâriḍ",
+  body:"<b>Lâzim</b> : lettre de madd suivie d'un soukoun permanent ou d'une chadda → <b>6 temps</b>, le plus long. <b>ʿÂriḍ li-s-soukoun</b> : à l'arrêt en fin de verset, la dernière voyelle longue peut durer 2, 4 ou 6 temps.",
+  ex:[{ar:"وَلَا الضَّ<mark>الِّ</mark>ينَ",note:"Al-Fâtiha 1:7 — madd lâzim : 6 temps"},{ar:"الْعَالَمِ<mark>ينَ</mark>",note:"à l'arrêt : 2, 4 ou 6 temps"}]},
+ {day:76,t:"Qalqalah : le rebond",
+  body:"5 lettres — <b>ق ط ب ج د</b> (moyen : « qouṭb jad ») — « rebondissent » quand elles portent un soukoun : un petit écho sec, sans voyelle ajoutée. Plus fort en fin de mot à l'arrêt.",
+  ex:[{ar:"قُلْ أَعُوذُ بِرَبِّ الْفَلَ<mark>قْ</mark>",note:"Al-Falaq 113:1 — qalqalah forte sur ق final"},{ar:"أَحَ<mark>دْ</mark>",note:"Al-Ikhlâs 112:1 — rebond du د à l'arrêt"}]},
+ {day:82,t:"Récapitulatif + l'arrêt (waqf)",
+  body:"Révision des règles vues. Et une règle d'or de l'arrêt : quand tu t'arrêtes sur un mot, la dernière voyelle tombe (سوكون) — الرَّحِيمِ se lit « ar-raḥîm ». La tâ' marboûta ة devient « h » : رَاضِيَةٍ → « râḍiyah ». Reprends les sourates apprises et applique consciemment 1 règle à la fois.",
+  ex:[{ar:"مَالِكِ يَوْمِ الدِّي<mark>نْ</mark>",note:"à l'arrêt : « ad-dîn », pas « ad-dîni »"}]}
+];
+
+/* ================= SOURATES (ordre pédagogique) =================
+   vv : versets = listes de [mot arabe, sens français]
+   tr : traduction fluide du verset
+   dayStart/dayEnd : fenêtre de travail dans le programme      */
+const BASMALA = [["بِسْمِ","au nom"],["اللَّهِ","d'Allah"],["الرَّحْمَٰنِ","le Tout-Miséricordieux"],["الرَّحِيمِ","le Très-Miséricordieux"]];
+
+const SURAHS = [
+{num:1,name:"Al-Fâtiha",arName:"الفاتحة",fr:"L'Ouverture",d1:31,d2:35,basmala:false,vv:[
+ {w:[["بِسْمِ","au nom"],["اللَّهِ","d'Allah"],["الرَّحْمَٰنِ","le Tout-Miséricordieux"],["الرَّحِيمِ","le Très-Miséricordieux"]],tr:"Au nom d'Allah, le Tout-Miséricordieux, le Très-Miséricordieux."},
+ {w:[["الْحَمْدُ","la louange"],["لِلَّهِ","à Allah"],["رَبِّ","Seigneur"],["الْعَالَمِينَ","des mondes"]],tr:"Louange à Allah, Seigneur des mondes."},
+ {w:[["الرَّحْمَٰنِ","le Tout-Miséricordieux"],["الرَّحِيمِ","le Très-Miséricordieux"]],tr:"Le Tout-Miséricordieux, le Très-Miséricordieux."},
+ {w:[["مَالِكِ","Maître"],["يَوْمِ","du jour"],["الدِّينِ","de la Rétribution"]],tr:"Maître du Jour de la Rétribution."},
+ {w:[["إِيَّاكَ","c'est Toi seul"],["نَعْبُدُ","que nous adorons"],["وَإِيَّاكَ","et Toi seul"],["نَسْتَعِينُ","dont nous implorons l'aide"]],tr:"C'est Toi seul que nous adorons, et Toi seul dont nous implorons le secours."},
+ {w:[["اهْدِنَا","guide-nous"],["الصِّرَاطَ","sur le chemin"],["الْمُسْتَقِيمَ","droit"]],tr:"Guide-nous sur le droit chemin."},
+ {w:[["صِرَاطَ","le chemin"],["الَّذِينَ","de ceux que"],["أَنْعَمْتَ","Tu as comblés"],["عَلَيْهِمْ","de bienfaits"],["غَيْرِ","non pas"],["الْمَغْضُوبِ","ceux qui encourent la colère"],["عَلَيْهِمْ","sur eux"],["وَلَا","ni"],["الضَّالِّينَ","les égarés"]],tr:"Le chemin de ceux que Tu as comblés de faveurs, non de ceux qui ont encouru Ta colère, ni des égarés."}]},
+
+{num:112,name:"Al-Ikhlâs",arName:"الإخلاص",fr:"Le Monothéisme pur",d1:36,d2:38,basmala:true,vv:[
+ {w:[["قُلْ","dis"],["هُوَ","Il est"],["اللَّهُ","Allah"],["أَحَدٌ","Unique"]],tr:"Dis : Il est Allah, Unique."},
+ {w:[["اللَّهُ","Allah"],["الصَّمَدُ","Celui dont tout dépend"]],tr:"Allah, Celui dont tout dépend."},
+ {w:[["لَمْ","ne pas"],["يَلِدْ","Il a engendré"],["وَلَمْ","ni n'a"],["يُولَدْ","été engendré"]],tr:"Il n'a pas engendré et n'a pas été engendré."},
+ {w:[["وَلَمْ","et ne pas"],["يَكُنْ","il est"],["لَهُ","à Lui"],["كُفُوًا","d'égal"],["أَحَدٌ","aucun"]],tr:"Et nul n'est égal à Lui."}]},
+
+{num:108,name:"Al-Kawthar",arName:"الكوثر",fr:"L'Abondance",d1:39,d2:40,basmala:true,vv:[
+ {w:[["إِنَّا","certes Nous"],["أَعْطَيْنَاكَ","Nous t'avons donné"],["الْكَوْثَرَ","l'Abondance"]],tr:"Nous t'avons certes accordé l'Abondance."},
+ {w:[["فَصَلِّ","prie donc"],["لِرَبِّكَ","pour ton Seigneur"],["وَانْحَرْ","et sacrifie"]],tr:"Accomplis donc la prière pour ton Seigneur et sacrifie."},
+ {w:[["إِنَّ","certes"],["شَانِئَكَ","celui qui te hait"],["هُوَ","c'est lui"],["الْأَبْتَرُ","le privé de tout bien"]],tr:"Celui qui te hait, c'est lui qui sera sans postérité."}]},
+
+{num:103,name:"Al-'Asr",arName:"العصر",fr:"Le Temps",d1:41,d2:42,basmala:true,vv:[
+ {w:[["وَالْعَصْرِ","par le Temps"]],tr:"Par le Temps !"},
+ {w:[["إِنَّ","certes"],["الْإِنْسَانَ","l'homme"],["لَفِي","est vraiment en"],["خُسْرٍ","perdition"]],tr:"L'homme est certes en perdition,"},
+ {w:[["إِلَّا","sauf"],["الَّذِينَ","ceux qui"],["آمَنُوا","ont cru"],["وَعَمِلُوا","et ont accompli"],["الصَّالِحَاتِ","les bonnes œuvres"],["وَتَوَاصَوْا","et se sont recommandé"],["بِالْحَقِّ","la vérité"],["وَتَوَاصَوْا","et se sont recommandé"],["بِالصَّبْرِ","la patience"]],tr:"Sauf ceux qui croient, accomplissent les bonnes œuvres, s'enjoignent mutuellement la vérité et s'enjoignent la patience."}]},
+
+{num:110,name:"An-Naṣr",arName:"النصر",fr:"Le Secours",d1:43,d2:45,basmala:true,vv:[
+ {w:[["إِذَا","quand"],["جَاءَ","vient"],["نَصْرُ","le secours"],["اللَّهِ","d'Allah"],["وَالْفَتْحُ","et la victoire"]],tr:"Quand viennent le secours d'Allah et la victoire,"},
+ {w:[["وَرَأَيْتَ","et que tu vois"],["النَّاسَ","les gens"],["يَدْخُلُونَ","entrer"],["فِي","dans"],["دِينِ","la religion"],["اللَّهِ","d'Allah"],["أَفْوَاجًا","par foules"]],tr:"Et que tu vois les gens entrer en foule dans la religion d'Allah,"},
+ {w:[["فَسَبِّحْ","alors glorifie"],["بِحَمْدِ","par la louange"],["رَبِّكَ","de ton Seigneur"],["وَاسْتَغْفِرْهُ","et implore Son pardon"],["إِنَّهُ","certes Il"],["كَانَ","est"],["تَوَّابًا","Grand Accueillant au repentir"]],tr:"Célèbre la louange de ton Seigneur et implore Son pardon. Il est certes le Grand Accueillant au repentir."}]},
+
+{num:114,name:"An-Nâs",arName:"الناس",fr:"Les Hommes",d1:46,d2:48,basmala:true,vv:[
+ {w:[["قُلْ","dis"],["أَعُوذُ","je cherche refuge"],["بِرَبِّ","auprès du Seigneur"],["النَّاسِ","des hommes"]],tr:"Dis : je cherche refuge auprès du Seigneur des hommes,"},
+ {w:[["مَلِكِ","Souverain"],["النَّاسِ","des hommes"]],tr:"Le Souverain des hommes,"},
+ {w:[["إِلَٰهِ","Dieu"],["النَّاسِ","des hommes"]],tr:"Dieu des hommes,"},
+ {w:[["مِنْ","contre"],["شَرِّ","le mal"],["الْوَسْوَاسِ","du mauvais souffleur"],["الْخَنَّاسِ","furtif"]],tr:"Contre le mal du mauvais conseiller, furtif,"},
+ {w:[["الَّذِي","qui"],["يُوَسْوِسُ","souffle le mal"],["فِي","dans"],["صُدُورِ","les poitrines"],["النَّاسِ","des hommes"]],tr:"Qui souffle le mal dans les poitrines des hommes,"},
+ {w:[["مِنَ","qu'il soit"],["الْجِنَّةِ","des djinns"],["وَالنَّاسِ","ou des hommes"]],tr:"Qu'il soit djinn ou être humain."}]},
+
+{num:113,name:"Al-Falaq",arName:"الفلق",fr:"L'Aube naissante",d1:49,d2:51,basmala:true,vv:[
+ {w:[["قُلْ","dis"],["أَعُوذُ","je cherche refuge"],["بِرَبِّ","auprès du Seigneur"],["الْفَلَقِ","de l'aube naissante"]],tr:"Dis : je cherche refuge auprès du Seigneur de l'aube naissante,"},
+ {w:[["مِنْ","contre"],["شَرِّ","le mal"],["مَا","de ce qu'"],["خَلَقَ","Il a créé"]],tr:"Contre le mal des êtres qu'Il a créés,"},
+ {w:[["وَمِنْ","et contre"],["شَرِّ","le mal"],["غَاسِقٍ","de l'obscurité"],["إِذَا","quand"],["وَقَبَ","elle s'étend"]],tr:"Contre le mal de l'obscurité quand elle s'approfondit,"},
+ {w:[["وَمِنْ","et contre"],["شَرِّ","le mal"],["النَّفَّاثَاتِ","de celles qui soufflent"],["فِي","sur"],["الْعُقَدِ","les nœuds"]],tr:"Contre le mal de celles qui soufflent sur les nœuds,"},
+ {w:[["وَمِنْ","et contre"],["شَرِّ","le mal"],["حَاسِدٍ","de l'envieux"],["إِذَا","quand"],["حَسَدَ","il envie"]],tr:"Et contre le mal de l'envieux quand il envie."}]},
+
+{num:111,name:"Al-Masad",arName:"المسد",fr:"Les Fibres",d1:52,d2:54,basmala:true,vv:[
+ {w:[["تَبَّتْ","périssent"],["يَدَا","les deux mains"],["أَبِي لَهَبٍ","d'Abou Lahab"],["وَتَبَّ","et qu'il périsse"]],tr:"Que périssent les deux mains d'Abou Lahab, et que lui-même périsse !"},
+ {w:[["مَا","ne pas"],["أَغْنَىٰ","ont servi"],["عَنْهُ","à lui"],["مَالُهُ","ses biens"],["وَمَا","ni ce qu'"],["كَسَبَ","il a acquis"]],tr:"Ses biens et ce qu'il a acquis ne lui serviront à rien."},
+ {w:[["سَيَصْلَىٰ","il brûlera dans"],["نَارًا","un feu"],["ذَاتَ لَهَبٍ","aux flammes ardentes"]],tr:"Il sera brûlé dans un feu plein de flammes,"},
+ {w:[["وَامْرَأَتُهُ","ainsi que sa femme"],["حَمَّالَةَ","porteuse"],["الْحَطَبِ","de bois"]],tr:"Ainsi que sa femme, la porteuse de bois,"},
+ {w:[["فِي","à"],["جِيدِهَا","son cou"],["حَبْلٌ","une corde"],["مِنْ","de"],["مَسَدٍ","fibres"]],tr:"À son cou, une corde de fibres."}]},
+
+{num:106,name:"Quraych",arName:"قريش",fr:"Les Quraych",d1:55,d2:57,basmala:true,vv:[
+ {w:[["لِإِيلَافِ","pour le pacte"],["قُرَيْشٍ","des Quraych"]],tr:"Pour le pacte des Quraych,"},
+ {w:[["إِيلَافِهِمْ","leur pacte concernant"],["رِحْلَةَ","le voyage"],["الشِّتَاءِ","de l'hiver"],["وَالصَّيْفِ","et de l'été"]],tr:"Leur pacte des voyages d'hiver et d'été."},
+ {w:[["فَلْيَعْبُدُوا","qu'ils adorent donc"],["رَبَّ","le Seigneur"],["هَٰذَا","de cette"],["الْبَيْتِ","Maison"]],tr:"Qu'ils adorent donc le Seigneur de cette Maison,"},
+ {w:[["الَّذِي","qui"],["أَطْعَمَهُمْ","les a nourris"],["مِنْ","contre"],["جُوعٍ","la faim"],["وَآمَنَهُمْ","et les a mis à l'abri"],["مِنْ","de"],["خَوْفٍ","la peur"]],tr:"Qui les a nourris contre la faim et rassurés contre la peur."}]},
+
+{num:105,name:"Al-Fîl",arName:"الفيل",fr:"L'Éléphant",d1:58,d2:60,basmala:true,vv:[
+ {w:[["أَلَمْ","n'as-tu pas"],["تَرَ","vu"],["كَيْفَ","comment"],["فَعَلَ","a agi"],["رَبُّكَ","ton Seigneur"],["بِأَصْحَابِ","envers les gens"],["الْفِيلِ","de l'Éléphant"]],tr:"N'as-tu pas vu comment ton Seigneur a agi envers les gens de l'Éléphant ?"},
+ {w:[["أَلَمْ","n'a-t-Il pas"],["يَجْعَلْ","rendu"],["كَيْدَهُمْ","leur ruse"],["فِي","en"],["تَضْلِيلٍ","échec total"]],tr:"N'a-t-Il pas rendu leur ruse complètement vaine ?"},
+ {w:[["وَأَرْسَلَ","et Il a envoyé"],["عَلَيْهِمْ","contre eux"],["طَيْرًا","des oiseaux"],["أَبَابِيلَ","par volées"]],tr:"Il a envoyé contre eux des oiseaux par volées,"},
+ {w:[["تَرْمِيهِمْ","les frappant"],["بِحِجَارَةٍ","de pierres"],["مِنْ","d'"],["سِجِّيلٍ","argile durcie"]],tr:"Qui leur lançaient des pierres d'argile,"},
+ {w:[["فَجَعَلَهُمْ","et Il les a rendus"],["كَعَصْفٍ","comme de la paille"],["مَأْكُولٍ","mâchée"]],tr:"Et Il les a rendus semblables à une paille mâchée."}]},
+
+{num:107,name:"Al-Mâ'oûn",arName:"الماعون",fr:"L'Ustensile",d1:61,d2:64,basmala:true,vv:[
+ {w:[["أَرَأَيْتَ","as-tu vu"],["الَّذِي","celui qui"],["يُكَذِّبُ","traite de mensonge"],["بِالدِّينِ","la Rétribution"]],tr:"As-tu vu celui qui traite de mensonge la Rétribution ?"},
+ {w:[["فَذَٰلِكَ","c'est celui-là"],["الَّذِي","qui"],["يَدُعُّ","repousse"],["الْيَتِيمَ","l'orphelin"]],tr:"C'est bien lui qui repousse l'orphelin,"},
+ {w:[["وَلَا","et n'"],["يَحُضُّ","encourage pas"],["عَلَىٰ","à"],["طَعَامِ","nourrir"],["الْمِسْكِينِ","le pauvre"]],tr:"Et n'encourage pas à nourrir le pauvre."},
+ {w:[["فَوَيْلٌ","malheur donc"],["لِلْمُصَلِّينَ","à ceux qui prient"]],tr:"Malheur donc à ceux qui prient"},
+ {w:[["الَّذِينَ","ceux qui"],["هُمْ","eux"],["عَنْ","de"],["صَلَاتِهِمْ","leur prière"],["سَاهُونَ","sont négligents"]],tr:"Tout en négligeant leur prière,"},
+ {w:[["الَّذِينَ","ceux qui"],["هُمْ","eux"],["يُرَاءُونَ","agissent pour être vus"]],tr:"Qui agissent pour être vus,"},
+ {w:[["وَيَمْنَعُونَ","et refusent"],["الْمَاعُونَ","l'ustensile (l'entraide)"]],tr:"Et refusent même l'ustensile (la moindre aide)."}]},
+
+{num:109,name:"Al-Kâfiroûn",arName:"الكافرون",fr:"Les Mécréants",d1:65,d2:68,basmala:true,vv:[
+ {w:[["قُلْ","dis"],["يَا أَيُّهَا","ô vous"],["الْكَافِرُونَ","les mécréants"]],tr:"Dis : ô vous les mécréants !"},
+ {w:[["لَا","ne pas"],["أَعْبُدُ","j'adore"],["مَا","ce que"],["تَعْبُدُونَ","vous adorez"]],tr:"Je n'adore pas ce que vous adorez,"},
+ {w:[["وَلَا","et ne pas"],["أَنْتُمْ","vous"],["عَابِدُونَ","êtes adorateurs"],["مَا","de ce que"],["أَعْبُدُ","j'adore"]],tr:"Et vous n'êtes pas adorateurs de ce que j'adore."},
+ {w:[["وَلَا","et ne pas"],["أَنَا","moi"],["عَابِدٌ","adorateur"],["مَا","de ce que"],["عَبَدْتُمْ","vous avez adoré"]],tr:"Je ne suis pas adorateur de ce que vous adorez,"},
+ {w:[["وَلَا","et ne pas"],["أَنْتُمْ","vous"],["عَابِدُونَ","êtes adorateurs"],["مَا","de ce que"],["أَعْبُدُ","j'adore"]],tr:"Et vous n'êtes pas adorateurs de ce que j'adore."},
+ {w:[["لَكُمْ","à vous"],["دِينُكُمْ","votre religion"],["وَلِيَ","et à moi"],["دِينِ","ma religion"]],tr:"À vous votre religion, à moi ma religion."}]},
+
+{num:104,name:"Al-Houmazah",arName:"الهمزة",fr:"Le Calomniateur",d1:69,d2:72,basmala:true,vv:[
+ {w:[["وَيْلٌ","malheur"],["لِكُلِّ","à tout"],["هُمَزَةٍ","calomniateur"],["لُمَزَةٍ","diffamateur"]],tr:"Malheur à tout calomniateur diffamateur,"},
+ {w:[["الَّذِي","qui"],["جَمَعَ","a amassé"],["مَالًا","une fortune"],["وَعَدَّدَهُ","et l'a comptée"]],tr:"Qui amasse une fortune et la compte sans cesse,"},
+ {w:[["يَحْسَبُ","il pense"],["أَنَّ","que"],["مَالَهُ","sa fortune"],["أَخْلَدَهُ","le rendra immortel"]],tr:"Pensant que sa fortune le rendra immortel."},
+ {w:[["كَلَّا","mais non"],["لَيُنْبَذَنَّ","il sera précipité"],["فِي","dans"],["الْحُطَمَةِ","la Houtamah"]],tr:"Mais non ! Il sera précipité dans la Houtamah."},
+ {w:[["وَمَا","et qu'est-ce qui"],["أَدْرَاكَ","te fera connaître"],["مَا","ce qu'est"],["الْحُطَمَةُ","la Houtamah"]],tr:"Et qui te dira ce qu'est la Houtamah ?"},
+ {w:[["نَارُ","le feu"],["اللَّهِ","d'Allah"],["الْمُوقَدَةُ","attisé"]],tr:"Le feu attisé d'Allah,"},
+ {w:[["الَّتِي","qui"],["تَطَّلِعُ","monte jusqu'"],["عَلَى","aux"],["الْأَفْئِدَةِ","cœurs"]],tr:"Qui monte jusqu'aux cœurs."},
+ {w:[["إِنَّهَا","certes il est"],["عَلَيْهِمْ","sur eux"],["مُؤْصَدَةٌ","refermé"]],tr:"Il se refermera sur eux,"},
+ {w:[["فِي","en"],["عَمَدٍ","des colonnes"],["مُمَدَّدَةٍ","étendues"]],tr:"En colonnes étendues."}]},
+
+{num:102,name:"At-Takâthour",arName:"التكاثر",fr:"La Course aux richesses",d1:73,d2:76,basmala:true,vv:[
+ {w:[["أَلْهَاكُمُ","vous a distraits"],["التَّكَاثُرُ","la course aux richesses"]],tr:"La course aux richesses vous distrait,"},
+ {w:[["حَتَّىٰ","jusqu'à ce que"],["زُرْتُمُ","vous visitiez"],["الْمَقَابِرَ","les tombes"]],tr:"Jusqu'à ce que vous visitiez les tombes."},
+ {w:[["كَلَّا","mais non"],["سَوْفَ","bientôt"],["تَعْلَمُونَ","vous saurez"]],tr:"Mais non ! Vous saurez bientôt !"},
+ {w:[["ثُمَّ","puis"],["كَلَّا","mais non"],["سَوْفَ","bientôt"],["تَعْلَمُونَ","vous saurez"]],tr:"Encore une fois : vous saurez bientôt !"},
+ {w:[["كَلَّا","mais non"],["لَوْ","si"],["تَعْلَمُونَ","vous saviez"],["عِلْمَ","de la science"],["الْيَقِينِ","certaine"]],tr:"Si seulement vous saviez de science certaine !"},
+ {w:[["لَتَرَوُنَّ","vous verrez certainement"],["الْجَحِيمَ","la Fournaise"]],tr:"Vous verrez certainement la Fournaise,"},
+ {w:[["ثُمَّ","puis"],["لَتَرَوُنَّهَا","vous la verrez certainement"],["عَيْنَ","de l'œil"],["الْيَقِينِ","de la certitude"]],tr:"Puis vous la verrez avec l'œil de la certitude,"},
+ {w:[["ثُمَّ","puis"],["لَتُسْأَلُنَّ","vous serez interrogés"],["يَوْمَئِذٍ","ce jour-là"],["عَنِ","sur"],["النَّعِيمِ","les délices"]],tr:"Puis vous serez interrogés, ce jour-là, sur les délices."}]},
+
+{num:99,name:"Az-Zalzalah",arName:"الزلزلة",fr:"Le Séisme",d1:77,d2:81,basmala:true,vv:[
+ {w:[["إِذَا","quand"],["زُلْزِلَتِ","sera secouée"],["الْأَرْضُ","la terre"],["زِلْزَالَهَا","de son séisme"]],tr:"Quand la terre tremblera de son tremblement,"},
+ {w:[["وَأَخْرَجَتِ","et que rejettera"],["الْأَرْضُ","la terre"],["أَثْقَالَهَا","ses fardeaux"]],tr:"Et que la terre rejettera ses fardeaux,"},
+ {w:[["وَقَالَ","et que dira"],["الْإِنْسَانُ","l'homme"],["مَا","qu'a-t-elle"],["لَهَا","elle"]],tr:"Et que l'homme dira : « Qu'a-t-elle ? »"},
+ {w:[["يَوْمَئِذٍ","ce jour-là"],["تُحَدِّثُ","elle racontera"],["أَخْبَارَهَا","ses nouvelles"]],tr:"Ce jour-là, elle racontera son histoire,"},
+ {w:[["بِأَنَّ","parce que"],["رَبَّكَ","ton Seigneur"],["أَوْحَىٰ","lui aura inspiré"],["لَهَا","à elle"]],tr:"Selon ce que ton Seigneur lui aura révélé."},
+ {w:[["يَوْمَئِذٍ","ce jour-là"],["يَصْدُرُ","sortiront"],["النَّاسُ","les gens"],["أَشْتَاتًا","dispersés"],["لِيُرَوْا","pour que leur soient montrées"],["أَعْمَالَهُمْ","leurs œuvres"]],tr:"Ce jour-là, les gens sortiront séparément pour que leur soient montrées leurs œuvres."},
+ {w:[["فَمَنْ","quiconque"],["يَعْمَلْ","fait"],["مِثْقَالَ","le poids"],["ذَرَّةٍ","d'un atome"],["خَيْرًا","de bien"],["يَرَهُ","le verra"]],tr:"Quiconque fait un bien du poids d'un atome le verra,"},
+ {w:[["وَمَنْ","et quiconque"],["يَعْمَلْ","fait"],["مِثْقَالَ","le poids"],["ذَرَّةٍ","d'un atome"],["شَرًّا","de mal"],["يَرَهُ","le verra"]],tr:"Et quiconque fait un mal du poids d'un atome le verra."}]},
+
+{num:101,name:"Al-Qâri'ah",arName:"القارعة",fr:"Le Fracas",d1:82,d2:87,basmala:true,vv:[
+ {w:[["الْقَارِعَةُ","le Fracas"]],tr:"Le Fracas !"},
+ {w:[["مَا","qu'est-ce que"],["الْقَارِعَةُ","le Fracas"]],tr:"Qu'est-ce que le Fracas ?"},
+ {w:[["وَمَا","et qu'est-ce qui"],["أَدْرَاكَ","te fera connaître"],["مَا","ce qu'est"],["الْقَارِعَةُ","le Fracas"]],tr:"Et qui te dira ce qu'est le Fracas ?"},
+ {w:[["يَوْمَ","le jour où"],["يَكُونُ","seront"],["النَّاسُ","les gens"],["كَالْفَرَاشِ","comme des papillons"],["الْمَبْثُوثِ","éparpillés"]],tr:"Le jour où les gens seront comme des papillons éparpillés,"},
+ {w:[["وَتَكُونُ","et où seront"],["الْجِبَالُ","les montagnes"],["كَالْعِهْنِ","comme de la laine"],["الْمَنْفُوشِ","cardée"]],tr:"Et les montagnes comme de la laine cardée."},
+ {w:[["فَأَمَّا","quant à"],["مَنْ","celui dont"],["ثَقُلَتْ","seront lourdes"],["مَوَازِينُهُ","ses balances"]],tr:"Quant à celui dont la balance sera lourde,"},
+ {w:[["فَهُوَ","il sera"],["فِي","dans"],["عِيشَةٍ","une vie"],["رَاضِيَةٍ","agréable"]],tr:"Il connaîtra une vie agréable ;"},
+ {w:[["وَأَمَّا","et quant à"],["مَنْ","celui dont"],["خَفَّتْ","seront légères"],["مَوَازِينُهُ","ses balances"]],tr:"Quant à celui dont la balance sera légère,"},
+ {w:[["فَأُمُّهُ","son refuge sera"],["هَاوِيَةٌ","l'Abîme"]],tr:"Son refuge sera l'Abîme."},
+ {w:[["وَمَا","et qu'est-ce qui"],["أَدْرَاكَ","te fera connaître"],["مَا","ce que c'est"],["هِيَهْ","cela"]],tr:"Et qui te dira ce que c'est ?"},
+ {w:[["نَارٌ","un feu"],["حَامِيَةٌ","ardent"]],tr:"Un feu ardent."}]}
+,{num:2,name:"Âyat al-Koursî",arName:"آية الكرسي",fr:"Le Verset du Trône",d1:10,d2:30,basmala:false,kursi:true,vv:[
+ {w:[["اللَّهُ","Allah"],["لَا","nul"],["إِلَٰهَ","dieu"],["إِلَّا","sauf"],["هُوَ","Lui"],["الْحَيُّ","le Vivant"],["الْقَيُّومُ","Celui qui subsiste par Lui-même"]],tr:"Allah ! Nulle divinité à part Lui, le Vivant, Celui qui subsiste par Lui-même."},
+ {w:[["لَا","ne pas"],["تَأْخُذُهُ","Le saisit"],["سِنَةٌ","somnolence"],["وَلَا","ni"],["نَوْمٌ","sommeil"]],tr:"Ni somnolence ni sommeil ne Le saisissent."},
+ {w:[["لَهُ","à Lui appartient"],["مَا","ce qui est"],["فِي","dans"],["السَّمَاوَاتِ","les cieux"],["وَمَا","et ce qui est"],["فِي","sur"],["الْأَرْضِ","la terre"]],tr:"À Lui appartient tout ce qui est dans les cieux et sur la terre."},
+ {w:[["مَنْ","qui"],["ذَا الَّذِي","est celui qui"],["يَشْفَعُ","intercède"],["عِنْدَهُ","auprès de Lui"],["إِلَّا","sans"],["بِإِذْنِهِ","Sa permission"]],tr:"Qui peut intercéder auprès de Lui sans Sa permission ?"},
+ {w:[["يَعْلَمُ","Il connaît"],["مَا","ce qui est"],["بَيْنَ أَيْدِيهِمْ","devant eux"],["وَمَا","et ce qui est"],["خَلْفَهُمْ","derrière eux"]],tr:"Il connaît leur passé et leur futur."},
+ {w:[["وَلَا","et ne pas"],["يُحِيطُونَ","ils embrassent"],["بِشَيْءٍ","quoi que ce soit"],["مِنْ","de"],["عِلْمِهِ","Sa science"],["إِلَّا","sauf"],["بِمَا","ce qu'"],["شَاءَ","Il veut"]],tr:"Ils n'embrassent de Sa science que ce qu'Il veut."},
+ {w:[["وَسِعَ","embrasse"],["كُرْسِيُّهُ","Son Koursî"],["السَّمَاوَاتِ","les cieux"],["وَالْأَرْضَ","et la terre"]],tr:"Son Koursî déborde les cieux et la terre,"},
+ {w:[["وَلَا","et ne pas"],["يَئُودُهُ","Lui pèse"],["حِفْظُهُمَا","leur garde"]],tr:"Et leur garde ne Lui coûte aucune peine."},
+ {w:[["وَهُوَ","et Il est"],["الْعَلِيُّ","le Très-Haut"],["الْعَظِيمُ","l'Immense"]],tr:"Et Il est le Très-Haut, l'Immense."}]}
+];
+const REVIEW_DAYS_START = 88; // jours 88-90 : révision générale
+
+/* ================= VOCABULAIRE (~300 mots les plus fréquents) =================
+   Format : [arabe, français, référence sourate:verset, thème]
+   Classé par fréquence décroissante approximative dans le Coran. */
+const THEMES = {part:"Particules",foi:"Foi & divin",jug:"Jugement dernier",act:"Actions",hum:"Humains & famille",nat:"Nature",tmp:"Temps",qua:"Qualités",lieu:"Lieux",pri:"Prière & culte",pro:"Prophètes & récits",corps:"Corps & vie"};
+const VOCAB = [
+["اللَّه","Allah","1:1","foi"],["مِنْ","de, depuis","113:2","part"],["فِي","dans","110:2","part"],["مَا","ce que / ne pas","113:2","part"],["إِنَّ","certes","108:3","part"],["لَا","non, ne pas","109:2","part"],["عَلَى","sur","107:3","part"],["الَّذِينَ","ceux qui","1:7","part"],["إِلَّا","sauf","103:3","part"],["وَ","et","103:1","part"],
+["قَالَ","il a dit","99:3","act"],["كَانَ","il était","110:3","act"],["يَوْم","jour","1:4","tmp"],["رَبّ","Seigneur","1:2","foi"],["آمَنُوا","ils ont cru","103:3","foi"],["النَّاس","les gens","114:1","hum"],["أَرْض","terre","99:1","nat"],["إِلَٰه","dieu, divinité","114:3","foi"],["ثُمَّ","ensuite","102:4","part"],["شَيْء","chose","18:23","part"],
+["قُلْ","dis !","112:1","act"],["لَمْ","ne pas (passé)","112:3","part"],["هُوَ","lui, il","112:1","part"],["هُمْ","eux","107:5","part"],["إِذَا","quand, lorsque","110:1","part"],["كُلّ","tout, chaque","104:1","part"],["عَنْ","au sujet de, loin de","107:5","part"],["سَمَاء","ciel","82:1","nat"],["إِنسَان","être humain","103:2","hum"],["آيَة","verset, signe","2:106","foi"],
+["كِتَاب","livre","2:2","foi"],["أَوْ","ou bien","2:19","part"],["بَعْد","après","98:4","tmp"],["قَوْم","peuple","2:118","hum"],["خَيْر","bien, meilleur","97:3","qua"],["حَقّ","vérité, droit","103:3","qua"],["دِين","religion, rétribution","109:6","foi"],["عَمِلَ","il a œuvré","99:7","act"],["رَسُول","messager","98:2","pro"],["أَنتُمْ","vous","109:3","part"],
+["عَلِمَ","il a su","96:5","act"],["نَفْس","âme, personne","81:14","hum"],["مَلِك","roi, souverain","114:2","foi"],["جَاءَ","il est venu","110:1","act"],["نَار","feu","104:6","jug"],["قَبْل","avant","2:4","tmp"],["عِند","auprès de","98:8","part"],["أَهْل","famille, gens de","98:1","hum"],["عَذَاب","châtiment","2:7","jug"],["هَٰذَا","ceci","106:3","part"],
+["آمَنَ","il a cru","2:62","foi"],["جَنَّة","paradis, jardin","98:8","jug"],["عَبَدَ","il a adoré","109:2","pri"],["أَنزَلَ","Il a fait descendre","97:1","foi"],["خَلَقَ","Il a créé","113:2","foi"],["أَمْر","ordre, affaire","97:4","part"],["يَعْلَمُونَ","ils savent","102:3","act"],["مَوْت","mort","2:19","jug"],["حَيَاة","vie","2:85","corps"],["دُنْيَا","monde d'ici-bas","87:16","tmp"],
+["آخِرَة","au-delà","87:17","jug"],["عَظِيم","immense","2:7","qua"],["صَلَاة","prière","107:5","pri"],["غَفُور","Pardonneur","2:173","foi"],["رَحِيم","Très-Miséricordieux","1:1","foi"],["عَلِيم","Omniscient","2:32","foi"],["سَبِيل","chemin, voie","2:154","lieu"],["قَلْب","cœur","2:7","corps"],["عَبْد","serviteur","96:10","hum"],["مَاء","eau","2:22","nat"],
+["ابْن","fils","2:87","hum"],["أُمّ","mère","101:9","hum"],["أَب","père","12:4","hum"],["أَخ","frère","12:8","hum"],["مَال","biens, fortune","104:2","hum"],["وَلَد","enfant","2:116","hum"],["امْرَأَة","femme","111:4","hum"],["زَوْج","époux/se","2:35","hum"],["بَيْت","maison","106:3","lieu"],["قَرْيَة","cité","2:58","lieu"],
+["شَمْس","soleil","91:1","nat"],["قَمَر","lune","91:2","nat"],["نَجْم","étoile","86:3","nat"],["لَيْل","nuit","92:1","tmp"],["نَهَار","jour (opposé à nuit)","92:2","tmp"],["صُبْح","aube, matin","81:18","tmp"],["جَبَل","montagne","101:5","nat"],["بَحْر","mer","81:6","nat"],["رِيح","vent","2:164","nat"],["مَطَر","pluie","4:102","nat"],
+["شَجَرَة","arbre","2:35","nat"],["ثَمَرَة","fruit","2:22","nat"],["حَبّ","grain","80:27","nat"],["نَخْل","palmiers","80:29","nat"],["طَيْر","oiseaux","105:3","nat"],["دَابَّة","bête, créature","2:164","nat"],["نُور","lumière","5:15","foi"],["ظُلُمَات","ténèbres","2:17","nat"],["تُرَاب","poussière","3:59","nat"],["حِجَارَة","pierres","105:4","nat"],
+["عَيْن","œil / source","102:7","corps"],["يَد","main","111:1","corps"],["وَجْه","visage","2:112","corps"],["لِسَان","langue","90:9","corps"],["أُذُن","oreille","69:12","corps"],["صَدْر","poitrine","114:5","corps"],["رَأْس","tête","19:4","corps"],["جِلْد","peau","41:20","corps"],["عَقْل","raison (racine ʿ-q-l)","2:44","corps"],["رُوح","esprit","97:4","foi"],
+["مَلَائِكَة","anges","97:4","foi"],["جِنّ","djinns","114:6","foi"],["شَيْطَان","satan, démon","2:36","foi"],["إِبْلِيس","Iblis","2:34","foi"],["آدَم","Adam","2:31","pro"],["مُوسَىٰ","Moïse","2:51","pro"],["عِيسَىٰ","Jésus","2:87","pro"],["إِبْرَاهِيم","Abraham","2:124","pro"],["نُوح","Noé","71:1","pro"],["يُوسُف","Joseph","12:4","pro"],
+["مَرْيَم","Marie","3:36","pro"],["فِرْعَوْن","Pharaon","2:49","pro"],["نَبِيّ","prophète","3:68","pro"],["وَحْي","révélation","53:4","foi"],["قُرْآن","Coran","97:1","foi"],["سُورَة","sourate","2:23","foi"],["ذِكْر","rappel, évocation","94:4","pri"],["دُعَاء","invocation","3:38","pri"],["سُجُود","prosternation","96:19","pri"],["رُكُوع","inclinaison","2:43","pri"],
+["زَكَاة","aumône légale","98:5","pri"],["صَوْم","jeûne","2:183","pri"],["حَجّ","pèlerinage","2:196","pri"],["مَسْجِد","mosquée","2:144","pri"],["قِبْلَة","direction de prière","2:143","pri"],["كَعْبَة","la Kaaba","5:95","lieu"],["مَكَّة","La Mecque","48:24","lieu"],["تَقْوَىٰ","piété, crainte pieuse","96:12","pri"],["إِخْلَاص","sincérité","98:5","pri"],["تَوْبَة","repentir","9:104","pri"],
+["اسْتَغْفَرَ","il a demandé pardon","110:3","pri"],["سَبَّحَ","il a glorifié","110:3","pri"],["حَمْد","louange","1:2","pri"],["شُكْر","gratitude","2:52","pri"],["صَبْر","patience","103:3","qua"],["صِدْق","véracité","39:33","qua"],["عَدْل","justice","16:90","qua"],["إِحْسَان","excellence, bienfaisance","16:90","qua"],["رَحْمَة","miséricorde","2:157","foi"],["مَغْفِرَة","pardon","2:221","foi"],
+["فَضْل","grâce, faveur","2:64","foi"],["نِعْمَة","bienfait","1:7","foi"],["بَرَكَة","bénédiction","7:96","foi"],["هُدًى","guidance","2:2","foi"],["ضَلَال","égarement","1:7","foi"],["كُفْر","mécréance","2:108","foi"],["شِرْك","associationnisme","31:13","foi"],["نِفَاق","hypocrisie (racine)","2:8","foi"],["ظُلْم","injustice","2:254","qua"],["فَسَاد","corruption","2:11","qua"],
+["ذَنب","péché","81:9","jug"],["خَطِيئَة","faute","2:81","jug"],["سَيِّئَة","mauvaise action","2:81","jug"],["حَسَنَة","bonne action","2:201","jug"],["أَجْر","récompense","95:6","jug"],["ثَوَاب","rétribution","3:145","jug"],["مِيزَان","balance","101:6","jug"],["حِسَاب","compte, reddition","2:202","jug"],["قِيَامَة","résurrection","2:85","jug"],["بَعْث","résurrection (relever)","2:56","jug"],
+["قَبْر","tombe","102:2","jug"],["مَقَابِر","les tombes","102:2","jug"],["جَحِيم","fournaise","102:6","jug"],["جَهَنَّم","géhenne","78:21","jug"],["سَعِير","brasier","4:10","jug"],["هَاوِيَة","abîme","101:9","jug"],["فِرْدَوْس","Firdaws (plus haut paradis)","18:107","jug"],["خُلْد","éternité","10:52","jug"],["نَعِيم","délices","102:8","jug"],["وَيْل","malheur !","104:1","jug"],
+["سَاعَة","l'Heure","7:187","jug"],["صِرَاط","chemin, pont","1:6","jug"],["شَفَاعَة","intercession","2:254","jug"],["شَهِيد","témoin / martyr","2:143","jug"],["صُحُف","feuillets, registres","81:10","jug"],["خُسْر","perdition","103:2","jug"],["فَوْز","réussite suprême","4:13","jug"],["فَلَاح","succès","23:1","jug"],["يَقِين","certitude","102:5","qua"],["غَيْب","invisible, inconnaissable","2:3","foi"],
+["عَرْش","Trône","2:255","foi"],["كُرْسِيّ","Repose-pieds divin","2:255","foi"],["قُدْرَة","puissance (racine q-d-r)","2:20","foi"],["عِزَّة","puissance, honneur","4:139","qua"],["حِكْمَة","sagesse","2:129","qua"],["عِلْم","science, savoir","2:32","qua"],["جَهْل","ignorance","2:67","qua"],["قُوَّة","force","2:63","qua"],["ضَعْف","faiblesse","30:54","qua"],["غِنًى","richesse (se passer de)","92:8","qua"],
+["فَقِير","pauvre","2:271","hum"],["مِسْكِين","nécessiteux","107:3","hum"],["يَتِيم","orphelin","107:2","hum"],["ذَكَر","mâle","92:3","hum"],["أُنثَىٰ","femelle","92:3","hum"],["صَغِير","petit","17:24","qua"],["كَبِير","grand","2:219","qua"],["كَثِير","nombreux","2:26","qua"],["قَلِيل","peu","2:41","qua"],["جَدِيد","nouveau","13:5","qua"],
+["قَدِيم","ancien","12:95","qua"],["قَرِيب","proche","2:186","qua"],["بَعِيد","lointain","2:176","qua"],["شَدِيد","intense, sévère","2:165","qua"],["عَزِيز","puissant, cher","2:129","qua"],["حَكِيم","sage","2:129","qua"],["سَمِيع","qui entend tout","2:127","foi"],["بَصِير","qui voit tout","2:96","foi"],["قَدِير","omnipotent","2:20","foi"],["لَطِيف","doux, subtil","6:103","foi"],
+["كَرِيم","noble, généreux","96:3","qua"],["مَجِيد","glorieux","85:15","qua"],["حَلِيم","longanime","2:225","qua"],["صَالِح","vertueux","103:3","qua"],["طَيِّب","bon, pur","2:57","qua"],["خَبِيث","mauvais, impur","2:267","qua"],["حَلَال","licite","2:168","qua"],["حَرَام","illicite / sacré","2:144","qua"],["طَاهِر","pur","2:25","qua"],["كَذِب","mensonge","2:10","qua"],
+["فَعَلَ","il a fait","105:1","act"],["جَعَلَ","il a fait/rendu","105:2","act"],["أَخَذَ","il a pris","2:55","act"],["أَعْطَىٰ","il a donné","108:1","act"],["آتَىٰ","il a apporté/donné","2:43","act"],["رَأَىٰ","il a vu","105:1","act"],["سَمِعَ","il a entendu","2:181","act"],["نَظَرَ","il a regardé","2:50","act"],["عَرَفَ","il a reconnu","2:89","act"],["ذَكَرَ","il a mentionné/rappelé","2:152","act"],
+["نَسِيَ","il a oublié","2:44","act"],["شَاءَ","il a voulu","81:28","act"],["أَرَادَ","il a voulu","2:26","act"],["أَحَبَّ","il a aimé","2:165","act"],["كَرِهَ","il a détesté","2:216","act"],["خَافَ","il a craint","2:38","act"],["حَزِنَ","il s'est attristé","2:38","act"],["فَرِحَ","il s'est réjoui","3:170","act"],["ضَحِكَ","il a ri","9:82","act"],["بَكَىٰ","il a pleuré","9:82","act"],
+["دَخَلَ","il est entré","110:2","act"],["خَرَجَ","il est sorti","99:2","act"],["ذَهَبَ","il est parti","2:17","act"],["رَجَعَ","il est revenu","2:18","act"],["مَشَىٰ","il a marché","2:20","act"],["قَامَ","il s'est levé","2:20","act"],["قَعَدَ","il s'est assis","3:191","act"],["نَامَ","dormir (سِنَة somnolence)","2:255","act"],["أَكَلَ","il a mangé","2:35","act"],["شَرِبَ","il a bu","2:60","act"],
+["كَتَبَ","il a écrit / prescrit","2:183","act"],["قَرَأَ","il a lu / récité","96:1","act"],["عَلَّمَ","il a enseigné","96:4","act"],["هَدَىٰ","il a guidé","1:6","act"],["أَضَلَّ","il a égaré","2:26","act"],["غَفَرَ","il a pardonné","2:58","act"],["رَحِمَ","il a fait miséricorde","2:64","act"],["نَصَرَ","il a secouru","110:1","act"],["أَنْعَمَ","il a comblé de bienfaits","1:7","act"],["رَزَقَ","il a pourvu","2:3","act"],
+["أَطْعَمَ","il a nourri","106:4","act"],["أَمَرَ","il a ordonné","2:27","act"],["نَهَىٰ","il a interdit","96:9","act"],["دَعَا","il a appelé/invoqué","2:186","act"],["سَأَلَ","il a demandé","2:108","act"],["أَجَابَ","il a répondu","2:186","act"],["وَعَدَ","il a promis","2:51","act"],["صَدَقَ","il a dit vrai","3:152","act"],["كَذَّبَ","il a traité de mensonge","107:1","act"],["جَحَدَ","il a nié","6:33","act"],
+["عَصَىٰ","il a désobéi","2:61","act"],["أَطَاعَ","il a obéi","3:132","act"],["اتَّبَعَ","il a suivi","2:38","act"],["تَابَ","il s'est repenti","2:37","act"],["ظَلَمَ","il a été injuste","2:57","act"],["قَتَلَ","il a tué","2:61","act"],["مَاتَ","il est mort","3:144","act"],["حَيِيَ","il a vécu","8:42","act"],["وُلِدَ","il est né","112:3","act"],["بَعَثَ","Il a ressuscité/envoyé","2:56","act"],
+["جَمَعَ","il a rassemblé","104:2","act"],["فَرَّقَ","il a séparé","2:102","act"],["مَنَعَ","il a empêché","107:7","act"],["حَفِظَ","il a préservé","15:9","act"],["تَرَكَ","il a laissé","2:17","act"],["وَجَدَ","il a trouvé","93:6","act"],["بَلَغَ","il a atteint","2:231","act"],["حَمَلَ","il a porté","111:4","act"],["وَضَعَ","il a posé","94:2","act"],["رَفَعَ","il a élevé","94:4","act"],
+["فَتَحَ","il a ouvert","110:1","act"],["أَغْلَقَ","fermer (غَلَّقَت)","12:23","act"],["أَرْسَلَ","Il a envoyé","105:3","act"],["نَزَلَ","il est descendu","97:4","act"],["صَعِدَ","il est monté","35:10","act"],["عَادَ","il est retourné","85:13","act"],["بَدَأَ","il a commencé","10:4","act"],["تَمَّ","il s'est accompli","2:124","act"],["زَادَ","il a augmenté","2:10","act"],["نَقَصَ","il a diminué","2:155","act"],
+["يَوْمَئِذٍ","ce jour-là","99:4","tmp"],["غَد","demain","31:34","tmp"],["أَمْس","hier (récits)","10:24","tmp"],["الْآنَ","maintenant","2:71","tmp"],["أَبَدًا","à jamais","98:8","tmp"],["حِين","moment","2:36","tmp"],["أَجَل","terme fixé","2:231","tmp"],["سَنَة","année","2:96","tmp"],["شَهْر","mois","97:3","tmp"],["أُسْبُوع","semaine (7 : سَبْع)","2:29","tmp"],
+["فَجْر","aube","89:1","tmp"],["ضُحًى","matinée","93:1","tmp"],["عَصْر","temps / après-midi","103:1","tmp"],["مَغْرِب","couchant","2:115","tmp"],["عِشَاء","soir","12:16","tmp"],["مَشْرِق","levant","2:115","lieu"],["أَرْضُ الْحَرَام","terre sacrée (الْبَلَد)","90:1","lieu"],["مَدِينَة","ville","9:101","lieu"],["بَاب","porte","2:58","lieu"],["طَرِيق","route","46:30","lieu"],
+["دَار","demeure","2:94","lieu"],["مَقَام","station, place","2:125","lieu"],["مَكَان","endroit","19:16","lieu"],["فَوْق","au-dessus","2:26","part"],["تَحْت","au-dessous","2:25","part"],["بَيْن","entre","2:66","part"],["خَلْف","derrière","2:255","part"],["أَمَام","devant (racine)","75:5","part"],["مَعَ","avec","2:43","part"],["إِلَىٰ","vers","1:7","part"],
+["حَتَّىٰ","jusqu'à","102:2","part"],["لَعَلَّ","afin que, peut-être","2:21","part"],["كَيْفَ","comment","105:1","part"],["أَيْنَ","où","2:115","part"],["مَتَىٰ","quand ?","2:214","part"],["لِمَاذَا","pourquoi (لِمَ)","61:5","part"],["مَنْ","qui","101:6","part"],["نَحْنُ","nous","108:1","part"],["أَنَا","moi, je","109:4","part"],["أَنتَ","toi, tu","2:32","part"],
+["هِيَ","elle","101:10","part"],["هَٰذِهِ","celle-ci","2:35","part"],["ذَٰلِكَ","cela","2:2","part"],["الَّذِي","celui qui","104:2","part"],["اَلَّتِي","celle qui","104:7","part"],["كَمَا","comme","2:13","part"],["إِنَّمَا","seulement","2:11","part"],["لَقَدْ","certes déjà","95:4","part"],["قَدْ","certes / parfois","91:9","part"],["سَوْفَ","bientôt (futur)","102:3","part"],
+["عَمَل","œuvre, action","99:6","act"],["قَوْل","parole","2:59","act"],["كَلِمَة","mot, parole","3:39","foi"],["لِقَاء","rencontre","6:31","jug"],["أَصْحَاب","compagnons, gens de","105:1","hum"],["حِزْب","parti, groupe","58:22","hum"],["أُمَّة","communauté","2:128","hum"],["عَدُوّ","ennemi","2:36","hum"],["وَلِيّ","allié, protecteur","2:107","foi"],["صَدِيق","ami véridique","24:61","hum"],
+["جَار","voisin","4:36","hum"],["ضَيْف","hôte","51:24","hum"],["غَنِيّ","riche / qui Se suffit","2:263","qua"],["حُرّ","libre","2:178","hum"],["سِلْم","paix, soumission","2:208","qua"],["حَرْب","guerre","2:279","hum"],["جِهَاد","effort dans la voie d'Allah","25:52","pri"],["فِتْنَة","épreuve, discorde","2:191","jug"],["بَلَاء","épreuve","2:49","jug"],["مُصِيبَة","malheur","2:156","jug"],
+["شِفَاء","guérison","10:57","corps"],["مَرَض","maladie","2:10","corps"],["جُوع","faim","106:4","corps"],["خَوْف","peur","106:4","corps"],["أَمْن","sécurité","2:125","qua"],["رِزْق","subsistance","2:3","nat"],["طَعَام","nourriture","107:3","corps"],["خُبْز","pain","12:36","corps"],["لَحْم","viande","2:173","corps"],["لَبَن","lait","16:66","corps"],
+["عَسَل","miel","47:15","corps"],["ذَهَب","or","3:14","nat"],["فِضَّة","argent (métal)","3:14","nat"],["لُؤْلُؤ","perles","22:23","nat"],["ثِيَاب","vêtements","74:4","corps"],["سَفِينَة","navire","29:15","lieu"],["فُلْك","arche, vaisseaux","2:164","lieu"],["قَلَم","calame, plume","96:4","foi"],["لَوْح","Table (gardée)","85:22","foi"],["مِصْبَاح","lampe","24:35","nat"],
+["زَيْتُون","olivier","95:1","nat"],["تِين","figuier","95:1","nat"],["عِنَب","raisin","80:28","nat"],["رُمَّان","grenade","55:68","nat"],["فَاكِهَة","fruits","80:31","nat"],["زَرْع","cultures","48:29","nat"],["نَهَر","rivière","2:25","nat"],["ظِلّ","ombre","4:57","nat"],["حَرّ","chaleur","9:81","nat"],["بَرْد","fraîcheur","78:24","nat"],
+["سَلْسَبِيل","Salsabîl (source du paradis)","76:18","jug"],["كَوْثَر","abondance","108:1","jug"],["مَلَك","ange","2:102","foi"],["جِبْرِيل","Gabriel","2:97","foi"],["قَدْر","valeur, Destin","97:1","foi"],["أَلْف","mille","97:3","part"],["مِائَة","cent","2:259","part"],["سَبْع","sept","2:29","part"],["ثَلَاث","trois","2:228","part"],["وَاحِد","un seul","2:163","part"]
+];
+
+/* ================= ÉTAT & PERSISTANCE ================= */
+const DEFAULT_STATE = {
+  day:1, streak:0, lastDone:null, // lastDone = "YYYY-MM-DD" de la dernière session terminée
+  srs:{},            // id -> {lvl:0-5, due:"YYYY-MM-DD"}  (L:i lettres, W:i mots P1, V:i vocab, S:i sourates)
+  seenLetters:0,     // nb de lettres introduites
+  vocabSeen:0,       // nb de mots de vocab débloqués et vus
+  surahStage:{},     // idx sourate -> étape de mémorisation atteinte (0-4)
+  completedDays:{},  // jour -> true
+  penSeen:false,     // Apple Pencil détecté : rejet de paume actif sur le tracé
+  sessionStep:0
+};
+let S = JSON.parse(JSON.stringify(DEFAULT_STATE));
+
+const store = {
+  async load(){
+    try{ if(window.storage){ const r = await window.storage.get("iqra90"); if(r&&r.value) return JSON.parse(r.value);} }catch(e){}
+    try{ const v = localStorage.getItem("iqra90"); if(v) return JSON.parse(v);}catch(e){}
+    return null;
+  },
+  async save(){
+    const j = JSON.stringify(S);
+    let saved=false;
+    try{ if(window.storage){ await window.storage.set("iqra90", j); saved=true;} }catch(e){}
+    if(!saved){ try{ localStorage.setItem("iqra90", j);}catch(e){} }
+  }
+};
+
+const todayStr = ()=> new Date().toISOString().slice(0,10);
+const addDays = (s,n)=>{ const d=new Date(s+"T12:00:00"); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+const isWeekend = ()=>{ const d=new Date().getDay(); return d===0||d===6; };
+const INTERVALS = [1,1,2,4,7,15,30];
+
+function srsGet(id){ return S.srs[id] || {lvl:0, due:todayStr()}; }
+function srsGrade(id, grade){ // grade: 0 raté, 1 correct, 2 facile
+  const it = srsGet(id);
+  if(grade===0){ it.lvl = Math.max(0, it.lvl-2); it.due = todayStr(); }
+  else { it.lvl = Math.min(6, it.lvl + grade); it.due = addDays(todayStr(), INTERVALS[it.lvl]); }
+  S.srs[id]=it; store.save();
+}
+function srsDue(prefix, limit){
+  const t = todayStr(); const out=[];
+  for(const [id,it] of Object.entries(S.srs)){
+    if(id.startsWith(prefix) && it.due<=t) out.push({id,lvl:it.lvl});
+  }
+  out.sort((a,b)=>a.lvl-b.lvl);
+  return limit? out.slice(0,limit): out;
+}
+function mastery(id){ return Math.round(srsGet(id).lvl/6*100); }
+
+/* ================= PROGRAMME ================= */
+function lettersIntroducedByDay(day){ return Math.min(28, Math.max(0, Math.min(day,14)*2)); }
+function phase(){ return S.day<=30? 1:2; }
+function surahForDay(day){
+  for(let i=0;i<SURAHS.length;i++){ const s=SURAHS[i]; if(day>=s.d1 && day<=s.d2) return {idx:i, s, rel:(day-s.d1)/(s.d2-s.d1||1)}; }
+  return null; // jours 88-90 : révision
+}
+function tajwidForDay(day){ return TAJWID.find(t=>t.day===day) || null; }
+function tajwidUnlocked(){ return TAJWID.filter(t=>t.day<=S.day); }
+function vocabUnlockedCount(){ if(S.day<=30) return 0; return Math.min(VOCAB.length, (S.day-30)*Math.ceil(VOCAB.length/60)); }
+
+/* ================= PHONÉTIQUE (translittération) ================= */
+const TL = {"ب":"b","ت":"t","ث":"th","ج":"j","ح":"ḥ","خ":"kh","د":"d","ذ":"dh","ر":"r","ز":"z",
+ "س":"s","ش":"ch","ص":"ṣ","ض":"ḍ","ط":"ṭ","ظ":"ẓ","ع":"ʿ","غ":"gh","ف":"f","ق":"q","ك":"k",
+ "ل":"l","م":"m","ن":"n","ه":"h","و":"w","ي":"y","ء":"'","أ":"'","إ":"'","ؤ":"'","ئ":"'","ٱ":""};
+function translit(ar){
+  let out="", i=0, lastVowel="";
+  const V={"\u064E":"a","\u0650":"i","\u064F":"ou","\u064B":"an","\u064D":"in","\u064C":"oun"};
+  while(i<ar.length){
+    const c=ar[i], nx=ar[i+1]||"";
+    if(c===" "){ out+=" "; lastVowel=""; i++; continue; }
+    if(c==="\u0651"){ // chadda : double la dernière consonne (même si une voyelle a déjà été écrite)
+      const m=out.match(/(th|kh|dh|ch|gh|[bdfhjklmnqrstwyzʿṣḍṭẓḥ'])(oun|an|in|ou|a|i|â|î|oû)?$/);
+      if(m) out = out.slice(0, out.length-m[0].length) + m[1]+m[1]+(m[2]||"");
+      i++; continue;
+    }
+    if(c==="\u0652"){ i++; lastVowel=""; continue; } // soukoun
+    if(V[c]){ out+=V[c]; lastVowel=V[c]; i++; continue; }
+    if(c==="\u0670"){ // alif suscrit : allonge la fatha précédente
+      if(lastVowel==="a") out=out.slice(0,-1)+"â"; else out+="â";
+      lastVowel="â"; i++; continue; }
+    if(c==="آ"){ out+="'â"; lastVowel="â"; i++; continue; }
+    if(c==="ى"){ out+="â"; lastVowel="â"; i++; continue; }
+    if(c==="ا"){
+      if(lastVowel==="a"){ out=out.slice(0,-1)+"â"; lastVowel="â"; }
+      else if(out===""||out.endsWith(" ")){ out+="a"; lastVowel="a"; }
+      i++; continue;
+    }
+    if(c==="و" && !V[nx] && nx!=="\u0651" && lastVowel==="ou"){ out=out.slice(0,-2)+"oû"; lastVowel="oû"; i++; continue; }
+    if(c==="ي" && !V[nx] && nx!=="\u0651" && lastVowel==="i"){ out=out.slice(0,-1)+"î"; lastVowel="î"; i++; continue; }
+    if(c==="ة"){ out += lastVowel? "h":"a"; lastVowel=""; i++; continue; }
+    if(TL[c]!==undefined){ out+=TL[c]; lastVowel=""; i++; continue; }
+    i++;
+  }
+  out = out.replace(/(th|kh|dh|ch|gh|[a-zʿṣḍṭẓḥ])\1\1/g,"$1$1");            // lll → ll
+  out = out.replace(/(^| )al(?=[a-zʿṣḍṭẓḥ])/g,"$1al-");                        // article al-
+  out = out.replace(/al-(th|kh|dh|ch|gh|[bdfhjklmnqrstwyzʿṣḍṭẓḥ])\1/g,(m,c)=>"a"+c+"-"+c); // lettres solaires
+  out = out.replace(/al-lah/g,"allâh").replace(/lil-lah/g,"lillâh");            // Allah
+  return out;
+}
+
+/* ================= AUDIO ================= */
+/* 1) Versets : récitation authentique (Al-Husary via everyayah.com, nécessite internet)
+   2) Lettres / syllabes / mots : synthèse vocale du système (approximative mais utile) */
+let arVoice=null;
+function pickArVoice(){ try{ const vs=speechSynthesis.getVoices(); arVoice=vs.find(v=>(v.lang||"").toLowerCase().startsWith("ar"))||null; }catch(e){} }
+if("speechSynthesis" in window){ pickArVoice(); try{ speechSynthesis.onvoiceschanged=pickArVoice; }catch(e){} }
+function speak(txt){
+  if(!("speechSynthesis" in window)){ showGloss("","Synthèse vocale non disponible sur cet appareil"); return; }
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(txt);
+    if(arVoice) u.voice=arVoice;
+    u.lang="ar-SA"; u.rate=0.65;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+let ayahAudio=null;
+function playAyah(surahNum, ayahNum){
+  const pad=n=>String(n).padStart(3,"0");
+  const srcs=["https://everyayah.com/data/Husary_128kbps/","https://everyayah.com/data/Alafasy_128kbps/"];
+  if(ayahAudio){ try{ ayahAudio.pause(); }catch(e){} }
+  let i=0;
+  const tryPlay=()=>{
+    ayahAudio=new Audio(srcs[i]+pad(surahNum)+pad(ayahNum)+".mp3");
+    ayahAudio.onerror=()=>{ i++; if(i<srcs.length) tryPlay(); else showGloss("","Audio indisponible — vérifie ta connexion"); };
+    ayahAudio.play().catch(()=>showGloss("","Audio indisponible — vérifie ta connexion"));
+  };
+  tryPlay();
+}
+function stopAyah(){ if(ayahAudio){ try{ ayahAudio.pause(); }catch(e){} } }
+
+/* ================= OUTILS UI ================= */
+const $ = sel=>document.querySelector(sel);
+const view = $("#view");
+function esc(t){ return String(t).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function seededPick(seed, arr, frac){ // choix déterministe de mots à masquer
+  let x = seed*2654435761 % 4294967296; const n = Math.max(1, Math.round(arr.length*frac)); const idxs=new Set();
+  let guard=0;
+  while(idxs.size<n && guard<500){ x = (x*1103515245+12345)%2147483648; idxs.add(x%arr.length); guard++; }
+  return idxs;
+}
+function updateHeader(){
+  $("#hdr-phase").textContent = "Phase "+phase();
+  $("#hdr-streak").textContent = "🔥 "+S.streak;
+  $("#hdr-day").textContent = "Jour "+S.day+" / 90";
+  $("#hdr-bar").style.width = Math.max(1,(S.day/90*100))+"%";
+}
+let glossTimer=null;
+function showGloss(ar, fr){
+  const g=$("#gloss");
+  g.innerHTML = '<span class="ar">'+esc(ar)+'</span>'+(ar? '<span style="opacity:.75;font-size:.8rem">'+esc(translit(ar))+'</span><br>':'')+esc(fr);
+  g.classList.add("show");
+  clearTimeout(glossTimer);
+  glossTimer=setTimeout(()=>g.classList.remove("show"), 2200);
+}
+
+/* ================= VUES ================= */
+let currentView = "home";
+function go(v, arg){
+  currentView=v;
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active", b.dataset.v===v));
+  window.scrollTo(0,0);
+  ({home:renderHome, alphabet:renderAlphabet, surahs:renderSurahs, vocab:renderVocab, tajwid:renderTajwid, session:renderSession, surahDetail:renderSurahDetail})[v](arg);
+  updateHeader();
+}
+
+/* ---------- Accueil ---------- */
+function renderHome(){
+  const p = phase();
+  const doneToday = S.lastDone===todayStr() && S.completedDays[S.day-1];
+  const sd = surahForDay(S.day);
+  const taj = tajwidForDay(S.day);
+  const dueL = srsDue("L:").length, dueV = srsDue("V:").length, dueS = srsDue("S:").length;
+  let objectif;
+  if(p===1){
+    objectif = S.day<=14
+      ? "Deux nouvelles lettres : <b class='ar' style='font-size:1.5rem'>"+LETTERS[(S.day-1)*2].g+" "+LETTERS[(S.day-1)*2+1].g+"</b>"
+      : "<b>"+esc(P1_TOPICS[S.day].t)+"</b>";
+    if(sd && sd.s.kursi) objectif += " + un segment d'<b>Âyat al-Koursî</b>";
+  } else if(sd){
+    objectif = "Sourate <b>"+esc(sd.s.name)+"</b> ("+esc(sd.s.fr)+")" + (taj? " + Tajwid : <b>"+esc(taj.t)+"</b>":"");
+  } else {
+    objectif = "<b>Révision générale</b> : sourates + vocabulaire + Tajwid";
+  }
+  const minutes = isWeekend()? "25-30 min (weekend : bloc étendu)":"≈ 15 min";
+  view.innerHTML = `
+    <div class="stats-row">
+      <div class="stat"><div class="v">${S.streak}</div><div class="l">jours de suite</div></div>
+      <div class="stat"><div class="v">${S.day<=30? lettersIntroducedByDay(S.day)+"/28":Object.keys(S.surahStage).length+"/"+SURAHS.length}</div><div class="l">${S.day<=30?"lettres":"sourates"}</div></div>
+      <div class="stat"><div class="v">${vocabUnlockedCount()}</div><div class="l">mots débloqués</div></div>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Aujourd'hui — Jour ${S.day} · Phase ${p} · ${minutes}</div>
+      <h2>${p===1?"Alphabet & lecture":"Consolidation & mémorisation"}</h2>
+      <p>${objectif}</p>
+      ${(dueL+dueV+dueS)>0? `<p class="muted small" style="margin-top:6px">À réviser : ${dueL?dueL+" lettre(s) ":""}${dueV?dueV+" mot(s) ":""}${dueS?dueS+" sourate(s)":""}</p>`:""}
+      <div class="btn-row">
+        <button class="btn ${doneToday?'ghost':''}" onclick="startSession()">${doneToday? "Refaire la session ↺":"Commencer la session ▸"}</button>
+      </div>
+      ${doneToday && S.day<90? `<div class="btn-row"><button class="btn gold" onclick="nextDay()">Passer au jour ${S.day+1} ▸▸</button></div>`:""}
+    </div>
+    ${sd? surahCardHTML(sd.idx):""}
+    <div class="card">
+      <div class="eyebrow">Sauvegarde</div>
+      <p class="small">Ta progression s'enregistre automatiquement à chaque action. Pour la protéger ou la transférer sur un autre appareil / navigateur :</p>
+      <div class="btn-row">
+        <button class="btn secondary" onclick="exportProgress()">⬇ Exporter</button>
+        <button class="btn secondary" onclick="document.getElementById('imp-file').click()">⬆ Importer</button>
+      </div>
+      <input type="file" id="imp-file" accept=".json,application/json" style="display:none" onchange="importProgress(this)">
+      <p class="muted small" style="margin-top:8px">L'export crée un petit fichier <b>iqra90-progression.json</b> (dans Fichiers sur iPad). L'import le recharge à l'identique : jour, streak, maîtrise, sourates.</p>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Le programme en un coup d'œil</div>
+      <p class="small"><b>Phase 1 (j. 1-30)</b> : 2 lettres/jour avec leurs harakat et formes attachées, syllabes dès le jour 2, écriture des lettres au doigt (tracé guidé), premiers mots du Coran dès le jour 3, puis signes (soukoun, chadda, tanwîn, madd) et lecture de la Fâtiha.</p>
+      <p class="small" style="margin-top:6px"><b>Phase 2 (j. 31-90)</b> : 16 sourates mémorisées avec sens mot-à-mot, 10 leçons de Tajwid, ${VOCAB.length} mots de vocabulaire débloqués progressivement, répétition espacée sur tout ce qui a été vu.</p>
+    </div>`;
+}
+function surahCardHTML(idx){
+  const s=SURAHS[idx]; const stage=S.surahStage[idx]||0;
+  const labels=["Découverte","Lecture + sens","Masquage 30 %","Masquage 60 %","Rappel complet"];
+  return `<div class="card">
+    <div class="eyebrow">Sourate en cours</div>
+    <div class="list-item" style="border:none;padding:4px 0">
+      <div><b>${esc(s.name)}</b> — ${esc(s.fr)}<div class="muted small">n°${s.num} · ${s.vv.length} versets · étape : ${labels[Math.min(stage,4)]}</div></div>
+      <span class="ar" style="font-size:1.7rem">${esc(s.arName)}</span>
+    </div>
+    <div class="progressbar"><div style="width:${Math.min(100,stage/4*100)}%"></div></div>
+    <div class="btn-row"><button class="btn secondary small-btn" onclick="go('surahDetail',${idx})">Ouvrir la sourate</button></div>
+  </div>`;
+}
+function nextDay(){ if(S.day<90){ S.day++; S.sessionStep=0; store.save(); go("home"); } }
+
+/* ---------- Alphabet (référence) ---------- */
+function renderAlphabet(){
+  const known = lettersIntroducedByDay(S.day);
+  let tiles = LETTERS.map((l,i)=>{
+    const locked = i>=known && phase()===1;
+    return `<div class="letter-tile ${locked?'locked':''}" ${locked?'':'onclick="openLetter('+i+')"'}>
+      <div class="g">${l.g}</div><div class="n">${esc(l.n)}</div>
+      <div class="m"><div style="width:${locked?0:mastery('L:'+i)}%"></div></div>
+    </div>`;
+  }).join("");
+  view.innerHTML = `
+    <div class="card"><div class="eyebrow">Référence</div><h2>Les 28 lettres</h2>
+    <p class="muted small">Touche une lettre pour voir ses formes, son son et des exemples.</p>
+    <p class="muted small" style="margin-top:6px"><b>La barre verte</b> = ton niveau de répétition espacée (0 à 6). Elle monte à chaque flashcard ou QCM réussi (+1 correct, +2 facile) et redescend en cas d'erreur. Comme les révisions sont espacées sur plusieurs jours, elle se remplit sur la durée — une barre pleine signifie ≈ 6 réussites étalées dans le temps, pas 6 réussites d'affilée. C'est voulu : c'est la preuve que la lettre est ancrée.</p>
+    <div class="btn-row"><button class="btn secondary small-btn" onclick="freePractice()">Révision libre (lettres les plus faibles) ▸</button></div></div>
+    <div class="letter-grid">${tiles}</div>
+    <div class="card" style="margin-top:14px"><div class="eyebrow">Signes & harakat</div>
+      <div class="harakat-row">
+        <div class="harakat-cell"><div class="f">بَ</div><div class="t">fatha « a »</div></div>
+        <div class="harakat-cell"><div class="f">بِ</div><div class="t">kasra « i »</div></div>
+        <div class="harakat-cell"><div class="f">بُ</div><div class="t">damma « ou »</div></div>
+        <div class="harakat-cell"><div class="f">بْ</div><div class="t">soukoun</div></div>
+      </div>
+      <div class="harakat-row">
+        <div class="harakat-cell"><div class="f">بّ</div><div class="t">chadda (double)</div></div>
+        <div class="harakat-cell"><div class="f">بً</div><div class="t">tanwîn « an »</div></div>
+        <div class="harakat-cell"><div class="f">بٍ</div><div class="t">tanwîn « in »</div></div>
+        <div class="harakat-cell"><div class="f">بٌ</div><div class="t">tanwîn « oun »</div></div>
+      </div>
+    </div>`;
+}
+function openLetter(i){
+  const l=LETTERS[i], f=letterForms(l.g);
+  openModal(`
+    <div class="big-ar">${l.g}</div>
+    <h2 style="text-align:center">${esc(l.n)} <span class="muted">(${esc(l.tr)})</span></h2>
+    <p style="margin-top:8px">${l.son}</p>
+    <p class="muted small" style="margin-top:6px">🇹🇳 ${l.tn}</p>
+    <h3>Formes selon la position</h3>
+    <div class="forms-row">
+      <div class="form-cell"><div class="f">${f.iso}</div><div class="t">isolée</div></div>
+      <div class="form-cell"><div class="f">${f.ini}</div><div class="t">initiale</div></div>
+      <div class="form-cell"><div class="f">${f.med}</div><div class="t">médiane</div></div>
+      <div class="form-cell"><div class="f">${f.fin}</div><div class="t">finale</div></div>
+    </div>
+    ${NO_CONNECT.has(l.g)? '<p class="muted small" style="margin-top:8px">⚠️ Cette lettre ne s\'attache jamais à la lettre qui la suit.</p>':""}
+    <h3>Avec les voyelles <button class="spk" onclick="speak('${l.g+HARAKAT.fatha}. ${l.g+HARAKAT.kasra}. ${l.g+HARAKAT.damma}')">🔊</button></h3>
+    <div class="harakat-row">
+      <div class="harakat-cell"><div class="f">${l.g+HARAKAT.fatha}</div><div class="t">${esc(l.tr)}a</div></div>
+      <div class="harakat-cell"><div class="f">${l.g+HARAKAT.kasra}</div><div class="t">${esc(l.tr)}i</div></div>
+      <div class="harakat-cell"><div class="f">${l.g+HARAKAT.damma}</div><div class="t">${esc(l.tr)}ou</div></div>
+      <div class="harakat-cell"><div class="f">${l.g+HARAKAT.sukun}</div><div class="t">${esc(l.tr)} (fermée)</div></div>
+    </div>
+    <h3>Écriture</h3>
+    <p class="small">✍️ ${esc(l.ecr)}</p>
+    ${traceHTML("modal", i)}`);
+  initTrace("modal", i);
+}
+function openModal(html){
+  const bg=document.createElement("div"); bg.className="modal-bg";
+  bg.innerHTML = `<div class="modal"><button class="modal-close" aria-label="Fermer">✕</button>${html}</div>`;
+  bg.addEventListener("click", e=>{ if(e.target===bg||e.target.classList.contains("modal-close")) bg.remove(); });
+  document.body.appendChild(bg);
+}
+
+/* ---------- Sourates ---------- */
+function renderSurahs(){
+  const order = SURAHS.map((s,i)=>({s,i})).sort((a,b)=>a.s.d1-b.s.d1);
+  const items = order.map(({s,i})=>{
+    const locked = S.day < s.d1;
+    const stage = S.surahStage[i]||0;
+    const pill = locked? '<span class="pill grey">j. '+s.d1+'</span>'
+      : stage>=4? '<span class="pill green">mémorisée ✓</span>'
+      : stage>0? '<span class="pill gold">étape '+stage+'/4</span>'
+      : '<span class="pill gold">en cours</span>';
+    return `<div class="list-item" ${locked?'style="opacity:.45"':'onclick="go(\'surahDetail\','+i+')"'} role="button">
+      <div><b>${esc(s.name)}</b> <span class="muted small">· ${esc(s.fr)} · ${s.kursi? "Al-Baqara 2:255 · 9 segments" : "n°"+s.num+" · "+s.vv.length+" v."}</span><div style="margin-top:4px">${pill}</div></div>
+      <span class="ar">${esc(s.arName)}</span>
+    </div>`;
+  }).join("");
+  view.innerHTML = `
+    <div class="card"><div class="eyebrow">Phase 2 · Mémorisation</div><h2>Sourates & Âyat al-Koursî</h2>
+    <p class="muted small">Ordre pédagogique classique de Jouz' 'Amma (+ Al-Fâtiha en premier, et Âyat al-Koursî dès le jour 10, en phase 1). Chaque sourate se travaille en 4 étapes : lecture + sens, masquage 30 %, masquage 60 %, rappel complet.</p></div>
+    <div class="card" style="padding:6px 18px">${items}</div>`;
+}
+
+/* ---------- Détail sourate : lecture, mot-à-mot, mémorisation ---------- */
+let memMode = 0; // 0 lecture, 1..3 masquage croissant
+function renderSurahDetail(idx){
+  const s=SURAHS[idx]; memMode = 0;
+  view.innerHTML = `
+    <div class="card">
+      <div class="eyebrow">${s.kursi? "Al-Baqara 2:255":"Sourate "+s.num} · ${esc(s.fr)}</div>
+      <h2>${esc(s.name)} <span class="ar" style="font-size:1.6rem">${esc(s.arName)}</span></h2>
+      <div class="btn-row" style="flex-wrap:wrap">
+        <button class="btn ghost small-btn" id="mm0" onclick="setMem(${idx},0)">Lecture</button>
+        <button class="btn ghost small-btn" id="mm1" onclick="setMem(${idx},1)">Masque 30 %</button>
+        <button class="btn ghost small-btn" id="mm2" onclick="setMem(${idx},2)">Masque 60 %</button>
+        <button class="btn ghost small-btn" id="mm3" onclick="setMem(${idx},3)">Rappel 90 %</button>
+      </div>
+      <p class="muted small" style="margin-top:8px">Touche un mot : son sens s'affiche (mode lecture) ou il se révèle (mode masqué).${s.kursi? " Verset unique découpé en 9 segments numérotés pour mémoriser bloc par bloc.":""}</p>
+    </div>
+    <div id="mushaf-holder"></div>
+    <div class="card">
+      <div class="eyebrow">Mot à mot</div>
+      <div id="ww-holder"></div>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Auto-évaluation</div>
+      <p class="small">Après ta récitation (à voix haute !), note-toi honnêtement — cela règle la répétition espacée.</p>
+      <div class="grade-row">
+        <button class="btn grade-again" onclick="gradeSurah(${idx},0)">À revoir</button>
+        <button class="btn grade-good" onclick="gradeSurah(${idx},1)">Bien</button>
+        <button class="btn grade-easy" onclick="gradeSurah(${idx},2)">Parfait</button>
+      </div>
+    </div>
+    <button class="btn secondary" onclick="go('surahs')">← Toutes les sourates</button>`;
+  setMem(idx,0);
+  renderWW(idx);
+}
+function setMem(idx, mode){
+  memMode=mode;
+  for(let m=0;m<4;m++){ const b=$("#mm"+m); if(b){ b.classList.toggle("gold", m===mode); b.classList.toggle("ghost", m!==mode);} }
+  const s=SURAHS[idx];
+  const fracs=[0,.3,.6,.9];
+  let html = '<div class="mushaf">';
+  html += s.kursi? '<div style="text-align:center;margin-bottom:8px"><button class="btn ghost small-btn" onclick="playAyah(2,255)">🔊 Écouter le verset (Al-Husary)</button></div>'
+                 : '<div style="text-align:center;margin-bottom:8px" class="muted small">🔊 = récitation authentique verset par verset (internet requis)</div>';
+  html += '<div class="ar">';
+  if(s.basmala) html += '<div style="font-size:1.35rem;color:var(--green-dark);margin-bottom:8px">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>';
+  s.vv.forEach((v,vi)=>{
+    const masked = mode>0? seededPick(idx*100+vi*7+mode, v.w, fracs[mode]) : new Set();
+    v.w.forEach((w,wi)=>{
+      const isM = masked.has(wi);
+      html += `<span class="w ${isM?'masked':''}" data-ar="${esc(w[0])}" data-fr="${esc(w[1])}" onclick="tapWord(this)">${esc(w[0])}</span> `;
+    });
+    html += `<span class="vnum">${vi+1}</span>`;
+    if(!s.kursi) html += `<button class="ayah-play" onclick="playAyah(${s.num},${vi+1})" title="Écouter (Al-Husary)">🔊</button> `;
+    else html += " ";
+  });
+  html += '</div></div>';
+  $("#mushaf-holder").innerHTML = html;
+}
+function tapWord(el){
+  if(el.classList.contains("masked")){ el.classList.remove("masked"); el.classList.add("revealed"); }
+  else showGloss(el.dataset.ar, el.dataset.fr);
+}
+function renderWW(idx){
+  const s=SURAHS[idx];
+  let html="";
+  s.vv.forEach((v,vi)=>{
+    html += `<h3>${s.kursi?"Segment":"Verset"} ${vi+1}</h3><div class="ww-grid">`+
+      v.w.map(w=>`<div class="ww-cell"><div class="a">${esc(w[0])}</div><div class="g">${esc(w[1])}</div></div>`).join("")+
+      `</div><p class="muted small" style="margin-top:6px">→ ${esc(v.tr)}</p>`;
+  });
+  $("#ww-holder").innerHTML=html;
+}
+function gradeSurah(idx, grade){
+  srsGrade("S:"+idx, grade);
+  if(grade>0){
+    const cur=S.surahStage[idx]||0;
+    S.surahStage[idx]=Math.min(4, Math.max(cur, memMode+1));
+  }
+  store.save();
+  showGloss("", grade===0? "Noté — elle reviendra vite en révision.":"Noté — étape validée ✓");
+}
+
+/* ---------- Vocabulaire ---------- */
+let vocabTheme = null;
+function renderVocab(){
+  const n = vocabUnlockedCount();
+  if(phase()===1){
+    const words = P1_WORDS.filter(w=>w.unlock<=S.day);
+    view.innerHTML = `
+      <div class="card"><div class="eyebrow">Phase 1 · Premiers mots</div><h2>Mots débloqués (${words.length}/${P1_WORDS.length})</h2>
+      <p class="muted small">Le grand vocabulaire (${VOCAB.length} mots) s'ouvre en phase 2. Ici : les mots que tu peux déjà lire avec les lettres apprises.</p></div>
+      <div class="card" style="padding:6px 18px">${words.map(w=>`<div class="list-item"><div class="small"><b>${esc(w.f)}</b><div class="muted">${translit(w.a)}</div></div><div style="display:flex;align-items:center;gap:10px"><button class="spk" onclick="speak('${esc(w.a)}')">🔊</button><span class="ar">${esc(w.a)}</span></div></div>`).join("")||'<p class="muted" style="padding:12px 0">Premier mot au jour 1 — continue !</p>'}</div>`;
+    return;
+  }
+  const themes = Object.entries(THEMES);
+  const chips = `<span class="theme-chip ${vocabTheme===null?'active':''}" onclick="setTheme(null)">Tous</span>`+
+    themes.map(([k,v])=>`<span class="theme-chip ${vocabTheme===k?'active':''}" onclick="setTheme('${k}')">${esc(v)}</span>`).join("");
+  const list = VOCAB.slice(0,n)
+    .map((w,i)=>({w,i}))
+    .filter(o=>vocabTheme===null || o.w[3]===vocabTheme)
+    .map(o=>{
+      const m = mastery("V:"+o.i);
+      return `<div class="list-item">
+        <div><div class="small"><b>${esc(o.w[1])}</b> <span class="muted">· ${translit(o.w[0])}</span></div><div class="muted small">${esc(THEMES[o.w[3]]||o.w[3])} · ${esc(o.w[2])} · maîtrise ${m}%</div></div>
+        <div style="display:flex;align-items:center;gap:10px"><button class="spk" onclick="speak('${esc(o.w[0]).replace(/'/g,"\\'")}')">🔊</button><span class="ar">${esc(o.w[0])}</span></div>
+      </div>`;
+    }).join("");
+  view.innerHTML = `
+    <div class="card"><div class="eyebrow">Phase 2 · Vocabulaire coranique</div><h2>${n} / ${VOCAB.length} mots débloqués</h2>
+    <div class="progressbar"><div style="width:${n/VOCAB.length*100}%"></div></div>
+    <p class="muted small" style="margin-top:8px">Classés par fréquence dans le Coran, tagués par thème, chaque mot avec une référence (sourate:verset). Nouveaux mots chaque jour, révisés en session.</p>
+    <div style="margin-top:10px">${chips}</div></div>
+    <div class="card" style="padding:6px 18px">${list||'<p class="muted" style="padding:12px 0">Aucun mot dans ce thème pour l\'instant.</p>'}</div>`;
+}
+function setTheme(t){ vocabTheme=t; renderVocab(); }
+
+/* ---------- Tajwid ---------- */
+function renderTajwid(){
+  const unlocked = tajwidUnlocked();
+  const items = TAJWID.map(t=>{
+    const open = t.day<=S.day;
+    return `<div class="list-item" ${open?'onclick="openTajwid('+t.day+')"':'style="opacity:.45"'} role="button">
+      <div><b>${esc(t.t)}</b><div class="muted small">${open? "Leçon du jour "+t.day:"Se débloque au jour "+t.day}</div></div>
+      ${open?'<span class="pill green">lire ▸</span>':'<span class="pill grey">🔒</span>'}
+    </div>`;
+  }).join("");
+  view.innerHTML = `
+    <div class="card"><div class="eyebrow">Phase 2 · Règles de récitation</div><h2>Tajwid — ${unlocked.length}/${TAJWID.length} leçons</h2>
+    <p class="muted small">Une règle à la fois, toujours illustrée par les sourates que tu es en train de mémoriser : noûn sâkinah & tanwîn, mîm sâkinah, madd, qalqalah.</p></div>
+    <div class="card" style="padding:6px 18px">${items}</div>`;
+}
+function openTajwid(day){
+  const t=TAJWID.find(x=>x.day===day);
+  openModal(`<div class="eyebrow">Tajwid · jour ${t.day}</div><h2>${esc(t.t)}</h2>
+    <p style="margin-top:8px">${t.body}</p>
+    ${t.ex.map(e=>`<div class="taj-ex"><div class="ar">${e.ar}</div><div class="note">${esc(e.note)}</div></div>`).join("")}`);
+}
+
+/* ================= ÉCRITURE : traçage sur canvas ================= */
+const TRACE = {};
+function traceHTML(uid, letterIdx){
+  const f = letterForms(LETTERS[letterIdx].g);
+  return `
+  <div class="form-tabs" id="ft-${uid}">
+    <button class="on" onclick="traceForm('${uid}','iso')">${f.iso}</button>
+    <button onclick="traceForm('${uid}','ini')">${f.ini}</button>
+    <button onclick="traceForm('${uid}','med')">${f.med}</button>
+    <button onclick="traceForm('${uid}','fin')">${f.fin}</button>
+  </div>
+  <div class="trace-wrap" id="tw-${uid}">
+    <canvas id="tpl-${uid}"></canvas>
+    <canvas id="ink-${uid}"></canvas>
+  </div>
+  <div class="dir-hint">← sens de l'écriture : commence à DROITE, les points en dernier</div>
+  <div class="trace-tools">
+    <button class="btn ghost small-btn" onclick="traceClear('${uid}')">Effacer ↺</button>
+    <button class="btn ghost small-btn" id="tm-${uid}" onclick="traceModel('${uid}')">Masquer le modèle</button>
+    <button class="btn ghost small-btn" id="pb-${uid}" onclick="togglePen('${uid}')">✍️ Stylet seul : OFF</button>
+  </div>`;
+}
+function initTrace(uid, letterIdx){
+  const wrap = document.getElementById("tw-"+uid);
+  if(!wrap) return;
+  const tpl = document.getElementById("tpl-"+uid), ink = document.getElementById("ink-"+uid);
+  const dpr = window.devicePixelRatio||1;
+  const W = wrap.clientWidth||320, H = wrap.clientHeight||250;
+  [tpl,ink].forEach(c=>{ c.width=W*dpr; c.height=H*dpr; });
+  let tctx=null, ictx=null;
+  try{ tctx=tpl.getContext("2d"); ictx=ink.getContext("2d",{desynchronized:true}); }catch(e){}
+  if(!tctx||!ictx) return;
+  tctx.scale(dpr,dpr); ictx.scale(dpr,dpr);
+  TRACE[uid] = {letterIdx, form:"iso", showModel:true, W, H, tctx, ictx, drawing:false, penId:null};
+  drawTemplate(uid);
+  // Dessin : stylet (Apple Pencil), souris ou doigt — avec rejet de paume.
+  // Dès qu'un stylet est détecté, seuls les traits "pen" dessinent : la paume (touch) est ignorée.
+  let rect=null;
+  const pos = e=>({x:e.clientX-rect.left, y:e.clientY-rect.top});
+  const accepts = e=>{
+    if(e.pointerType==="pen"){ if(!S.penSeen){ S.penSeen=true; store.save(); updatePenBadge(uid); } return true; }
+    return !(S.penSeen && e.pointerType==="touch"); // paume rejetée en mode stylet
+  };
+  const INK="#0E5B47";
+  ink.addEventListener("pointerdown", e=>{
+    e.preventDefault();
+    if(!accepts(e)) return;
+    const t=TRACE[uid]; t.drawing=true; t.penId=e.pointerId;
+    rect = ink.getBoundingClientRect(); // calculé une fois par trait, pas à chaque point
+    const p=pos(e); t.lx=p.x; t.ly=p.y;
+    // point visible immédiatement (indispensable pour les points des lettres : ب ت ن ...)
+    ictx.fillStyle=INK; ictx.beginPath(); ictx.arc(p.x,p.y,3.5,0,Math.PI*2); ictx.fill();
+    try{ ink.setPointerCapture(e.pointerId); }catch(err){} });
+  ink.addEventListener("pointermove", e=>{
+    const t=TRACE[uid]; if(!t.drawing || e.pointerId!==t.penId) return;
+    e.preventDefault();
+    if(!accepts(e)) return;
+    // on ne dessine QUE les nouveaux segments (plus de re-tracé complet → zéro latence),
+    // et on récupère tous les points intermédiaires du stylet (120 Hz sur iPad)
+    const evs = (e.getCoalescedEvents && e.getCoalescedEvents().length)? e.getCoalescedEvents() : [e];
+    ictx.strokeStyle=INK; ictx.lineWidth=7; ictx.lineCap="round"; ictx.lineJoin="round";
+    ictx.beginPath(); ictx.moveTo(t.lx,t.ly);
+    for(const ev of evs){ const p=pos(ev); ictx.lineTo(p.x,p.y); t.lx=p.x; t.ly=p.y; }
+    ictx.stroke(); });
+  const stop = e=>{ const t=TRACE[uid]; if(t && (!e || e.pointerId===t.penId)){ t.drawing=false; t.penId=null; } };
+  ink.addEventListener("pointerup", stop); ink.addEventListener("pointercancel", stop);
+  // bloque le défilement/gestes de la paume sur toute la zone
+  ["touchstart","touchmove"].forEach(ev=> wrap.addEventListener(ev, e=>{ if(S.penSeen) e.preventDefault(); }, {passive:false}));
+  updatePenBadge(uid);
+}
+function updatePenBadge(uid){
+  const b=document.getElementById("pb-"+uid); if(!b) return;
+  b.textContent = S.penSeen? "✍️ Stylet seul : ON":"✍️ Stylet seul : OFF";
+  b.title = "En mode stylet, le doigt et la paume ne dessinent plus";
+}
+function togglePen(uid){ S.penSeen=!S.penSeen; store.save(); updatePenBadge(uid); }
+function drawTemplate(uid){
+  const t=TRACE[uid]; if(!t) return;
+  const {tctx,W,H}=t;
+  tctx.clearRect(0,0,W,H);
+  // ligne d'écriture
+  tctx.strokeStyle="#D8CBAB"; tctx.lineWidth=1.5;
+  tctx.setLineDash([6,6]);
+  tctx.beginPath(); tctx.moveTo(14, H*0.62); tctx.lineTo(W-14, H*0.62); tctx.stroke();
+  tctx.setLineDash([]);
+  if(!t.showModel) return;
+  const f = letterForms(LETTERS[t.letterIdx].g)[t.form];
+  tctx.fillStyle="#E3D7B8";
+  tctx.font = "150px "+getComputedStyle(document.documentElement).getPropertyValue("--ar-font");
+  tctx.textAlign="center"; tctx.textBaseline="alphabetic";
+  tctx.fillText(f, W/2, H*0.62);
+}
+function traceForm(uid, form){
+  const t=TRACE[uid]; if(!t) return;
+  t.form=form; drawTemplate(uid); traceClearInk(uid);
+  const tabs = document.querySelectorAll("#ft-"+uid+" button");
+  const order=["iso","ini","med","fin"];
+  tabs.forEach((b,i)=> b.classList.toggle("on", order[i]===form));
+}
+function traceClearInk(uid){ const t=TRACE[uid]; if(t) t.ictx.clearRect(0,0,t.W,t.H); }
+function traceClear(uid){ traceClearInk(uid); }
+function traceModel(uid){
+  const t=TRACE[uid]; if(!t) return;
+  t.showModel=!t.showModel; drawTemplate(uid);
+  const b=document.getElementById("tm-"+uid);
+  if(b) b.textContent = t.showModel? "Masquer le modèle":"Afficher le modèle";
+}
+
+/* ================= RÉVISION LIBRE (hors session, ne compte pas le jour) ================= */
+function freePractice(){
+  const known = lettersIntroducedByDay(S.day);
+  if(known===0){ showGloss("","Commence d'abord la session du jour 1 !"); return; }
+  const ids = [...Array(known).keys()].sort((a,b)=>srsGet("L:"+a).lvl-srsGet("L:"+b).lvl).slice(0,8);
+  sess = {steps:[{k:"flash", ids},{k:"practiceEnd"}], i:0, flashI:0, qcmDone:0, qcmTarget:0};
+  go("session");
+}
+
+/* ================= MOTEUR DE SESSION ================= */
+let sess = null;
+function startSession(){ sess = buildSession(); S.sessionStep=0; go("session"); }
+
+function buildSession(){
+  const d=S.day, steps=[];
+  const wk = isWeekend();
+  if(phase()===1){
+    if(d<=14){
+      steps.push({k:"intro", letters:[(d-1)*2,(d-1)*2+1]});
+      steps.push({k:"write", ids:[(d-1)*2,(d-1)*2+1]});
+    } else {
+      steps.push({k:"lesson", topic:P1_TOPICS[d]});
+      const known1 = lettersIntroducedByDay(d);
+      const weak = [...Array(known1).keys()].sort((a,b)=>srsGet("L:"+a).lvl-srsGet("L:"+b).lvl).slice(0,2);
+      steps.push({k:"write", ids:weak});
+    }
+    const due = srsDue("L:", wk?10:6).map(o=>parseInt(o.id.slice(2)));
+    const fresh = d<=14? [(d-1)*2,(d-1)*2+1] : [];
+    const flashIds = [...new Set([...fresh, ...due])];
+    if(flashIds.length) steps.push({k:"flash", ids:flashIds});
+    steps.push({k:"qcm", n: wk?6:4});
+    steps.push({k:"read"});
+    const sd1 = surahForDay(d);
+    if(sd1 && sd1.s.kursi){
+      const stage = Math.min(3, Math.floor(sd1.rel*3.5));
+      steps.push({k:"memo", idx:sd1.idx, mode:stage});
+    }
+  } else {
+    const taj = tajwidForDay(d);
+    if(taj) steps.push({k:"tajwid", taj});
+    const sd = surahForDay(d);
+    if(sd){
+      const stage = Math.min(3, Math.floor(sd.rel*3.5));
+      steps.push({k:"memo", idx:sd.idx, mode:stage});
+    } else {
+      const weakest = SURAHS.map((s,i)=>({i,lvl:srsGet("S:"+i).lvl})).sort((a,b)=>a.lvl-b.lvl).slice(0,2);
+      weakest.forEach(w=> steps.push({k:"memo", idx:w.i, mode:3}));
+    }
+    const dueS = srsDue("S:", wk?2:1).map(o=>parseInt(o.id.slice(2))).filter(i=>!sd||i!==sd.idx);
+    dueS.forEach(i=> steps.push({k:"memo", idx:i, mode:2, review:true}));
+    steps.push({k:"vocabNew"});
+    steps.push({k:"vocabQuiz", n: wk?8:5});
+    if(wk && sd) steps.push({k:"readExt", idx:Math.max(0,sd.idx-1)});
+  }
+  steps.push({k:"done"});
+  return {steps, i:0, flashI:0, writeI:0, qcmDone:0, qcmTarget:0};
+}
+function nextStep(){ sess.i++; renderSession(); }
+
+function renderSession(){
+  if(!sess){ startSession(); return; }
+  const st = sess.steps[sess.i];
+  const dots = sess.steps.map((s,j)=>`<span class="${j<sess.i?'done':j===sess.i?'cur':''}"></span>`).join("");
+  const head = `<div class="step-head"><div class="eyebrow" style="margin:0">Session · jour ${S.day}</div><div class="step-dots">${dots}</div></div>`;
+
+  if(st.k==="intro"){
+    const cards = st.letters.map(i=>{
+      const l=LETTERS[i], f=letterForms(l.g);
+      return `<div class="card">
+        <div class="big-ar">${l.g}</div>
+        <h2 style="text-align:center">${esc(l.n)} <span class="muted">(${esc(l.tr)})</span></h2>
+        <p>${l.son}</p><p class="muted small" style="margin-top:4px">🇹🇳 ${l.tn}</p>
+        <div class="forms-row">
+          <div class="form-cell"><div class="f">${f.iso}</div><div class="t">isolée</div></div>
+          <div class="form-cell"><div class="f">${f.ini}</div><div class="t">initiale</div></div>
+          <div class="form-cell"><div class="f">${f.med}</div><div class="t">médiane</div></div>
+          <div class="form-cell"><div class="f">${f.fin}</div><div class="t">finale</div></div>
+        </div>
+        <div class="harakat-row">
+          <div class="harakat-cell"><div class="f">${l.g+HARAKAT.fatha}</div><div class="t">${esc(l.tr)}a</div></div>
+          <div class="harakat-cell"><div class="f">${l.g+HARAKAT.kasra}</div><div class="t">${esc(l.tr)}i</div></div>
+          <div class="harakat-cell"><div class="f">${l.g+HARAKAT.damma}</div><div class="t">${esc(l.tr)}ou</div></div>
+          <div class="harakat-cell"><div class="f">${l.g+HARAKAT.sukun}</div><div class="t">soukoun</div></div>
+        </div>
+        <button class="btn ghost small-btn" style="margin-top:10px" onclick="speak('${l.g+HARAKAT.fatha}. ${l.g+HARAKAT.kasra}. ${l.g+HARAKAT.damma}')">🔊 Écouter ${esc(l.tr)}a · ${esc(l.tr)}i · ${esc(l.tr)}ou</button>
+      </div>`;
+    }).join("");
+    view.innerHTML = head + `<div class="card" style="padding:12px 18px"><b>Deux nouvelles lettres.</b> <span class="muted small">Prononce chaque forme à voix haute, 3 fois.</span></div>` + cards +
+      `<button class="btn" onclick="nextStep()">J'ai bien observé ▸</button>`;
+    return;
+  }
+
+  if(st.k==="lesson"){
+    view.innerHTML = head + `<div class="card"><div class="eyebrow">Leçon du jour</div><h2>${esc(st.topic.t)}</h2><p style="margin-top:8px">${st.topic.body}</p></div>
+      <button class="btn" onclick="nextStep()">Compris ▸</button>`;
+    return;
+  }
+
+  if(st.k==="tajwid"){
+    view.innerHTML = head + `<div class="card"><div class="eyebrow">Nouvelle règle de Tajwid</div><h2>${esc(st.taj.t)}</h2><p style="margin-top:8px">${st.taj.body}</p>
+      ${st.taj.ex.map(e=>`<div class="taj-ex"><div class="ar">${e.ar}</div><div class="note">${esc(e.note)}</div></div>`).join("")}</div>
+      <button class="btn" onclick="nextStep()">Compris ▸</button>`;
+    return;
+  }
+
+  if(st.k==="write"){
+    if(sess.writeI>=st.ids.length){ sess.writeI=0; nextStep(); return; }
+    const i = st.ids[sess.writeI];
+    const l = LETTERS[i];
+    view.innerHTML = head + `
+      <div class="card">
+        <div class="eyebrow">Écriture ${sess.writeI+1}/${st.ids.length} — ${esc(l.n)}</div>
+        <h2>Trace la lettre <span class="ar" style="font-size:1.9rem">${l.g}</span> au doigt</h2>
+        <p class="small" style="margin-top:6px">✍️ ${esc(l.ecr)}</p>
+        ${traceHTML("sess", i)}
+        <p class="muted small" style="margin-top:8px">Repasse sur le modèle 3-4 fois par forme, puis masque le modèle et écris de mémoire. Change de forme avec les onglets (isolée → initiale → médiane → finale).</p>
+      </div>
+      <button class="btn" onclick="sess.writeI++;renderSession()">${sess.writeI+1<st.ids.length? "Lettre suivante ▸":"Écriture terminée ▸"}</button>`;
+    initTrace("sess", i);
+    return;
+  }
+
+
+  if(st.k==="flash"){
+    if(sess.flashI>=st.ids.length){ sess.flashI=0; nextStep(); return; }
+    const i = st.ids[sess.flashI];
+    const l=LETTERS[i], f=letterForms(l.g);
+    view.innerHTML = head + `
+      <div class="card" style="padding:10px 18px"><span class="muted small">Flashcard ${sess.flashI+1}/${st.ids.length} — quelle est cette lettre ? Touche pour retourner.</span></div>
+      <div class="flash" id="flash" onclick="flipFlash()">
+        <div id="flash-front"><div class="big-ar">${l.g}</div><div class="hint">toucher pour voir la réponse</div></div>
+        <div id="flash-back" style="display:none">
+          <h2>${esc(l.n)} <span class="muted">(${esc(l.tr)})</span></h2>
+          <p class="small" style="margin-top:6px">${l.son}</p>
+          <div class="mid-ar" style="text-align:center;margin-top:8px">${f.iso} · ${f.ini} · ${f.med} · ${f.fin}</div>
+          <button class="btn ghost small-btn" style="margin-top:10px" onclick="event.stopPropagation();speak('${l.g+HARAKAT.fatha}. ${l.g+HARAKAT.kasra}. ${l.g+HARAKAT.damma}')">🔊 Écouter</button>
+        </div>
+      </div>
+      <div class="grade-row" id="flash-grades" style="visibility:hidden">
+        <button class="btn grade-again" onclick="gradeFlash(${i},0)">Raté</button>
+        <button class="btn grade-good" onclick="gradeFlash(${i},1)">Correct</button>
+        <button class="btn grade-easy" onclick="gradeFlash(${i},2)">Facile</button>
+      </div>`;
+    return;
+  }
+
+  if(st.k==="qcm"){
+    if(sess.qcmTarget===0){ sess.qcmTarget=st.n; sess.qcmDone=0; }
+    if(sess.qcmDone>=sess.qcmTarget){ sess.qcmTarget=0; nextStep(); return; }
+    const known = lettersIntroducedByDay(S.day);
+    const pool = shuffle([...Array(known).keys()]);
+    const answer = pool[0];
+    const opts = shuffle(pool.slice(0,4));
+    const l=LETTERS[answer];
+    view.innerHTML = head + `
+      <div class="card"><div class="eyebrow">QCM ${sess.qcmDone+1}/${sess.qcmTarget}</div>
+      <h2>Quelle lettre fait ce son ?</h2>
+      <p>« ${esc(l.son)} »</p>
+      <div class="qcm-opts">${opts.map(o=>`<button class="qcm-opt" data-i="${o}" onclick="answerQCM(this,${answer})">${LETTERS[o].g}</button>`).join("")}</div>
+      </div>`;
+    return;
+  }
+
+  if(st.k==="read"){
+    const known = lettersIntroducedByDay(S.day);
+    let items=[];
+    if(P1_READING[S.day]) items = P1_READING[S.day];
+    else {
+      const cons = [...Array(known).keys()].filter(i=>!["ا","و","ي"].includes(LETTERS[i].g));
+      const picks = shuffle(cons).slice(0,4);
+      const H=[HARAKAT.fatha,HARAKAT.kasra,HARAKAT.damma];
+      picks.forEach(p=>{
+        const h1=H[Math.floor(Math.random()*3)];
+        items.push(LETTERS[p].g+h1);
+        if(known>=4){
+          const q=cons[Math.floor(Math.random()*cons.length)];
+          items.push(LETTERS[p].g+h1+LETTERS[q].g+H[Math.floor(Math.random()*3)]);
+        }
+      });
+      P1_WORDS.filter(w=>w.unlock<=S.day).slice(-4).forEach(w=>items.push(w.a));
+    }
+    view.innerHTML = head + `
+      <div class="card"><div class="eyebrow">Lecture à voix haute</div>
+      <h2>Lis chaque élément, lentement puis d'un trait</h2>
+      <div class="mushaf" style="margin-top:10px"><div class="ar" style="font-size:2.1rem;line-height:2.6">${items.map((x,xi)=>`<span style="white-space:nowrap">${esc(x)}<button class="ayah-play" onclick="speak('${esc(x).replace(/'/g,"\\'")}')" title="Écouter">🔊</button></span>`).join(" &nbsp; ")}</div><div id="phon-line" class="muted small" style="display:none;text-align:center;direction:ltr;margin-top:8px">${items.map(x=>translit(x)).join(" · ")}</div></div>
+      <p class="muted small" style="margin-top:10px">Lis d'abord À VOIX HAUTE, puis vérifie avec 🔊 (voix de synthèse, approximative — les versets des sourates ont eux la vraie récitation). <button class="btn ghost small-btn" onclick="const e=document.getElementById('phon-line');e.style.display=e.style.display==='none'?'block':'none'">Voir la phonétique</button></p></div>
+      <div class="grade-row">
+        <button class="btn grade-again" onclick="gradeRead(0)">Difficile</button>
+        <button class="btn grade-easy" onclick="gradeRead(2)">Fluide</button>
+      </div>`;
+    return;
+  }
+
+  if(st.k==="memo"){
+    const s=SURAHS[st.idx];
+    const modes=["Lecture + sens","Masquage 30 %","Masquage 60 %","Rappel 90 %"];
+    view.innerHTML = head + `
+      <div class="card" style="padding:12px 18px"><b>${st.review?"Révision":"Mémorisation"} — ${esc(s.name)}</b> <span class="muted small">· ${modes[st.mode]} · récite à voix haute, touche un mot masqué pour le révéler</span></div>
+      <div id="mushaf-holder"></div>
+      <div class="grade-row">
+        <button class="btn grade-again" onclick="gradeMemoStep(${st.idx},0)">À revoir</button>
+        <button class="btn grade-good" onclick="gradeMemoStep(${st.idx},1)">Bien</button>
+        <button class="btn grade-easy" onclick="gradeMemoStep(${st.idx},2)">Parfait</button>
+      </div>`;
+    memMode = st.mode;
+    setMemInline(st.idx, st.mode);
+    return;
+  }
+
+  if(st.k==="vocabNew"){
+    const rate = Math.ceil(VOCAB.length/60);
+    const end = vocabUnlockedCount();
+    const start = Math.max(0, end-rate);
+    const news = VOCAB.slice(start,end);
+    view.innerHTML = head + `
+      <div class="card"><div class="eyebrow">Vocabulaire — ${news.length} nouveaux mots</div>
+      ${news.map((w,j)=>`<div class="list-item"><div><b class="small">${esc(w[1])}</b> <span class="muted small">· ${translit(w[0])}</span><div class="muted small">${esc(THEMES[w[3]]||w[3])} · ${esc(w[2])}</div></div><div style="display:flex;align-items:center;gap:10px"><button class="spk" onclick="speak('${esc(w[0]).replace(/'/g,"\\'")}')">🔊</button><span class="ar">${esc(w[0])}</span></div></div>`).join("")}
+      </div>
+      <button class="btn" onclick="markVocabSeen(${end});nextStep()">Vus ▸</button>`;
+    return;
+  }
+
+  if(st.k==="vocabQuiz"){
+    if(sess.qcmTarget===0){ sess.qcmTarget=st.n; sess.qcmDone=0; }
+    if(sess.qcmDone>=sess.qcmTarget){ sess.qcmTarget=0; nextStep(); return; }
+    const n = vocabUnlockedCount();
+    if(n<4){ nextStep(); return; }
+    const due = srsDue("V:").map(o=>parseInt(o.id.slice(2))).filter(i=>i<n);
+    const pool = due.length? due : shuffle([...Array(n).keys()]);
+    const answer = pool[Math.floor(Math.random()*Math.min(pool.length,10))];
+    let optIdx = new Set([answer]);
+    while(optIdx.size<4) optIdx.add(Math.floor(Math.random()*n));
+    const opts = shuffle([...optIdx]);
+    view.innerHTML = head + `
+      <div class="card"><div class="eyebrow">Quiz vocabulaire ${sess.qcmDone+1}/${sess.qcmTarget}</div>
+      <div class="big-ar" style="font-size:3.2rem">${esc(VOCAB[answer][0])}</div>
+      <p class="muted small" style="text-align:center">${translit(VOCAB[answer][0])} · ${esc(VOCAB[answer][2])} <button class="spk" onclick="speak('${esc(VOCAB[answer][0]).replace(/'/g,"\\'")}')">🔊</button></p>
+      <div class="qcm-opts">${opts.map(o=>`<button class="qcm-opt fr" onclick="answerVocab(this,${o},${answer})">${esc(VOCAB[o][1])}</button>`).join("")}</div>
+      </div>`;
+    return;
+  }
+
+  if(st.k==="readExt"){
+    const s=SURAHS[st.idx];
+    view.innerHTML = head + `
+      <div class="card" style="padding:12px 18px"><b>Lecture étendue (weekend)</b> <span class="muted small">— relis ${esc(s.name)} en entier, en appliquant la dernière règle de Tajwid vue.</span></div>
+      <div id="mushaf-holder"></div>
+      <button class="btn" onclick="nextStep()">Lecture faite ▸</button>`;
+    setMemInline(st.idx, 0);
+    return;
+  }
+
+  if(st.k==="practiceEnd"){
+    view.innerHTML = `<div class="card done-splash"><div class="big">💪</div>
+      <h2>Révision libre terminée</h2>
+      <p class="muted" style="margin-top:6px">Les barres de maîtrise ont été mises à jour. Cette révision ne compte pas comme la session du jour.</p>
+      <div class="btn-row"><button class="btn secondary" onclick="go('alphabet')">Retour à l'alphabet</button></div></div>`;
+    return;
+  }
+
+  if(st.k==="done"){
+    finishSession();
+    const doneAll = S.day>=90;
+    view.innerHTML = `
+      <div class="card done-splash">
+        <div class="big">${doneAll?"🏆":"⭐"}</div>
+        <h2>${doneAll? "Programme terminé — 90 jours !":"Session du jour "+S.day+" terminée"}</h2>
+        <p class="muted" style="margin-top:6px">${doneAll? "Tu lis le Coran. Continue les révisions pour entretenir tes sourates.":"Streak : "+S.streak+" jour"+(S.streak>1?"s":"")+" 🔥"}</p>
+        ${!doneAll? `<div class="btn-row"><button class="btn gold" onclick="nextDay()">Passer au jour ${S.day+1} ▸▸</button></div>`:""}
+        <div class="btn-row"><button class="btn secondary" onclick="go('home')">Retour à l'accueil</button></div>
+      </div>`;
+    return;
+  }
+}
+function setMemInline(idx, mode){
+  const s=SURAHS[idx];
+  const fracs=[0,.3,.6,.9];
+  let html = '<div class="mushaf">';
+  html += s.kursi? '<div style="text-align:center;margin-bottom:8px"><button class="btn ghost small-btn" onclick="playAyah(2,255)">🔊 Écouter le verset (Al-Husary)</button></div>'
+                 : '<div style="text-align:center;margin-bottom:8px" class="muted small">🔊 = récitation authentique verset par verset (internet requis)</div>';
+  html += '<div class="ar">';
+  if(s.basmala) html += '<div style="font-size:1.35rem;color:var(--green-dark);margin-bottom:8px">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>';
+  s.vv.forEach((v,vi)=>{
+    const masked = mode>0? seededPick(idx*100+vi*7+mode, v.w, fracs[mode]) : new Set();
+    v.w.forEach((w,wi)=>{
+      html += `<span class="w ${masked.has(wi)?'masked':''}" data-ar="${esc(w[0])}" data-fr="${esc(w[1])}" onclick="tapWord(this)">${esc(w[0])}</span> `;
+    });
+    html += `<span class="vnum">${vi+1}</span>`;
+    if(!s.kursi) html += `<button class="ayah-play" onclick="playAyah(${s.num},${vi+1})" title="Écouter (Al-Husary)">🔊</button> `;
+    else html += " ";
+  });
+  html += '</div></div>';
+  $("#mushaf-holder").innerHTML = html;
+}
+function flipFlash(){
+  $("#flash-front").style.display="none";
+  $("#flash-back").style.display="block";
+  $("#flash-grades").style.visibility="visible";
+}
+function gradeFlash(i, g){ srsGrade("L:"+i, g); sess.flashI++; renderSession(); }
+function answerQCM(el, answer){
+  const chosen = parseInt(el.dataset.i);
+  document.querySelectorAll(".qcm-opt").forEach(b=>b.onclick=null);
+  if(chosen===answer){ el.classList.add("good"); srsGrade("L:"+answer,1); }
+  else{
+    el.classList.add("bad");
+    document.querySelectorAll(".qcm-opt").forEach(b=>{ if(parseInt(b.dataset.i)===answer) b.classList.add("good"); });
+    srsGrade("L:"+answer,0);
+  }
+  sess.qcmDone++;
+  setTimeout(renderSession, 900);
+}
+function answerVocab(el, chosen, answer){
+  document.querySelectorAll(".qcm-opt").forEach(b=>b.onclick=null);
+  if(chosen===answer){ el.classList.add("good"); srsGrade("V:"+answer,1); }
+  else{
+    el.classList.add("bad");
+    document.querySelectorAll(".qcm-opt").forEach((b,bi)=>{ if(b.textContent===VOCAB[answer][1]) b.classList.add("good"); });
+    srsGrade("V:"+answer,0);
+  }
+  sess.qcmDone++;
+  setTimeout(renderSession, 900);
+}
+function gradeRead(g){
+  const known = lettersIntroducedByDay(S.day);
+  if(g===0){ for(let i=Math.max(0,known-4);i<known;i++) srsGrade("L:"+i,0); }
+  nextStep();
+}
+function gradeMemoStep(idx, g){
+  srsGrade("S:"+idx, g);
+  if(g>0) S.surahStage[idx]=Math.min(4, Math.max(S.surahStage[idx]||0, memMode+1));
+  store.save();
+  nextStep();
+}
+function markVocabSeen(end){
+  const rate = Math.ceil(VOCAB.length/60);
+  for(let i=Math.max(0,end-rate);i<end;i++){ if(!S.srs["V:"+i]) S.srs["V:"+i]={lvl:0,due:addDays(todayStr(),1)}; }
+  store.save();
+}
+function finishSession(){
+  const t = todayStr();
+  if(!S.completedDays[S.day]){
+    S.completedDays[S.day]=true;
+    if(S.lastDone){
+      const gap = Math.round((new Date(t)-new Date(S.lastDone))/86400000);
+      S.streak = gap===0? S.streak : gap===1? S.streak+1 : 1;
+    } else S.streak = 1;
+    S.lastDone = t;
+    if(S.day<=14) S.seenLetters = Math.max(S.seenLetters, S.day*2);
+    store.save();
+  }
+  updateHeader();
+}
+
+/* ================= SAUVEGARDE : EXPORT / IMPORT ================= */
+function exportProgress(){
+  const data = JSON.stringify(S, null, 1);
+  const blob = new Blob([data], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "iqra90-progression-"+todayStr()+".json";
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  showGloss("","Export créé — garde ce fichier précieusement ✓");
+}
+function importProgress(input){
+  const f = input.files && input.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const d = JSON.parse(r.result);
+      if(typeof d.day!=="number" || typeof d.srs!=="object") throw new Error("format");
+      S = Object.assign({}, JSON.parse(JSON.stringify(DEFAULT_STATE)), d);
+      store.save();
+      go("home");
+      showGloss("","Progression restaurée ✓ — jour "+S.day+", streak "+S.streak);
+    }catch(e){ showGloss("","Fichier invalide — utilise un export Iqra' 90"); }
+    input.value="";
+  };
+  r.readAsText(f);
+}
+
+/* ================= INIT ================= */
+document.getElementById("nav").addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(b) go(b.dataset.v);
+});
+(async function init(){
+  const saved = await store.load();
+  if(saved) S = Object.assign({}, DEFAULT_STATE, saved);
+  go("home");
+})();
+</script>
+</body>
+</html>
