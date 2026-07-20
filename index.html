@@ -1210,40 +1210,29 @@ function initTrace(uid, letterIdx){
     return !(S.penSeen && e.pointerType==="touch"); // paume rejetée en mode stylet
   };
   const INK="#0E5B47";
-  const BASE_W=3.4; // trait fin et net, style plume
-  const widthFor=e=>{
-    const pr=(e.pointerType==="pen" && e.pressure>0)? e.pressure : .55;
-    return BASE_W*(0.55 + pr*1.1); // pression du Pencil → pleins et déliés
-  };
+  const invalidateRect=()=>{ rect=null; };
+  window.addEventListener("scroll", invalidateRect, {passive:true});
+  window.addEventListener("resize", invalidateRect);
+  const freshPos=e=>{ if(!rect) rect=ink.getBoundingClientRect(); return pos(e); };
   ink.addEventListener("pointerdown", e=>{
     e.preventDefault();
     if(!accepts(e)) return;
     const t=TRACE[uid]; t.drawing=true; t.penId=e.pointerId;
-    rect = ink.getBoundingClientRect(); // calculé une fois par trait
-    const p=pos(e); t.lx=p.x; t.ly=p.y; t.mx=p.x; t.my=p.y; t.lw=widthFor(e);
+    rect = ink.getBoundingClientRect(); // position exacte au début de chaque trait
+    const p=pos(e); t.lx=p.x; t.ly=p.y;
     // point visible immédiatement (les points des lettres : ب ت ن ...)
-    ictx.fillStyle=INK; ictx.beginPath(); ictx.arc(p.x,p.y,t.lw*0.7,0,Math.PI*2); ictx.fill();
+    ictx.fillStyle=INK; ictx.beginPath(); ictx.arc(p.x,p.y,2.5,0,Math.PI*2); ictx.fill();
     try{ ink.setPointerCapture(e.pointerId); }catch(err){} });
   ink.addEventListener("pointermove", e=>{
     const t=TRACE[uid]; if(!t.drawing || e.pointerId!==t.penId) return;
     e.preventDefault();
     if(!accepts(e)) return;
-    // segments seulement (zéro latence) + tous les points 120 Hz du Pencil,
-    // tracés en courbes quadratiques par points milieux → traits lisses, sans facettes
+    // segments seulement (zéro latence) + tous les points 120 Hz du Pencil
     const evs = (e.getCoalescedEvents && e.getCoalescedEvents().length)? e.getCoalescedEvents() : [e];
-    ictx.strokeStyle=INK; ictx.lineCap="round"; ictx.lineJoin="round";
-    for(const ev of evs){
-      const p=pos(ev);
-      const mx=(t.lx+p.x)/2, my=(t.ly+p.y)/2;
-      const w=widthFor(ev);
-      t.lw = t.lw + (w-t.lw)*0.35; // lissage de l'épaisseur (pas de sauts)
-      ictx.lineWidth=t.lw;
-      ictx.beginPath();
-      ictx.moveTo(t.mx,t.my);
-      ictx.quadraticCurveTo(t.lx,t.ly,mx,my);
-      ictx.stroke();
-      t.mx=mx; t.my=my; t.lx=p.x; t.ly=p.y;
-    } });
+    ictx.strokeStyle=INK; ictx.lineWidth=5; ictx.lineCap="round"; ictx.lineJoin="round";
+    ictx.beginPath(); ictx.moveTo(t.lx,t.ly);
+    for(const ev of evs){ const p=freshPos(ev); ictx.lineTo(p.x,p.y); t.lx=p.x; t.ly=p.y; }
+    ictx.stroke(); });
   const stop = e=>{ const t=TRACE[uid]; if(t && (!e || e.pointerId===t.penId)){ t.drawing=false; t.penId=null; } };
   ink.addEventListener("pointerup", stop); ink.addEventListener("pointercancel", stop);
   // bloque le défilement/gestes de la paume sur toute la zone
