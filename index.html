@@ -241,6 +241,8 @@ mark{background:var(--gold-soft);border-radius:4px;padding:0 2px}
 .form-tabs{display:flex;gap:6px;margin-top:10px;direction:rtl}
 .form-tabs button{flex:1;background:var(--paper2);border-radius:10px;padding:7px 2px;font-family:var(--ar-font);font-size:1.35rem;line-height:1.4;border:2px solid transparent}
 .form-tabs button.on{border-color:var(--green);background:#E7F2EA}
+.ft-l{display:block;font-size:.55rem;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;text-transform:uppercase;letter-spacing:.06em;color:#7a8680;margin-top:2px}
+.form-tabs .on .ft-l{color:inherit}
 .dir-hint{font-size:.75rem;color:var(--gold);font-weight:700;text-align:center;margin-top:6px;letter-spacing:.05em}
 
 /* ---------- Modal ---------- */
@@ -808,6 +810,33 @@ function playAyah(surahNum, ayahNum){
   tryPlay();
 }
 function stopAyah(){ if(ayahAudio){ try{ ayahAudio.pause(); }catch(e){} } }
+/* Lecture d'un passage du verset 2:255 : repères proportionnels à la longueur du texte
+   (récitation Husary très régulière → repère fiable à ±1-2 s, avec une marge avant/après) */
+let segTimer=null;
+function playKursiSeg(i){
+  const s = SURAHS.find(x=>x.kursi); if(!s) return;
+  const lens = s.vv.map(v=>v.w.reduce((a,w)=>a+w[0].length,0));
+  const total = lens.reduce((a,b)=>a+b,0);
+  let acc=0; const starts=lens.map(l=>{ const st=acc/total; acc+=l; return st; });
+  const endF = (i+1<lens.length)? starts[i+1] : 1;
+  const pad=n=>String(n).padStart(3,"0");
+  const srcs=["https://everyayah.com/data/Husary_128kbps/","https://everyayah.com/data/Alafasy_128kbps/"];
+  if(ayahAudio){ try{ ayahAudio.pause(); }catch(e){} }
+  clearTimeout(segTimer);
+  let k=0;
+  const tryPlay=()=>{
+    ayahAudio=new Audio(srcs[k]+"002255.mp3");
+    ayahAudio.onerror=()=>{ k++; if(k<srcs.length) tryPlay(); else showGloss("","Audio indisponible — vérifie ta connexion"); };
+    ayahAudio.onloadedmetadata=()=>{
+      const d=ayahAudio.duration;
+      ayahAudio.currentTime=Math.max(0, d*starts[i] - 0.8);
+      const stopAt = Math.min(d, d*endF + 0.6);
+      ayahAudio.ontimeupdate=()=>{ if(ayahAudio.currentTime>=stopAt) ayahAudio.pause(); };
+      ayahAudio.play().catch(()=>showGloss("","Audio indisponible — vérifie ta connexion"));
+    };
+  };
+  tryPlay();
+}
 
 /* ================= OUTILS UI ================= */
 const $ = sel=>document.querySelector(sel);
@@ -953,10 +982,10 @@ function openLetter(i){
     <p class="muted small" style="margin-top:6px">🇹🇳 ${l.tn}</p>
     <h3>Formes selon la position</h3>
     <div class="forms-row">
-      <div class="form-cell"><div class="f">${f.iso}</div><div class="t">isolée</div></div>
-      <div class="form-cell"><div class="f">${f.ini}</div><div class="t">initiale</div></div>
-      <div class="form-cell"><div class="f">${f.med}</div><div class="t">médiane</div></div>
-      <div class="form-cell"><div class="f">${f.fin}</div><div class="t">finale</div></div>
+      <div class="form-cell"><div class="f">${f.iso}</div><div class="t">séparée</div></div>
+      <div class="form-cell"><div class="f">${f.ini}</div><div class="t">début</div></div>
+      <div class="form-cell"><div class="f">${f.med}</div><div class="t">milieu</div></div>
+      <div class="form-cell"><div class="f">${f.fin}</div><div class="t">fin</div></div>
     </div>
     ${NO_CONNECT.has(l.g)? '<p class="muted small" style="margin-top:8px">⚠️ Cette lettre ne s\'attache jamais à la lettre qui la suit.</p>':""}
     <h3>Avec les voyelles <button class="spk" onclick="speak('${l.g+HARAKAT.fatha}. ${l.g+HARAKAT.kasra}. ${l.g+HARAKAT.damma}')">🔊</button></h3>
@@ -1040,7 +1069,7 @@ function setMem(idx, mode){
   const s=SURAHS[idx];
   const fracs=[0,.3,.6,.9];
   let html = '<div class="mushaf">';
-  html += s.kursi? '<div style="text-align:center;margin-bottom:8px"><button class="btn ghost small-btn" onclick="playAyah(2,255)">🔊 Écouter le verset (Al-Husary)</button></div>'
+  html += s.kursi? '<div style="text-align:center;margin-bottom:8px"><button class="btn ghost small-btn" onclick="playAyah(2,255)">🔊 Verset entier (Al-Husary)</button><div class="muted small" style="margin-top:4px">🔊 par segment : repère dans la récitation, à ±2 s près</div></div>'
                  : '<div style="text-align:center;margin-bottom:8px" class="muted small">🔊 = récitation authentique verset par verset (internet requis)</div>';
   html += '<div class="ar">';
   if(s.basmala) html += '<div style="font-size:1.35rem;color:var(--green-dark);margin-bottom:8px">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>';
@@ -1051,8 +1080,8 @@ function setMem(idx, mode){
       html += `<span class="w ${isM?'masked':''}" data-ar="${esc(w[0])}" data-fr="${esc(w[1])}" onclick="tapWord(this)">${esc(w[0])}</span> `;
     });
     html += `<span class="vnum">${vi+1}</span>`;
-    if(!s.kursi) html += `<button class="ayah-play" onclick="playAyah(${s.num},${vi+1})" title="Écouter (Al-Husary)">🔊</button> `;
-    else html += " ";
+    html += s.kursi? `<button class="ayah-play" onclick="playKursiSeg(${vi})" title="Écouter ce segment (repère approximatif)">🔊</button> `
+                   : `<button class="ayah-play" onclick="playAyah(${s.num},${vi+1})" title="Écouter (Al-Husary)">🔊</button> `;
   });
   html += '</div></div>';
   $("#mushaf-holder").innerHTML = html;
@@ -1143,10 +1172,10 @@ function traceHTML(uid, letterIdx){
   const f = letterForms(LETTERS[letterIdx].g);
   return `
   <div class="form-tabs" id="ft-${uid}">
-    <button class="on" onclick="traceForm('${uid}','iso')">${f.iso}</button>
-    <button onclick="traceForm('${uid}','ini')">${f.ini}</button>
-    <button onclick="traceForm('${uid}','med')">${f.med}</button>
-    <button onclick="traceForm('${uid}','fin')">${f.fin}</button>
+    <button class="on" onclick="traceForm('${uid}','iso')">${f.iso}<span class="ft-l">Séparée</span></button>
+    <button onclick="traceForm('${uid}','ini')">${f.ini}<span class="ft-l">Début</span></button>
+    <button onclick="traceForm('${uid}','med')">${f.med}<span class="ft-l">Milieu</span></button>
+    <button onclick="traceForm('${uid}','fin')">${f.fin}<span class="ft-l">Fin</span></button>
   </div>
   <div class="trace-wrap" id="tw-${uid}">
     <canvas id="tpl-${uid}"></canvas>
@@ -1181,26 +1210,40 @@ function initTrace(uid, letterIdx){
     return !(S.penSeen && e.pointerType==="touch"); // paume rejetée en mode stylet
   };
   const INK="#0E5B47";
+  const BASE_W=3.4; // trait fin et net, style plume
+  const widthFor=e=>{
+    const pr=(e.pointerType==="pen" && e.pressure>0)? e.pressure : .55;
+    return BASE_W*(0.55 + pr*1.1); // pression du Pencil → pleins et déliés
+  };
   ink.addEventListener("pointerdown", e=>{
     e.preventDefault();
     if(!accepts(e)) return;
     const t=TRACE[uid]; t.drawing=true; t.penId=e.pointerId;
-    rect = ink.getBoundingClientRect(); // calculé une fois par trait, pas à chaque point
-    const p=pos(e); t.lx=p.x; t.ly=p.y;
-    // point visible immédiatement (indispensable pour les points des lettres : ب ت ن ...)
-    ictx.fillStyle=INK; ictx.beginPath(); ictx.arc(p.x,p.y,3.5,0,Math.PI*2); ictx.fill();
+    rect = ink.getBoundingClientRect(); // calculé une fois par trait
+    const p=pos(e); t.lx=p.x; t.ly=p.y; t.mx=p.x; t.my=p.y; t.lw=widthFor(e);
+    // point visible immédiatement (les points des lettres : ب ت ن ...)
+    ictx.fillStyle=INK; ictx.beginPath(); ictx.arc(p.x,p.y,t.lw*0.7,0,Math.PI*2); ictx.fill();
     try{ ink.setPointerCapture(e.pointerId); }catch(err){} });
   ink.addEventListener("pointermove", e=>{
     const t=TRACE[uid]; if(!t.drawing || e.pointerId!==t.penId) return;
     e.preventDefault();
     if(!accepts(e)) return;
-    // on ne dessine QUE les nouveaux segments (plus de re-tracé complet → zéro latence),
-    // et on récupère tous les points intermédiaires du stylet (120 Hz sur iPad)
+    // segments seulement (zéro latence) + tous les points 120 Hz du Pencil,
+    // tracés en courbes quadratiques par points milieux → traits lisses, sans facettes
     const evs = (e.getCoalescedEvents && e.getCoalescedEvents().length)? e.getCoalescedEvents() : [e];
-    ictx.strokeStyle=INK; ictx.lineWidth=7; ictx.lineCap="round"; ictx.lineJoin="round";
-    ictx.beginPath(); ictx.moveTo(t.lx,t.ly);
-    for(const ev of evs){ const p=pos(ev); ictx.lineTo(p.x,p.y); t.lx=p.x; t.ly=p.y; }
-    ictx.stroke(); });
+    ictx.strokeStyle=INK; ictx.lineCap="round"; ictx.lineJoin="round";
+    for(const ev of evs){
+      const p=pos(ev);
+      const mx=(t.lx+p.x)/2, my=(t.ly+p.y)/2;
+      const w=widthFor(ev);
+      t.lw = t.lw + (w-t.lw)*0.35; // lissage de l'épaisseur (pas de sauts)
+      ictx.lineWidth=t.lw;
+      ictx.beginPath();
+      ictx.moveTo(t.mx,t.my);
+      ictx.quadraticCurveTo(t.lx,t.ly,mx,my);
+      ictx.stroke();
+      t.mx=mx; t.my=my; t.lx=p.x; t.ly=p.y;
+    } });
   const stop = e=>{ const t=TRACE[uid]; if(t && (!e || e.pointerId===t.penId)){ t.drawing=false; t.penId=null; } };
   ink.addEventListener("pointerup", stop); ink.addEventListener("pointercancel", stop);
   // bloque le défilement/gestes de la paume sur toute la zone
@@ -1318,10 +1361,10 @@ function renderSession(){
         <h2 style="text-align:center">${esc(l.n)} <span class="muted">(${esc(l.tr)})</span></h2>
         <p>${l.son}</p><p class="muted small" style="margin-top:4px">🇹🇳 ${l.tn}</p>
         <div class="forms-row">
-          <div class="form-cell"><div class="f">${f.iso}</div><div class="t">isolée</div></div>
-          <div class="form-cell"><div class="f">${f.ini}</div><div class="t">initiale</div></div>
-          <div class="form-cell"><div class="f">${f.med}</div><div class="t">médiane</div></div>
-          <div class="form-cell"><div class="f">${f.fin}</div><div class="t">finale</div></div>
+          <div class="form-cell"><div class="f">${f.iso}</div><div class="t">séparée</div></div>
+          <div class="form-cell"><div class="f">${f.ini}</div><div class="t">début</div></div>
+          <div class="form-cell"><div class="f">${f.med}</div><div class="t">milieu</div></div>
+          <div class="form-cell"><div class="f">${f.fin}</div><div class="t">fin</div></div>
         </div>
         <div class="harakat-row">
           <div class="harakat-cell"><div class="f">${l.g+HARAKAT.fatha}</div><div class="t">${esc(l.tr)}a</div></div>
@@ -1362,7 +1405,7 @@ function renderSession(){
           <div>
             <h2>Trace la lettre <span class="ar" style="font-size:1.9rem">${l.g}</span></h2>
             <p class="small" style="margin-top:6px">✍️ ${esc(l.ecr)}</p>
-            <p class="muted small" style="margin-top:8px">Repasse sur le modèle 3-4 fois par forme, puis masque-le et écris de mémoire. Onglets : isolée → initiale → médiane → finale.</p>
+            <p class="muted small" style="margin-top:8px">Repasse sur le modèle 3-4 fois par forme, puis masque-le et écris de mémoire. Onglets : séparée → début → milieu → fin.</p>
           </div>
         </div>
       </div>
@@ -1529,7 +1572,7 @@ function setMemInline(idx, mode){
   const s=SURAHS[idx];
   const fracs=[0,.3,.6,.9];
   let html = '<div class="mushaf">';
-  html += s.kursi? '<div style="text-align:center;margin-bottom:8px"><button class="btn ghost small-btn" onclick="playAyah(2,255)">🔊 Écouter le verset (Al-Husary)</button></div>'
+  html += s.kursi? '<div style="text-align:center;margin-bottom:8px"><button class="btn ghost small-btn" onclick="playAyah(2,255)">🔊 Verset entier (Al-Husary)</button><div class="muted small" style="margin-top:4px">🔊 par segment : repère dans la récitation, à ±2 s près</div></div>'
                  : '<div style="text-align:center;margin-bottom:8px" class="muted small">🔊 = récitation authentique verset par verset (internet requis)</div>';
   html += '<div class="ar">';
   if(s.basmala) html += '<div style="font-size:1.35rem;color:var(--green-dark);margin-bottom:8px">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>';
@@ -1539,8 +1582,8 @@ function setMemInline(idx, mode){
       html += `<span class="w ${masked.has(wi)?'masked':''}" data-ar="${esc(w[0])}" data-fr="${esc(w[1])}" onclick="tapWord(this)">${esc(w[0])}</span> `;
     });
     html += `<span class="vnum">${vi+1}</span>`;
-    if(!s.kursi) html += `<button class="ayah-play" onclick="playAyah(${s.num},${vi+1})" title="Écouter (Al-Husary)">🔊</button> `;
-    else html += " ";
+    html += s.kursi? `<button class="ayah-play" onclick="playKursiSeg(${vi})" title="Écouter ce segment (repère approximatif)">🔊</button> `
+                   : `<button class="ayah-play" onclick="playAyah(${s.num},${vi+1})" title="Écouter (Al-Husary)">🔊</button> `;
   });
   html += '</div></div>';
   $("#mushaf-holder").innerHTML = html;
