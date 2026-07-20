@@ -1,0 +1,16 @@
+{
+  "name": "Iqra' 90 — Apprendre à lire le Coran",
+  "short_name": "Iqra' 90",
+  "description": "90 jours pour apprendre à lire le Coran : alphabet, sourates, Tajwid, vocabulaire.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0E5B47",
+  "theme_color": "#0E5B47",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
