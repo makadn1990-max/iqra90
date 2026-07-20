@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,7 +39,7 @@
   --grade-bg:rgba(247,241,227,.85);
 }
 @media(prefers-color-scheme:dark){
-  :root{
+  :root[data-theme="auto"]{
     --paper:#101915; --paper2:#1B2822; --card:#16221C; --trace-bg:#131F19;
     --ink:#EAE3D2; --rule:#2A3830; --mushaf-b:#132018;
     --ok-bg:#1D3B2D; --bad-bg:#442721; --muted:#9AA8A0;
@@ -48,6 +48,15 @@
     --grade-bg:rgba(19,30,25,.85);
     --shadow:0 2px 12px rgba(0,0,0,.45);
   }
+}
+:root[data-theme="dark"]{
+    --paper:#101915; --paper2:#1B2822; --card:#16221C; --trace-bg:#131F19;
+    --ink:#EAE3D2; --rule:#2A3830; --mushaf-b:#132018;
+    --ok-bg:#1D3B2D; --bad-bg:#442721; --muted:#9AA8A0;
+    --gold-soft:#8A6B2A;
+    --nav-bg:rgba(16,25,21,.85); --hdr-bg:rgba(9,45,36,.92);
+    --grade-bg:rgba(19,30,25,.85);
+    --shadow:0 2px 12px rgba(0,0,0,.45);
 }
 html{color-scheme:light dark}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -75,6 +84,7 @@ header{
 .hdr-title{font-size:1.05rem;font-weight:700;letter-spacing:.02em;display:flex;align-items:center;gap:8px}
 .hdr-title .ar{font-size:1.35rem;line-height:1;color:var(--gold-soft)}
 .hdr-meta{display:flex;gap:8px;align-items:center;font-size:.8rem}
+button.badge{cursor:pointer;font-size:.85rem;line-height:1}
 .badge{
   background:rgba(246,240,224,.14);
   border:1px solid rgba(246,240,224,.28);
@@ -139,24 +149,24 @@ nav button.active{color:var(--green)}
 nav button.active .ic{transform:scale(1.1)}
 
 /* ---------- Lettres / arabe ---------- */
-.big-ar{font-family:var(--ar-font);font-size:4.6rem;line-height:1.4;text-align:center;direction:rtl}
+.big-ar{font-family:var(--ar-font);font-size:4.2rem;line-height:1.7;text-align:center;direction:rtl}
 .mid-ar{font-family:var(--ar-font);font-size:2.1rem;line-height:1.9;direction:rtl;text-align:right}
 .forms-row{display:flex;justify-content:space-around;gap:6px;margin-top:10px;direction:rtl}
 .form-cell{text-align:center;flex:1;background:var(--paper2);border-radius:10px;padding:8px 4px}
-.form-cell .f{font-family:var(--ar-font);font-size:1.9rem;line-height:1.6}
-.form-cell .t{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.form-cell .f{font-family:var(--ar-font);font-size:1.8rem;line-height:1;height:3.5rem;display:flex;align-items:center;justify-content:center}
+.form-cell .t{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;direction:ltr}
 .harakat-row{display:flex;justify-content:space-around;gap:6px;margin-top:10px;direction:rtl}
 .harakat-cell{text-align:center;flex:1;border:1px dashed var(--gold);border-radius:10px;padding:6px 2px}
-.harakat-cell .f{font-family:var(--ar-font);font-size:2rem;line-height:1.7;color:var(--green-dark)}
-.harakat-cell .t{font-size:.68rem;color:var(--muted)}
+.harakat-cell .f{font-family:var(--ar-font);font-size:1.9rem;line-height:1;height:3.6rem;display:flex;align-items:center;justify-content:center;color:var(--green-dark)}
+.harakat-cell .t{font-size:.68rem;color:var(--muted);direction:ltr}
 
 .letter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;direction:rtl}
 .letter-tile{
   background:var(--card);border:1px solid var(--rule);border-radius:12px;
   padding:8px 4px 6px;text-align:center;position:relative;
 }
-.letter-tile .g{font-family:var(--ar-font);font-size:2rem;line-height:1.5}
-.letter-tile .n{font-size:.62rem;color:var(--muted);direction:ltr}
+.letter-tile .g{font-family:var(--ar-font);font-size:1.9rem;line-height:1;height:3.7rem;display:flex;align-items:center;justify-content:center;overflow:visible}
+.letter-tile .n{font-size:.62rem;color:var(--muted);direction:ltr;position:relative;z-index:2;margin-top:2px}
 .letter-tile .m{height:4px;border-radius:99px;background:var(--paper2);margin-top:5px;overflow:hidden}
 .letter-tile .m>div{height:100%;background:var(--ok)}
 .letter-tile.locked{opacity:.35}
@@ -211,7 +221,7 @@ nav button.active .ic{transform:scale(1.1)}
 
 .ww-grid{display:flex;flex-wrap:wrap;gap:8px;direction:rtl;margin-top:8px}
 .ww-cell{background:var(--paper2);border-radius:10px;padding:6px 10px;text-align:center;flex-grow:1}
-.ww-cell .a{font-family:var(--ar-font);font-size:1.45rem;line-height:1.7}
+.ww-cell .a{font-family:var(--ar-font);font-size:1.45rem;line-height:2}
 .ww-cell .g{font-size:.68rem;color:var(--muted);direction:ltr}
 
 /* ---------- Listes ---------- */
@@ -282,9 +292,8 @@ mark{background:var(--gold-soft);border-radius:4px;padding:0 2px}
 .ring .bg{stroke:var(--paper2)}
 .ring .fg{stroke:var(--gold);stroke-linecap:round;transition:stroke-dashoffset 1s var(--ease-out)}
 .ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring-label b{font-size:1.05rem;color:var(--green)}
+.ring-label b{font-size:1.05rem;color:var(--ink)}
 .ring-label span{font-size:.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-@media(prefers-color-scheme:dark){ .ring-label b{color:var(--gold)} }
 .confetti{position:fixed;inset:0;pointer-events:none;z-index:90;overflow:hidden}
 .confetti i{position:absolute;top:-12px;width:8px;height:8px;border-radius:2px;opacity:0;animation:cfall linear forwards}
 @keyframes cfall{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(105vh) rotate(540deg)}}
@@ -340,6 +349,7 @@ main.anim .card:nth-child(4){animation-delay:.15s}
 .letter-tile{transition:transform .25s var(--ease-spring), box-shadow .25s}
 .letter-tile:active{transform:scale(.93)}
 .list-item{transition:background .2s}
+#hadith-card{transition:opacity .15s}
 .list-item:active{background:var(--paper2)}
 .modal-bg{animation:viewIn .01s; background:rgba(23,36,31,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .modal{animation:popIn .42s var(--ease-spring)}
@@ -391,6 +401,8 @@ nav button.active{transform:translateY(-2px)}
     <div class="hdr-meta">
       <span class="badge" id="hdr-phase">Phase 1</span>
       <span class="badge gold" id="hdr-streak">🔥 0</span>
+      <button class="badge" id="hdr-theme" onclick="cycleTheme()" title="Thème" aria-label="Changer de thème">◐</button>
+      <button class="badge" onclick="openBackup()" title="Sauvegarde" aria-label="Sauvegarde">⬇</button>
     </div>
   </div>
   <div class="day-ribbon">
@@ -748,6 +760,120 @@ const VOCAB = [
 ["سَلْسَبِيل","Salsabîl (source du paradis)","76:18","jug"],["كَوْثَر","abondance","108:1","jug"],["مَلَك","ange","2:102","foi"],["جِبْرِيل","Gabriel","2:97","foi"],["قَدْر","valeur, Destin","97:1","foi"],["أَلْف","mille","97:3","part"],["مِائَة","cent","2:259","part"],["سَبْع","sept","2:29","part"],["ثَلَاث","trois","2:228","part"],["وَاحِد","un seul","2:163","part"]
 ];
 
+
+/* ================= 100 HADITHS AUTHENTIQUES (Bukhari / Muslim) ================= */
+const HSRC={B:"Sahih al-Bukhari",M:"Sahih Muslim",BM:"Bukhari & Muslim"};
+const HADITHS=[
+["Les actes ne valent que par les intentions, et chacun n'a que ce qu'il a eu l'intention de faire.","'Umar ibn al-Khattab","BM"],
+["Aucun de vous ne croira vraiment tant qu'il n'aimera pas pour son frère ce qu'il aime pour lui-même.","Anas ibn Malik","BM"],
+["L'islam est bâti sur cinq : l'attestation qu'il n'y a de divinité qu'Allah et que Muhammad est Son messager, la prière, la zakat, le pèlerinage et le jeûne de Ramadan.","Ibn 'Umar","BM"],
+["Que celui qui croit en Allah et au Jour dernier dise du bien ou qu'il se taise.","Abu Hurayra","BM"],
+["Le musulman est celui dont les musulmans sont à l'abri de la langue et de la main.","'Abdullah ibn 'Amr","BM"],
+["La religion, c'est la sincérité du conseil : envers Allah, Son Livre, Son messager, les dirigeants des musulmans et l'ensemble d'entre eux.","Tamim ad-Dari","M"],
+["Allah est beau et Il aime la beauté.","Ibn Mas'ud","M"],
+["La pudeur ne produit que du bien.","'Imran ibn Husayn","BM"],
+["Le fort n'est pas celui qui terrasse les autres ; le fort est celui qui se maîtrise dans la colère.","Abu Hurayra","BM"],
+["Un homme demanda conseil au Prophète ﷺ, qui répondit : « Ne te mets pas en colère », et il le répéta plusieurs fois.","Abu Hurayra","B"],
+["Celui qui ne fait pas miséricorde aux gens, Allah ne lui fait pas miséricorde.","Jarir ibn 'Abdillah","BM"],
+["Allah ne regarde ni vos corps ni vos apparences, mais Il regarde vos cœurs et vos œuvres.","Abu Hurayra","M"],
+["Facilitez et ne rendez pas les choses difficiles ; annoncez la bonne nouvelle et ne faites pas fuir.","Anas ibn Malik","BM"],
+["Le meilleur d'entre vous est celui qui apprend le Coran et l'enseigne.","'Uthman ibn 'Affan","B"],
+["Celui qui excelle dans la récitation du Coran sera avec les nobles anges ; celui qui le récite avec difficulté en aura double récompense.","'Aisha","BM"],
+["Quiconque emprunte un chemin à la recherche d'une science, Allah lui facilite par cela un chemin vers le Paradis.","Abu Hurayra","M"],
+["Le Paradis est entouré de choses pénibles, et l'Enfer est entouré de passions.","Anas ibn Malik","M"],
+["La prière en commun surpasse la prière accomplie seul de vingt-sept degrés.","Ibn 'Umar","BM"],
+["Entre l'homme et l'associationnisme et la mécréance, il y a l'abandon de la prière.","Jabir ibn 'Abdillah","M"],
+["La purification est la moitié de la foi.","Abu Malik al-Ash'ari","M"],
+["Deux paroles légères sur la langue, lourdes dans la balance, aimées du Tout-Miséricordieux : SubhanAllahi wa bihamdih, SubhanAllahil-'Azim.","Abu Hurayra","BM"],
+["Celui qui jeûne Ramadan avec foi et en espérant la récompense, ses péchés passés lui sont pardonnés.","Abu Hurayra","BM"],
+["Quand Ramadan arrive, les portes du Paradis sont ouvertes, les portes de l'Enfer fermées, et les démons enchaînés.","Abu Hurayra","BM"],
+["La 'umrah efface les péchés commis jusqu'à la 'umrah suivante, et le hajj accepté n'a d'autre récompense que le Paradis.","Abu Hurayra","BM"],
+["Aucune fatigue, maladie, souci, tristesse, mal ni angoisse n'atteint le musulman — pas même une épine — sans qu'Allah n'efface par cela une partie de ses péchés.","Abu Sa'id et Abu Hurayra","BM"],
+["Étonnante est l'affaire du croyant : tout est bien pour lui. S'il lui arrive un bonheur, il remercie ; s'il lui arrive un malheur, il patiente — et c'est un bien pour lui.","Suhayb","M"],
+["Allah dit : « Je suis tel que Mon serviteur pense de Moi, et Je suis avec lui quand il M'invoque. »","Abu Hurayra","BM"],
+["Notre Seigneur descend chaque nuit au ciel le plus proche, au dernier tiers de la nuit : « Qui M'invoque, que Je lui réponde ? Qui Me demande, que Je lui donne ? Qui implore Mon pardon, que Je lui pardonne ? »","Abu Hurayra","BM"],
+["La main haute est meilleure que la main basse : commence par ceux dont tu as la charge.","Hakim ibn Hizam","BM"],
+["Que celui qui croit en Allah et au Jour dernier honore son voisin, et que celui qui croit en Allah et au Jour dernier honore son hôte.","Abu Hurayra","BM"],
+["Nul n'a jamais mangé de meilleure nourriture que celle du travail de ses mains.","Al-Miqdam ibn Ma'dikarib","B"],
+["La véracité mène à la piété et la piété mène au Paradis ; le mensonge mène au libertinage et le libertinage mène au Feu.","Ibn Mas'ud","BM"],
+["Gardez-vous de la suspicion, car la suspicion est le plus mensonger des propos.","Abu Hurayra","BM"],
+["Ne vous enviez pas, ne trompez pas dans les enchères, ne vous détestez pas, ne vous tournez pas le dos… et soyez, serviteurs d'Allah, des frères.","Abu Hurayra","M"],
+["Le musulman est le frère du musulman : il ne l'opprime pas et ne l'abandonne pas. Celui qui répond au besoin de son frère, Allah répond à son besoin.","Ibn 'Umar","BM"],
+["Aide ton frère, qu'il soit oppresseur ou opprimé. — Comment l'aider s'il est oppresseur ? — En l'empêchant d'opprimer.","Anas ibn Malik","B"],
+["Quiconque soulage un croyant d'une angoisse de ce monde, Allah le soulage d'une angoisse du Jour de la Résurrection.","Abu Hurayra","M"],
+["Allah vient en aide au serviteur tant que le serviteur vient en aide à son frère.","Abu Hurayra","M"],
+["Celui qui appelle à une bonne guidance a une récompense égale à celle de ceux qui le suivent, sans que rien ne diminue de leurs récompenses.","Abu Hurayra","M"],
+["Quand le fils d'Adam meurt, ses œuvres cessent, sauf trois : une aumône continue, une science utile, ou un enfant pieux qui invoque pour lui.","Abu Hurayra","M"],
+["Quiconque meurt en sachant qu'il n'y a de divinité qu'Allah entre au Paradis.","'Uthman ibn 'Affan","M"],
+["Sept personnes qu'Allah abritera sous Son ombre le jour où il n'y aura d'ombre que la Sienne — parmi elles : un jeune qui a grandi dans l'adoration d'Allah, et deux hommes qui se sont aimés en Allah.","Abu Hurayra","BM"],
+["Chaque articulation de l'homme doit une aumône chaque jour où le soleil se lève : réconcilier deux personnes est une aumône, une bonne parole est une aumône.","Abu Hurayra","BM"],
+["Écarter du chemin ce qui nuit est une aumône.","Abu Hurayra","BM"],
+["La foi compte plus de soixante-dix branches : la plus haute est de dire « il n'y a de divinité qu'Allah », la plus basse est d'écarter la nuisance du chemin. Et la pudeur est une branche de la foi.","Abu Hurayra","BM"],
+["N'entrera pas au Paradis celui qui a dans le cœur le poids d'un grain d'orgueil.","Ibn Mas'ud","M"],
+["Allah m'a révélé que vous soyez humbles, afin que nul ne s'enorgueillisse sur un autre et que nul n'opprime un autre.","'Iyad ibn Himar","M"],
+["La richesse n'est pas l'abondance de biens ; la richesse est celle de l'âme.","Abu Hurayra","BM"],
+["Regardez ceux qui sont au-dessous de vous et non ceux qui sont au-dessus : c'est plus à même de ne pas mépriser les bienfaits d'Allah sur vous.","Abu Hurayra","BM"],
+["Sois en ce monde comme un étranger ou un voyageur de passage.","Ibn 'Umar","B"],
+["Si le fils d'Adam avait une vallée d'or, il en voudrait une deuxième. Seule la terre remplira sa bouche. Et Allah accueille le repentir de qui se repent.","Anas ibn Malik","BM"],
+["Deux bienfaits que beaucoup de gens gaspillent : la santé et le temps libre.","Ibn 'Abbas","B"],
+["Le croyant n'est pas piqué deux fois du même terrier.","Abu Hurayra","BM"],
+["Celui qui porte les armes contre nous n'est pas des nôtres, et celui qui nous trompe n'est pas des nôtres.","Abu Hurayra","M"],
+["Le croyant est pour le croyant comme un édifice dont les parties se soutiennent mutuellement.","Abu Musa al-Ash'ari","BM"],
+["Les croyants, dans leur affection et leur compassion mutuelles, sont comme un seul corps : si un membre souffre, tout le corps veille et s'enfièvre.","An-Nu'man ibn Bashir","BM"],
+["Aucun musulman ne plante un arbre ou ne sème une culture dont mangent un oiseau, un homme ou une bête, sans que ce soit pour lui une aumône.","Anas ibn Malik","BM"],
+["Préservez-vous du Feu, ne serait-ce qu'avec la moitié d'une datte.","'Adi ibn Hatim","BM"],
+["Ne méprise aucun acte de bien, même de rencontrer ton frère avec un visage souriant.","Abu Dharr","M"],
+["Les œuvres les plus aimées d'Allah sont les plus constantes, même si elles sont modestes.","'Aisha","BM"],
+["Cette religion est facilité, et nul ne rivalise avec la religion sans qu'elle ne l'emporte : visez la justesse, approchez-vous-en, et réjouissez-vous.","Abu Hurayra","B"],
+["Rendez visite au malade, nourrissez l'affamé et libérez le captif.","Abu Musa al-Ash'ari","B"],
+["Le droit du musulman sur le musulman est de cinq : rendre le salam, visiter le malade, suivre les funérailles, répondre à l'invitation et invoquer pour celui qui éternue.","Abu Hurayra","BM"],
+["Celui qui assiste aux funérailles jusqu'à la prière a un qirat de récompense, et celui qui reste jusqu'à l'inhumation en a deux — comme deux montagnes immenses.","Abu Hurayra","BM"],
+["Qu'aucun de vous ne souhaite la mort à cause d'un mal qui l'atteint. Qu'il dise plutôt : « Ô Allah, fais-moi vivre tant que la vie est un bien pour moi. »","Anas ibn Malik","BM"],
+["Faites une partie de vos prières dans vos maisons, et n'en faites pas des tombes.","Ibn 'Umar","BM"],
+["Les prières les plus pesantes pour les hypocrites sont celles de 'isha et de fajr ; s'ils savaient ce qu'elles contiennent, ils y viendraient même en rampant.","Abu Hurayra","BM"],
+["Celui qui accomplit les deux prières fraîches — fajr et 'asr — entrera au Paradis.","Abu Musa al-Ash'ari","BM"],
+["Si les gens savaient ce qu'il y a dans l'appel à la prière et le premier rang, et qu'ils ne pouvaient l'obtenir qu'en tirant au sort, ils tireraient au sort.","Abu Hurayra","BM"],
+["Si je ne craignais d'imposer une charge à ma communauté, je leur aurais ordonné le siwak à chaque prière.","Abu Hurayra","BM"],
+["Allah n'accepte pas de prière sans purification.","Ibn 'Umar","M"],
+["Le jeûne est un bouclier : quand l'un de vous jeûne, qu'il ne tienne pas de propos indécents ; si quelqu'un l'insulte, qu'il dise : je jeûne.","Abu Hurayra","BM"],
+["Prenez le repas de l'aube, car il y a dans le suhur une bénédiction.","Anas ibn Malik","BM"],
+["Les gens resteront dans le bien tant qu'ils hâteront la rupture du jeûne.","Sahl ibn Sa'd","BM"],
+["Cherchez la Nuit du Destin dans les nuits impaires des dix dernières nuits de Ramadan.","'Aisha","BM"],
+["Celui qui ne délaisse pas la parole mensongère et les actes qui vont avec, Allah n'a nul besoin qu'il délaisse sa nourriture et sa boisson.","Abu Hurayra","B"],
+["L'aumône ne diminue en rien les biens ; Allah n'augmente le serviteur qui pardonne qu'en honneur ; et nul ne s'abaisse pour Allah sans qu'Allah ne l'élève.","Abu Hurayra","M"],
+["Toute bonne action du fils d'Adam est multipliée de dix à sept cents fois. Allah dit : « Sauf le jeûne : il est à Moi et c'est Moi qui le récompense. »","Abu Hurayra","BM"],
+["Le licite est clair et l'illicite est clair ; entre les deux, des choses ambiguës. Celui qui s'écarte des ambiguïtés préserve sa religion et son honneur.","An-Nu'man ibn Bashir","BM"],
+["L'ihsan est d'adorer Allah comme si tu Le voyais ; car si tu ne Le vois pas, Lui te voit.","'Umar ibn al-Khattab","M"],
+["Un homme demanda : « Qui mérite le plus ma bonne compagnie ? » Le Prophète ﷺ répondit : « Ta mère », trois fois, puis : « ton père ».","Abu Hurayra","BM"],
+["N'entrera pas au Paradis celui qui rompt les liens de parenté.","Jubayr ibn Mut'im","BM"],
+["Que celui qui veut voir sa subsistance élargie et sa vie prolongée maintienne ses liens de parenté.","Anas ibn Malik","BM"],
+["Le Prophète ﷺ n'a jamais rien frappé de sa main : ni femme, ni serviteur — sauf en combattant dans la voie d'Allah.","'Aisha","M"],
+["Craignez l'injustice, car l'injustice sera ténèbres au Jour de la Résurrection.","Jabir ibn 'Abdillah","M"],
+["Crains l'invocation de l'opprimé, car entre elle et Allah il n'y a pas de voile.","Ibn 'Abbas","BM"],
+["Celui qui usurpe injustement un empan de terre, Allah l'en cerclera de sept terres au Jour de la Résurrection.","'Aisha","BM"],
+["Par Allah, je demande pardon à Allah et je reviens à Lui plus de soixante-dix fois par jour.","Abu Hurayra","B"],
+["Allah se réjouit du repentir de Son serviteur plus qu'un voyageur qui retrouve, dans le désert, sa monture perdue avec ses provisions.","Anas ibn Malik","BM"],
+["Quand tu vas au lit, récite Âyat al-Koursî : un gardien d'Allah restera sur toi et aucun démon ne t'approchera jusqu'au matin.","Abu Hurayra","B"],
+["« Qul huwa Allahu ahad » équivaut au tiers du Coran.","Abu Sa'id al-Khudri","B"],
+["Al-Fatiha — « la louange à Allah, Seigneur des mondes » — est la plus grande sourate du Coran.","Abu Sa'id ibn al-Mu'alla","B"],
+["Lisez le Coran, car il viendra au Jour de la Résurrection intercéder pour les siens.","Abu Umama","M"],
+["Celui qui mémorise dix versets du début de la sourate al-Kahf sera préservé du Dajjal.","Abu ad-Darda","M"],
+["Le meilleur jour où le soleil se lève est le vendredi : Adam y fut créé, y entra au Paradis et en sortit.","Abu Hurayra","M"],
+["Il y a dans le vendredi une heure où le serviteur musulman qui prie et demande un bien à Allah l'obtient certainement.","Abu Hurayra","BM"],
+["Les cinq prières, le vendredi jusqu'au vendredi, Ramadan jusqu'à Ramadan expient ce qui est entre eux, tant que les grands péchés sont évités.","Abu Hurayra","M"],
+["Vous n'entrerez pas au Paradis tant que vous ne croirez pas, et vous ne croirez pas tant que vous ne vous aimerez pas. Répandez le salam entre vous.","Abu Hurayra","M"],
+["Trois choses : celui qui les possède goûte la douceur de la foi — qu'Allah et Son messager lui soient plus chers que tout le reste, aimer une personne uniquement pour Allah, et détester revenir à la mécréance comme on déteste être jeté au feu.","Anas ibn Malik","BM"],
+["Un homme interrogea le Prophète ﷺ sur l'Heure. Il dit : « Qu'as-tu préparé pour elle ? — L'amour d'Allah et de Son messager. — Tu seras avec ceux que tu aimes. »","Anas ibn Malik","BM"],
+["Le bon compagnon et le mauvais compagnon sont comme le porteur de musc et le forgeron : du premier tu obtiens du parfum, du second une étincelle ou une mauvaise odeur.","Abu Musa al-Ash'ari","BM"],
+["Allah n'a pas fait descendre de maladie sans faire descendre son remède.","Abu Hurayra","B"],
+["Transmettez de ma part, ne serait-ce qu'un verset.","'Abdullah ibn 'Amr","B"],
+["Quiconque ment sur moi délibérément, qu'il prépare sa place en Enfer.","Abu Hurayra","BM"],
+["Ne me louez pas avec excès comme les chrétiens ont loué le fils de Maryam : je ne suis qu'un serviteur. Dites : le serviteur d'Allah et Son messager.","'Umar ibn al-Khattab","B"],
+["Celui qui dit cent fois par jour « SubhanAllahi wa bihamdih », ses péchés sont effacés, fussent-ils comme l'écume de la mer.","Abu Hurayra","BM"],
+["Les paroles les plus aimées d'Allah sont quatre : SubhanAllah, al-hamdu lillah, la ilaha illallah, Allahu akbar.","Samura ibn Jundub","M"],
+["Allah dit : « Ô Mes serviteurs, Je Me suis interdit l'injustice et Je l'ai rendue interdite entre vous : ne soyez pas injustes les uns envers les autres. »","Abu Dharr","M"]
+];
+
 /* ================= ÉTAT & PERSISTANCE ================= */
 const DEFAULT_STATE = {
   day:1, streak:0, lastDone:null, // lastDone = "YYYY-MM-DD" de la dernière session terminée
@@ -757,6 +883,8 @@ const DEFAULT_STATE = {
   surahStage:{},     // idx sourate -> étape de mémorisation atteinte (0-4)
   completedDays:{},  // jour -> true
   penSeen:false,     // Apple Pencil détecté : rejet de paume actif sur le tracé
+  theme:"auto",      // auto | light | dark
+  hadithI:null,      // index du hadith affiché (null = suit le jour)
   sessionStep:0
 };
 let S = JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -988,28 +1116,36 @@ function renderHome(){
       ${doneToday && S.day<90? `<div class="btn-row"><button class="btn gold" onclick="nextDay()">Passer au jour ${S.day+1} ▸▸</button></div>`:""}
     </div>
     ${sd? surahCardHTML(sd.idx):""}
-    <div class="card">
-      <div class="eyebrow">Sauvegarde</div>
-      <p class="small">Ta progression s'enregistre automatiquement à chaque action. Pour la protéger ou la transférer sur un autre appareil / navigateur :</p>
-      <div class="btn-row">
-        <button class="btn secondary" onclick="exportProgress()">⬇ Exporter</button>
-        <button class="btn secondary" onclick="document.getElementById('imp-file').click()">⬆ Importer</button>
+    <div class="card" id="hadith-card">${hadithCardHTML()}</div>`;
+  animateHome();
+}
+function hadithIdx(){ return ((S.hadithI==null? (S.day-1) : S.hadithI) % HADITHS.length + HADITHS.length) % HADITHS.length; }
+function hadithCardHTML(){
+  const i = hadithIdx(), hd = HADITHS[i];
+  return `
+    <div class="eyebrow">Hadith du jour · ${esc(HSRC[hd[2]])}</div>
+    <p class="small" style="line-height:1.65;margin-top:4px">« ${esc(hd[0])} »</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px">
+      <span class="muted small">Rapporté par ${esc(hd[1])} · ${i+1}/${HADITHS.length}</span>
+      <div style="display:flex;gap:8px;flex:none">
+        <button class="spk" onclick="hadithStep(-1)" aria-label="Hadith précédent">‹</button>
+        <button class="spk" onclick="hadithStep(1)" aria-label="Hadith suivant">›</button>
       </div>
-      <input type="file" id="imp-file" accept=".json,application/json" style="display:none" onchange="importProgress(this)">
-      <p class="muted small" style="margin-top:8px">L'export crée un petit fichier <b>iqra90-progression.json</b> (dans Fichiers sur iPad). L'import le recharge à l'identique : jour, streak, maîtrise, sourates.</p>
-    </div>
-    <div class="card">
-      <div class="eyebrow">Le programme en un coup d'œil</div>
-      <p class="small"><b>Phase 1 (j. 1-30)</b> : 2 lettres/jour avec leurs harakat et formes attachées, syllabes dès le jour 2, écriture des lettres au doigt (tracé guidé), premiers mots du Coran dès le jour 3, puis signes (soukoun, chadda, tanwîn, madd) et lecture de la Fâtiha.</p>
-      <p class="small" style="margin-top:6px"><b>Phase 2 (j. 31-90)</b> : 16 sourates mémorisées avec sens mot-à-mot, 10 leçons de Tajwid, ${VOCAB.length} mots de vocabulaire débloqués progressivement, répétition espacée sur tout ce qui a été vu.</p>
     </div>`;
 }
+function hadithStep(d){
+  S.hadithI = hadithIdx() + d;
+  store.save();
+  const c=document.getElementById("hadith-card");
+  if(c){ c.style.opacity=0; setTimeout(()=>{ c.innerHTML=hadithCardHTML(); c.style.opacity=1; }, 150); }
+}
 function animateHome(){
+  const raf = window.requestAnimationFrame? window.requestAnimationFrame.bind(window) : (f=>setTimeout(f,16));
   const rm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fg = document.getElementById("ring-fg");
   if(fg){ const off = 175.9*(1 - S.day/90);
     if(rm) fg.style.strokeDashoffset = off;
-    else requestAnimationFrame(()=>requestAnimationFrame(()=>{ fg.style.strokeDashoffset = off; })); }
+    else raf(()=>raf(()=>{ fg.style.strokeDashoffset = off; })); }
   if(rm) return;
   document.querySelectorAll(".stat .v").forEach(el=>{
     const txt = el.textContent.trim();
@@ -1019,9 +1155,9 @@ function animateHome(){
     const tick = now=>{
       const k = Math.min(1,(now-t0)/dur), e = 1-Math.pow(1-k,3);
       el.textContent = Math.round(target*e);
-      if(k<1) requestAnimationFrame(tick);
+      if(k<1) raf(tick);
     };
-    requestAnimationFrame(tick);
+    raf(tick);
   });
 }
 function celebrate(){
@@ -1772,6 +1908,31 @@ function finishSession(){
   updateHeader();
 }
 
+/* ================= THÈME ================= */
+function applyTheme(){
+  document.documentElement.dataset.theme = S.theme||"auto";
+  const b=document.getElementById("hdr-theme");
+  if(b) b.textContent = {auto:"◐", light:"☀️", dark:"🌙"}[S.theme||"auto"];
+}
+function cycleTheme(){
+  const order=["auto","light","dark"];
+  S.theme = order[(order.indexOf(S.theme||"auto")+1)%3];
+  store.save(); applyTheme();
+  showGloss("", {auto:"Thème : automatique (suit l'iPad)", light:"Thème : clair", dark:"Thème : sombre"}[S.theme]);
+}
+function openBackup(){
+  openModal(`
+    <div class="eyebrow">Sauvegarde</div>
+    <h2>Ta progression</h2>
+    <p class="small" style="margin-top:6px">Elle s'enregistre automatiquement à chaque action. Pour la protéger ou la transférer sur un autre appareil :</p>
+    <div class="btn-row">
+      <button class="btn secondary" onclick="exportProgress()">⬇ Exporter</button>
+      <button class="btn secondary" onclick="document.getElementById('imp-file').click()">⬆ Importer</button>
+    </div>
+    <input type="file" id="imp-file" accept=".json,application/json" style="display:none" onchange="importProgress(this)">
+    <p class="muted small" style="margin-top:8px">L'export crée <b>iqra90-progression.json</b> (dans Fichiers sur iPad). L'import restaure tout : jour, streak, maîtrise, sourates.</p>`);
+}
+
 /* ================= SAUVEGARDE : EXPORT / IMPORT ================= */
 function exportProgress(){
   const data = JSON.stringify(S, null, 1);
@@ -1792,6 +1953,7 @@ function importProgress(input){
       if(typeof d.day!=="number" || typeof d.srs!=="object") throw new Error("format");
       S = Object.assign({}, JSON.parse(JSON.stringify(DEFAULT_STATE)), d);
       store.save();
+      const mb=document.querySelector(".modal-bg"); if(mb) mb.remove();
       go("home");
       showGloss("","Progression restaurée ✓ — jour "+S.day+", streak "+S.streak);
     }catch(e){ showGloss("","Fichier invalide — utilise un export Iqra' 90"); }
@@ -1808,6 +1970,7 @@ document.getElementById("nav").addEventListener("click", e=>{
   try{ if("serviceWorker" in navigator && location.protocol==="https:") navigator.serviceWorker.register("./sw.js"); }catch(e){}
   const saved = await store.load();
   if(saved) S = Object.assign({}, DEFAULT_STATE, saved);
+  applyTheme();
   go("home");
 })();
 </script>
